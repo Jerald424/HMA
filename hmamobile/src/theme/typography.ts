@@ -1,17 +1,17 @@
 export const typography = {
-  fontSize: {
-    small: 12,
-    regular: 14,
-    large: 18,
-    title: 22,
+  small: {
+    fontSize: 12,
+    fontWeight: '400',
   },
-  fontWeight: {
-    regular: '400',
-    bold: '700',
+  regular: {
+    fontSize: 14,
   },
-  lineHeight: {
-    small: 18,
-    regular: 22,
-    large: 28,
+  large: {
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '700',
   },
 };
