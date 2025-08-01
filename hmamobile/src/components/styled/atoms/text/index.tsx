@@ -1,7 +1,8 @@
 import { Text, TextProps, TextStyle } from 'react-native';
 import { typography } from '../../../../theme/typography';
 import { colors } from '../../../../theme/colors';
-import { useTheme } from '../../../../hooks/useTheme';
+import { useTheme } from 'src/hooks/useTheme';
+// import { useTheme } from '../../../../hooks/useTheme';
 
 interface HMATextProps extends TextProps {
   /**
