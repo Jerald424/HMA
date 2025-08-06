@@ -1,7 +1,7 @@
 import { Text, TextProps, TextStyle } from 'react-native';
-import { typography } from '../../../../theme/typography';
-import { colors } from '../../../../theme/colors';
 import { useTheme } from 'src/hooks/useTheme';
+import { colors } from 'src/theme/colors';
+import { typography } from 'src/theme/typography';
 // import { useTheme } from '../../../../hooks/useTheme';
 
 interface HMATextProps extends TextProps {
@@ -14,12 +14,14 @@ interface HMATextProps extends TextProps {
    * @default textPrimary
    */
   color?: keyof typeof colors;
+  align?: TextStyle['textAlign'];
 }
 
 export default function HMAText({
   size = 'regular',
   fontWeight,
   color = 'textPrimary',
+  align,
   ...props
 }: HMATextProps) {
   const { typography, colors } = useTheme();
@@ -28,6 +30,7 @@ export default function HMAText({
     ...typography?.[size],
     fontWeight,
     color: colors[color],
+    textAlign: align,
   };
 
   return (
