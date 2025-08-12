@@ -4,12 +4,14 @@ import HMAModalMolecule, { HMAModalMoleculeProps } from '../../molecules/modal';
 import { useTheme } from 'src/hooks/useTheme';
 import Avatar, { AvatarProps } from '../../atoms/avatar';
 
-interface HMAModalOrganismProps extends HMAModalMoleculeProps {
+export interface HMAModalOrganismProps extends HMAModalMoleculeProps {
   headingProps?: HMATextProps;
   descriptionProps?: HMATextProps;
   cancelTextProps?: HMATextProps;
   okTextProps?: HMATextProps;
-  avatarProps?: AvatarProps;
+  avatarProps?: {
+    position?: 'top' | 'middle';
+  } & AvatarProps;
 }
 
 export default function HMAModalOrganism({
@@ -21,22 +23,31 @@ export default function HMAModalOrganism({
   ...props
 }: HMAModalOrganismProps) {
   const { spacing } = useTheme();
+
+  const Avatar = () =>
+    avatarProps?.source ? (
+      <Avatar
+        style={{ alignSelf: 'center', marginTop: spacing.md }}
+        size="lg"
+        {...avatarProps}
+      />
+    ) : (
+      <></>
+    );
+
   return (
     <HMAModalMolecule
       {...props}
       borderRadius="md"
       containerProps={{ style: { padding: spacing.lg } }}
     >
+      {(avatarProps?.position == 'top' || !!!avatarProps?.position) && (
+        <Avatar />
+      )}
       {headingProps?.children && (
         <HMAText align="center" size="title" {...headingProps} />
       )}
-      {avatarProps?.source && (
-        <Avatar
-          style={{ alignSelf: 'center', marginTop: spacing.md }}
-          size="lg"
-          {...avatarProps}
-        />
-      )}
+      {avatarProps?.position == 'middle' && <Avatar />}
       {descriptionProps?.children && (
         <HMAText
           align="center"
