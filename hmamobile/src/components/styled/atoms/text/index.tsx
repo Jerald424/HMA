@@ -4,7 +4,7 @@ import { colors } from 'src/theme/colors';
 import { typography } from 'src/theme/typography';
 // import { useTheme } from '../../../../hooks/useTheme';
 
-interface HMATextProps extends TextProps {
+export interface HMATextProps extends TextProps {
   /**
     @default regular
     */
@@ -28,12 +28,15 @@ export default function HMAText({
 
   const style = {
     ...typography?.[size],
-    fontWeight,
     color: colors[color],
     textAlign: align,
   };
 
   return (
-    <Text allowFontScaling={false} {...props} style={[style, props?.style]} />
+    <Text
+      allowFontScaling={false}
+      {...props}
+      style={[style, props?.style, fontWeight !== undefined && { fontWeight }]}
+    />
   );
 }

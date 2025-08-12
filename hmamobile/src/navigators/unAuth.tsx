@@ -1,8 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
-import HMAModal from 'src/components/styled/atoms/modal';
-import HMAText from 'src/components/styled/atoms/text';
-import HMAModalMolecule from 'src/components/styled/molecules/modal';
 import HMAModalOrganism from 'src/components/styled/organism/modal';
 
 const Stack = createStackNavigator();
@@ -18,7 +15,24 @@ export default function UnAuthNavigator() {
 const Login = () => {
   return (
     <View>
-      <HMAModalOrganism isVisible />
+      <HMAModalOrganism
+        // isVisible
+        avatarProps={{
+          source: require('src/assets/avatar.png'),
+        }}
+        headingProps={{
+          children: 'Are you sure?',
+        }}
+        descriptionProps={{
+          children: `Do you want to logout.\n Your application data will lose`,
+        }}
+        cancelTextProps={{
+          children: 'Cancel',
+        }}
+        okTextProps={{
+          children: 'Ok',
+        }}
+      />
     </View>
   );
 };

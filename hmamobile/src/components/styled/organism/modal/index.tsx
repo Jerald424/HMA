@@ -1,26 +1,70 @@
 import { View } from 'react-native';
-import HMAText from '../../atoms/text';
+import HMAText, { HMATextProps } from '../../atoms/text';
 import HMAModalMolecule, { HMAModalMoleculeProps } from '../../molecules/modal';
+import { useTheme } from 'src/hooks/useTheme';
+import Avatar, { AvatarProps } from '../../atoms/avatar';
 
-interface HMAModalOrganismProps extends HMAModalMoleculeProps {}
+interface HMAModalOrganismProps extends HMAModalMoleculeProps {
+  headingProps?: HMATextProps;
+  descriptionProps?: HMATextProps;
+  cancelTextProps?: HMATextProps;
+  okTextProps?: HMATextProps;
+  avatarProps?: AvatarProps;
+}
 
-export default function HMAModalOrganism({ ...props }: HMAModalOrganismProps) {
+export default function HMAModalOrganism({
+  headingProps,
+  descriptionProps,
+  cancelTextProps,
+  okTextProps,
+  avatarProps,
+  ...props
+}: HMAModalOrganismProps) {
+  const { spacing } = useTheme();
   return (
-    <HMAModalMolecule {...props} borderRadius="md">
-      <View style={{ padding: 10, backgroundColor: 'red' }}>
-        <HMAText>HEADING</HMAText>
-      </View>
-      <View style={{ padding: 10 }}>
-        <HMAText align="center">DESCRIPTION</HMAText>
-      </View>
-      <View style={{ flexDirection: 'row', padding: 10 }}>
-        <HMAText style={{ flex: 1 }} align="center">
-          DESCRIPTION
-        </HMAText>
-        <HMAText style={{ flex: 1 }} align="center">
-          DESCRIPTION
-        </HMAText>
-      </View>
+    <HMAModalMolecule
+      {...props}
+      borderRadius="md"
+      containerProps={{ style: { padding: spacing.lg } }}
+    >
+      {headingProps?.children && (
+        <HMAText align="center" size="title" {...headingProps} />
+      )}
+      {avatarProps?.source && (
+        <Avatar
+          style={{ alignSelf: 'center', marginTop: spacing.md }}
+          size="lg"
+          {...avatarProps}
+        />
+      )}
+      {descriptionProps?.children && (
+        <HMAText
+          align="center"
+          style={{ marginTop: spacing.md }}
+          {...descriptionProps}
+        />
+      )}
+      {(cancelTextProps || okTextProps) && (
+        <View style={{ flexDirection: 'row', marginTop: spacing.md }}>
+          {cancelTextProps?.children && (
+            <HMAText
+              style={{ flex: 1, padding: spacing.sm }}
+              align="center"
+              fontWeight={'600'}
+              {...cancelTextProps}
+            />
+          )}
+          {okTextProps?.children && (
+            <HMAText
+              style={{ flex: 1, padding: spacing.sm }}
+              align="center"
+              fontWeight={'600'}
+              color="success"
+              {...okTextProps}
+            />
+          )}
+        </View>
+      )}
     </HMAModalMolecule>
   );
 }
