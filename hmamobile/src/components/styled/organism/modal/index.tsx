@@ -24,10 +24,10 @@ export default function HMAModalOrganism({
 }: HMAModalOrganismProps) {
   const { spacing } = useTheme();
 
-  const Avatar = () =>
+  const AvatarWrap = ({ style }: { style?: AvatarProps['style'] }) =>
     avatarProps?.source ? (
       <Avatar
-        style={{ alignSelf: 'center', marginTop: spacing.md }}
+        style={[{ alignSelf: 'center' }, style]}
         size="lg"
         {...avatarProps}
       />
@@ -42,12 +42,14 @@ export default function HMAModalOrganism({
       containerProps={{ style: { padding: spacing.lg } }}
     >
       {(avatarProps?.position == 'top' || !!!avatarProps?.position) && (
-        <Avatar />
+        <AvatarWrap />
       )}
       {headingProps?.children && (
         <HMAText align="center" size="title" {...headingProps} />
       )}
-      {avatarProps?.position == 'middle' && <Avatar />}
+      {avatarProps?.position == 'middle' && (
+        <AvatarWrap style={{ marginTop: spacing.md }} />
+      )}
       {descriptionProps?.children && (
         <HMAText
           align="center"

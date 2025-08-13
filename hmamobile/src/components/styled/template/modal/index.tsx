@@ -10,6 +10,7 @@ export default function HMAModalTemplate({
   ...props
 }: HMAModalTemplateProps) {
   const { colors, spacing } = useTheme();
+
   const variantMapping = {
     info: {
       icon: require('src/assets/color-icons/information.png'),
@@ -30,6 +31,7 @@ export default function HMAModalTemplate({
         "This action can't be undone. Please confirm if you want to proceed.",
     },
   }[variant];
+
   return (
     <HMAModalOrganism
       avatarProps={{
@@ -41,6 +43,12 @@ export default function HMAModalTemplate({
       }}
       descriptionProps={{
         children: variantMapping.description,
+      }}
+      cancelTextProps={{
+        children: 'Cancel',
+      }}
+      okTextProps={{
+        children: 'Ok',
       }}
       {...props}
     />
