@@ -5,6 +5,7 @@ export const typography = {
   },
   regular: {
     fontSize: 14,
+    fontWeight: '500',
   },
   large: {
     fontSize: 18,
