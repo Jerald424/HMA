@@ -15,7 +15,7 @@ export default function UnAuthNavigator() {
 }
 
 const Login = () => {
-  return <HMAModalTemplate variant="info" isVisible />;
+  return <HMAModalTemplate variant="error" isVisible />;
   return (
     <View>
       <HMAModalOrganism

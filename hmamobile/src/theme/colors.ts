@@ -7,4 +7,6 @@ export const colors = {
   border: '#e0e0e0',
   error: '#f44336',
   success: '#4caf50',
+  info: '#34A6F4',
+  warning: '#FFDF20',
 };
