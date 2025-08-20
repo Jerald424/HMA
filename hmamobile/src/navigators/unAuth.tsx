@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { Text, View } from 'react-native';
+import HMAIcon from 'src/components/styled/atoms/icon';
 import HMATextInput from 'src/components/styled/atoms/input';
 import HMAText from 'src/components/styled/atoms/text';
 import HMATextInputMolecule from 'src/components/styled/molecules/input';
@@ -19,7 +20,7 @@ export default function UnAuthNavigator() {
 const Login = () => {
   return (
     <View style={{ padding: 10 }}>
-      <HMATextInputMolecule placeholder="Enter Location" />
+      <HMAIcon name="settings" />
     </View>
   );
 };
