@@ -1,9 +1,9 @@
 import { Image, ImageProps } from 'react-native';
-import { icons } from './icon';
+import { icons, iconType } from './icon';
 import { colors } from 'src/theme/colors';
 
 export interface HMAIconProps extends ImageProps {
-  name: keyof typeof icons;
+  name: iconType;
   /**
    * @default sm
    */
