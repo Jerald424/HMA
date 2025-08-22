@@ -23,10 +23,13 @@ const Login = () => {
   return (
     <View style={{ padding: 10 }}>
       <HMAButton
-        leftIcon={'settings'}
-        title="TEST"
-        rightIcon="settings"
+        title="#####"
+        color="warning"
+        style={{ alignSelf: 'flex-end' }}
+        // variant="outline"
         size="md"
+        leftIcon="settings"
+        // rightIcon="settings"
       />
     </View>
   );
