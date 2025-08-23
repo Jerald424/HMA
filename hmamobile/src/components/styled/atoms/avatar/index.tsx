@@ -1,13 +1,13 @@
 import { Image, ImageProps } from 'react-native';
 
-export interface AvatarProps extends ImageProps {
+export interface HMAAvatarProps extends ImageProps {
   /**
    * @default xs
    */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export default function Avatar({ size = 'sm', ...props }: AvatarProps) {
+export default function HMAAvatar({ size = 'sm', ...props }: HMAAvatarProps) {
   const HW = {
     xs: {
       height: 20,

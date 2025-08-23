@@ -2,7 +2,7 @@ import { View } from 'react-native';
 import HMAText, { HMATextProps } from '../../atoms/text';
 import HMAModalMolecule, { HMAModalMoleculeProps } from '../../molecules/modal';
 import { useTheme } from 'src/hooks/useTheme';
-import Avatar, { AvatarProps } from '../../atoms/avatar';
+import Avatar, { HMAAvatarProps } from '../../atoms/avatar';
 
 export interface HMAModalOrganismProps extends HMAModalMoleculeProps {
   headingProps?: HMATextProps;
@@ -11,7 +11,7 @@ export interface HMAModalOrganismProps extends HMAModalMoleculeProps {
   okTextProps?: HMATextProps;
   avatarProps?: {
     position?: 'top' | 'middle';
-  } & AvatarProps;
+  } & HMAAvatarProps;
 }
 
 export default function HMAModalOrganism({
@@ -24,7 +24,7 @@ export default function HMAModalOrganism({
 }: HMAModalOrganismProps) {
   const { spacing } = useTheme();
 
-  const AvatarWrap = ({ style }: { style?: AvatarProps['style'] }) =>
+  const AvatarWrap = ({ style }: { style?: HMAAvatarProps['style'] }) =>
     avatarProps?.source ? (
       <Avatar
         style={[{ alignSelf: 'center' }, style]}
