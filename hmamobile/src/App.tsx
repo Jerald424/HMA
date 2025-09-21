@@ -1,32 +1,19 @@
-import { Text } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AuthNavigator from './navigators/auth';
-import UnAuthNavigator from './navigators/unAuth';
+import GeofenceDebugScreen from './screens/Map';
+import RegisterGeo from './screens/RegisterGeolocation';
+import Dashboard from './screens/Dashboard';
+import HMAText from './components/styled/atoms/text';
+import SetLocation from './screens/SetLocation';
 
 const Stack = createStackNavigator();
-export default function App() {
-  const isLogin = false;
 
+export default function App() {
   return (
     <Stack.Navigator>
-      {isLogin ? (
-        <Stack.Screen
-          name="auth"
-          component={AuthNavigator}
-          options={{ headerShown: false }}
-        />
-      ) : (
-        <Stack.Screen
-          name="un-auth"
-          component={UnAuthNavigator}
-          options={{ headerShown: false }}
-        />
-      )}
-      <Stack.Screen name="home" component={Test} />
+      <Stack.Screen name="dashboard" component={Dashboard} />
+      <Stack.Screen name="map" component={GeofenceDebugScreen} />
+      <Stack.Screen name="register" component={RegisterGeo} />
+      <Stack.Screen name="set_location" component={SetLocation} />
     </Stack.Navigator>
   );
 }
-
-const Test = () => {
-  return <Text>#########</Text>;
-};
