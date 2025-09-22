@@ -4,7 +4,7 @@ import MapView, { Marker, Circle } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import { requestLocationPermission } from 'src/utils/permission';
 
-export const GEOFENCE = {
+export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
   longitude: 80.253559,
   radius: 200.0, // in meters
