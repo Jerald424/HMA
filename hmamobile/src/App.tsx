@@ -9,7 +9,17 @@ export default function App() {
 
   return (
     <Stack.Navigator>
-      {isLogin ? (
+      <Stack.Screen
+          name="un-auth"
+          component={UnAuthNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="auth"
+          component={AuthNavigator}
+          options={{ headerShown: false }}
+        />
+      {/* {isLogin ? (
         <Stack.Screen
           name="auth"
           component={AuthNavigator}
@@ -21,12 +31,9 @@ export default function App() {
           component={UnAuthNavigator}
           options={{ headerShown: false }}
         />
-      )}
-      <Stack.Screen name="home" component={Test} />
+      )} */}
     </Stack.Navigator>
   );
 }
 
-const Test = () => {
-  return <Text>#########</Text>;
-};
+

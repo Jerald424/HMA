@@ -115,7 +115,7 @@ export default function HMAButton({
       style={({ pressed }) => [
         pressabeStyleMap({ pressed }),
         {
-          borderRadius: metrics.radius.sm,
+          borderRadius: metrics.radius.md,
           padding: sizeMap,
         },
         cStyle.rowJustify,

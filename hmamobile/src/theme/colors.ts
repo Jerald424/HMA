@@ -9,5 +9,5 @@ export const colors = {
   success: '#4caf50',
   info: '#34A6F4',
   warning: '#FFDF20',
-  lightBackground: '#E3E3E3',
+  lightBackground: '#f2f2f2ff',
 };

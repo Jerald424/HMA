@@ -34,7 +34,7 @@ export default function Container({
     >
       <SafeAreaView
         {...safeAreaViewProps}
-        style={[{ flex: 1 }, safeAreaViewProps?.style]}
+        style={[{ flex: 1 ,}, safeAreaViewProps?.style]}
       >
         {props?.children}
       </SafeAreaView>

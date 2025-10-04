@@ -1,7 +1,7 @@
 import Container from 'src/components/styled/atoms/container';
 import HMAText from 'src/components/styled/atoms/text';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useTheme } from 'src/hooks/useTheme';
 import { SCREEN_WIDTH } from 'src/utils/variables';
 import { loginStyle } from './style';
@@ -10,7 +10,7 @@ import HMATextInputMolecule from 'src/components/styled/molecules/input';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAButton from 'src/components/styled/atoms/button';
 
-export default function Login() {
+export default function Login({navigation}) {
   const { colors, spacing, metrics } = useTheme();
   return (
     <Container
@@ -42,6 +42,7 @@ export default function Login() {
             },
           ]}
         />
+        <ScrollView showsVerticalScrollIndicator={false}>
         <HMAText size="large" align="center">
           Enter Credential To Login
         </HMAText>
@@ -54,7 +55,10 @@ export default function Login() {
 
         <HMATextInputMolecule placeholder="Enter Password" />
         <HMADivider space="sm" />
-        <HMAButton title="Login" />
+        <HMAButton title="Login" onPress={()=>navigation.navigate("auth", {
+          screen:"Dashboard"
+        })} />
+          </ScrollView>
       </View>
     </Container>
   );
