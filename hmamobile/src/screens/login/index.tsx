@@ -1,17 +1,22 @@
-import Container from 'src/components/styled/atoms/container';
-import HMAText from 'src/components/styled/atoms/text';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, View } from 'react-native';
+import HMAButton from 'src/components/styled/atoms/button';
+import Container from 'src/components/styled/atoms/container';
+import HMADivider from 'src/components/styled/atoms/divider';
+import HMAText from 'src/components/styled/atoms/text';
+import HMAForm from 'src/components/styled/organism/form';
 import { useTheme } from 'src/hooks/useTheme';
+import { cStyle } from 'src/utils/style';
 import { SCREEN_WIDTH } from 'src/utils/variables';
 import { loginStyle } from './style';
-import { cStyle } from 'src/utils/style';
-import HMATextInputMolecule from 'src/components/styled/molecules/input';
-import HMADivider from 'src/components/styled/atoms/divider';
-import HMAButton from 'src/components/styled/atoms/button';
+import useLogin from './useLogin';
+import ModalLoader from 'src/components/styled/molecules/loader/modalLoader';
+import HMAModalTemplate from 'src/components/styled/template/modal';
+import HMAErrorModal from 'src/components/styled/template/modal/errorModal';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
   const { colors, spacing, metrics } = useTheme();
+  const { control, formData, handleSubmit, isPending } = useLogin();
+
   return (
     <Container
       padding={0}
@@ -43,23 +48,20 @@ export default function Login({navigation}) {
           ]}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
-        <HMAText size="large" align="center">
-          Enter Credential To Login
-        </HMAText>
-        <HMADivider space={'md'} />
-        <HMATextInputMolecule placeholder="Enter Url" />
-        <HMADivider space="sm" />
+          <HMAText size="large" align="center">
+            Enter Credential To Login
+          </HMAText>
+          <HMADivider space={'md'} />
+          <HMAForm data={formData} control={control} />
 
-        <HMATextInputMolecule placeholder="Enter Username" />
-        <HMADivider space="sm" />
-
-        <HMATextInputMolecule placeholder="Enter Password" />
-        <HMADivider space="sm" />
-        <HMAButton title="Login" onPress={()=>navigation.navigate("auth", {
-          screen:"Dashboard"
-        })} />
-          </ScrollView>
+          <HMAButton
+            isLoading={isPending}
+            title="Login"
+            onPress={handleSubmit}
+          />
+        </ScrollView>
       </View>
+      <HMAErrorModal />
     </Container>
   );
 }

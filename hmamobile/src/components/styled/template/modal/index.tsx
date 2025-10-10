@@ -36,9 +36,8 @@ export default function HMAModalTemplate({
     },
     error: {
       icon: require('src/assets/color-icons/error.png'),
-      heading: 'Are you sure?',
-      description:
-        "This action can't be undone. Please confirm if you want to proceed.",
+      heading: 'Oops!',
+      description: 'Something went wrong..',
       btn: {
         color: {
           ok: 'error',

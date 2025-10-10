@@ -7,6 +7,7 @@ import HMAIcon, { HMAIconProps } from '../icon';
 import { iconType } from '../icon/icon';
 import { HMATextInputProps } from '../input';
 import HMAText, { HMATextProps } from '../text';
+import HMALoader from '../loader';
 
 export interface HMAButtonProps extends PressableProps {
   title?: string;
@@ -29,6 +30,7 @@ export interface HMAButtonProps extends PressableProps {
   rightIcon?: iconType;
   rightIconProps?: HMAIconProps;
   titleProps?: HMATextProps;
+  isLoading?: boolean;
 }
 
 export default function HMAButton({
@@ -41,6 +43,7 @@ export default function HMAButton({
   variant = 'solid',
   color = 'primary',
   titleProps,
+  isLoading,
   ...props
 }: HMAButtonProps) {
   const { metrics } = useTheme();
@@ -111,6 +114,7 @@ export default function HMAButton({
 
   return (
     <Pressable
+      disabled={isLoading}
       {...props}
       style={({ pressed }) => [
         pressabeStyleMap({ pressed }),
@@ -118,6 +122,7 @@ export default function HMAButton({
           borderRadius: metrics.radius.md,
           padding: sizeMap,
         },
+        isLoading && { opacity: 0.5 },
         cStyle.rowJustify,
         props?.style as ViewStyle,
       ]}
@@ -130,6 +135,7 @@ export default function HMAButton({
           style={[iconStyleMap, leftIconProps?.style]}
         />
       )}
+      {isLoading && <HMALoader color={colors?.background} />}
       {title && (
         <HMAText
           {...titleProps}
