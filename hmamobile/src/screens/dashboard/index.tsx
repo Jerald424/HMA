@@ -1,4 +1,4 @@
-import { FlatList, Image, View } from 'react-native';
+import { FlatList, Image, StatusBar, View } from 'react-native';
 import HMAAvatar from 'src/components/styled/atoms/avatar';
 import HMACard from 'src/components/styled/atoms/card';
 import Container from 'src/components/styled/atoms/container';
@@ -7,9 +7,11 @@ import HMAIcon from 'src/components/styled/atoms/icon';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
+import Header from './header';
 
 export default function Dashboard({ navigation }) {
   const { colors, spacing, metrics } = useTheme();
+
   return (
     <Container
       padding={0}
@@ -18,21 +20,7 @@ export default function Dashboard({ navigation }) {
         edges: ['left', 'right'],
       }}
     >
-      <View
-        style={[{ flex: 1, padding: metrics.radius.lg }, cStyle.rowJustify]}
-      >
-        <View style={{ flex: 1 }}>
-          <HMAText color="background">Welcome</HMAText>
-          <HMAText color="background" size="title">
-            MOSH PHILIP
-          </HMAText>
-        </View>
-        <HMAAvatar
-          size="md"
-          style={{ tintColor: colors.background }}
-          source={require('src/assets/icons/profile-user.png')}
-        />
-      </View>
+      <Header />
       <View
         style={{
           flex: 3,

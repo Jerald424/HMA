@@ -2215,10 +2215,18 @@
     invariant "^2.2.4"
     nullthrows "^1.1.1"
 
-"@react-navigation/core@^7.12.3":
-  version "7.12.3"
-  resolved "https://registry.npmjs.org/@react-navigation/core/-/core-7.12.3.tgz"
-  integrity sha512-oEz5sL8KTYmCv8SQX1A4k75A7VzYadOCudp/ewOBqRXOmZdxDQA9JuN7baE9IVyaRW0QTVDy+N/Wnqx9F4aW6A==
+"@react-navigation/bottom-tabs@^7.4.8":
+  version "7.4.8"
+  resolved "https://registry.npmjs.org/@react-navigation/bottom-tabs/-/bottom-tabs-7.4.8.tgz"
+  integrity sha512-W85T9f5sPA2zNnkxBO0PF0Jg9CRAMYqD9hY20dAhuVM5I+qiCqhW7qLveK59mlbtdXuGmieit6FK3inKmXzL7A==
+  dependencies:
+    "@react-navigation/elements" "^2.6.5"
+    color "^4.2.3"
+
+"@react-navigation/core@^7.12.4":
+  version "7.12.4"
+  resolved "https://registry.npmjs.org/@react-navigation/core/-/core-7.12.4.tgz"
+  integrity sha512-xLFho76FA7v500XID5z/8YfGTvjQPw7/fXsq4BIrVSqetNe/o/v+KAocEw4ots6kyv3XvSTyiWKh2g3pN6xZ9Q==
   dependencies:
     "@react-navigation/routers" "^7.5.1"
     escape-string-regexp "^4.0.0"
@@ -2228,21 +2236,21 @@
     use-latest-callback "^0.2.4"
     use-sync-external-store "^1.5.0"
 
-"@react-navigation/elements@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.npmjs.org/@react-navigation/elements/-/elements-2.6.1.tgz"
-  integrity sha512-kVbIo+5FaqJv6MiYUR6nQHiw+10dmmH/P10C29wrH9S6fr7k69fImHGeiOI/h7SMDJ2vjWhftyEjqYO+c2LG/w==
+"@react-navigation/elements@^2.6.1", "@react-navigation/elements@^2.6.5":
+  version "2.6.5"
+  resolved "https://registry.npmjs.org/@react-navigation/elements/-/elements-2.6.5.tgz"
+  integrity sha512-HOaekvFeoqKyaSKP2hakL7OUnw0jIhk/1wMjcovUKblT76LMTumZpriqsc30m/Vnyy1a8zgp4VsuA1xftcalgQ==
   dependencies:
     color "^4.2.3"
     use-latest-callback "^0.2.4"
     use-sync-external-store "^1.5.0"
 
-"@react-navigation/native@^7.1.16":
-  version "7.1.16"
-  resolved "https://registry.npmjs.org/@react-navigation/native/-/native-7.1.16.tgz"
-  integrity sha512-JnnK81JYJ6PiMsuBEshPGHwfagRnH8W7SYdWNrPxQdNtakkHtG4u0O9FmrOnKiPl45DaftCcH1g+OVTFFgWa0Q==
+"@react-navigation/native@^7.1.16", "@react-navigation/native@^7.1.18":
+  version "7.1.18"
+  resolved "https://registry.npmjs.org/@react-navigation/native/-/native-7.1.18.tgz"
+  integrity sha512-DZgd6860dxcq3YX7UzIXeBr6m3UgXvo9acxp5jiJyIZXdR00Br9JwVkO7e0bUeTA2d3Z8dsmtAR84Y86NnH64Q==
   dependencies:
-    "@react-navigation/core" "^7.12.3"
+    "@react-navigation/core" "^7.12.4"
     escape-string-regexp "^4.0.0"
     fast-deep-equal "^3.1.3"
     nanoid "^3.3.11"
@@ -6369,9 +6377,9 @@ react-is@^18.0.0:
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
 
 react-is@^19.1.0:
-  version "19.1.1"
-  resolved "https://registry.npmjs.org/react-is/-/react-is-19.1.1.tgz"
-  integrity sha512-tr41fA15Vn8p4X9ntI+yCyeGSf1TlYaY5vlTZfQmeLBrFo3psOPX6HhTDnFNL9uj3EhP0KAQ80cugCl4b4BERA==
+  version "19.2.0"
+  resolved "https://registry.npmjs.org/react-is/-/react-is-19.2.0.tgz"
+  integrity sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==
 
 react-native-animatable@1.4.0:
   version "1.4.0"

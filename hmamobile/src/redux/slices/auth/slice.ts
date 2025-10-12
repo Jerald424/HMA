@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import authThunk from './thunk';
 
-const initialState = {
+export const initialState = {
   isLogin: false,
+  userInfo: {
+    isLoading: false,
+    data: null,
+  },
 };
 
 const authSlice = createSlice({
@@ -15,6 +20,7 @@ const authSlice = createSlice({
       state[payload.key] = payload.value;
     },
   },
+  extraReducers: authThunk,
 });
 
 export default authSlice.reducer;

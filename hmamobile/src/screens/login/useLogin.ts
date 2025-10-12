@@ -19,6 +19,14 @@ const assignTokenToAsyncStorage = (token: string) => {
   AsyncStorage.setItem(TOKEN, token);
 };
 
+export const removeTokenFromAxios = () => {
+  axiosInstance.defaults.headers[TOKEN] = null;
+};
+
+export const removeTokenFromAsyncStorage = () => {
+  AsyncStorage.removeItem(TOKEN);
+};
+
 export default function useLogin() {
   const dispatch = useAppDispatch();
   const alertRef = useRef<alertRefProp>(null);

@@ -9,7 +9,6 @@ export interface HMATextProps extends TextProps {
     @default regular
     */
   size?: keyof typeof typography;
-  fontWeight?: '200' | '400' | '600' | '800' | TextStyle['fontWeight'];
   /**
    * @default textPrimary
    */
@@ -19,7 +18,6 @@ export interface HMATextProps extends TextProps {
 
 export default function HMAText({
   size = 'regular',
-  fontWeight,
   color = 'textPrimary',
   align,
   ...props
@@ -30,13 +28,9 @@ export default function HMAText({
     ...typography?.[size],
     color: colors[color],
     textAlign: align,
-  };
+  } as TextProps['style'];
 
   return (
-    <Text
-      allowFontScaling={false}
-      {...props}
-      style={[style, props?.style, fontWeight !== undefined && { fontWeight }]}
-    />
+    <Text allowFontScaling={false} {...props} style={[style, props?.style]} />
   );
 }
