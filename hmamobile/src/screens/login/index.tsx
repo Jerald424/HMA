@@ -10,6 +10,7 @@ import { cStyle } from 'src/utils/style';
 import { SCREEN_WIDTH } from 'src/utils/variables';
 import { loginStyle } from './style';
 import useLogin from './useLogin';
+import HMAAvatar from 'src/components/styled/atoms/avatar';
 
 export default function Login() {
   const { colors, spacing, metrics } = useTheme();
@@ -21,10 +22,13 @@ export default function Login() {
       backgroundColor="primary"
       safeAreaViewProps={{ edges: ['left', 'right'] }}
     >
-      <View style={[{ flex: 1.2 }, cStyle.rowJustify]}>
-        <HMAText color="background" size="title">
-          BRAND NAME
-        </HMAText>
+      <View
+        style={[{ flex: 1.2, justifyContent: 'center', alignItems: 'center' }]}
+      >
+        <HMAAvatar
+          source={require('src/assets/images/attendo-logo.png')}
+          size="lg"
+        />
       </View>
       <View
         style={{

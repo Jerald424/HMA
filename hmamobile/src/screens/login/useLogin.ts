@@ -51,7 +51,7 @@ export default function useLogin() {
     {
       inputType: 'input-box',
       name: 'password',
-      textInputProps: { placeholder: 'Enter password' },
+      textInputProps: { placeholder: 'Enter password', secureTextEntry: true },
       rules: {
         required: {
           value: true,

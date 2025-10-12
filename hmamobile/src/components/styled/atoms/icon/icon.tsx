@@ -6,6 +6,8 @@ export const icons = {
   home_fill: require('src/assets/icons/home-fill.png'),
   user_outline: require('src/assets/icons/user-outline.png'),
   user_fill: require('src/assets/icons/user-fill.png'),
+  eye: require('src/assets/icons/eye.png'),
+  eye_crossed: require('src/assets/icons/eye-crossed.png'),
 };
 
 export type iconType = keyof typeof icons;
