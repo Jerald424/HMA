@@ -8,6 +8,8 @@ export const icons = {
   user_fill: require('src/assets/icons/user-fill.png'),
   eye: require('src/assets/icons/eye.png'),
   eye_crossed: require('src/assets/icons/eye-crossed.png'),
+  history: require('src/assets/icons/history.png'),
+  h_three_dot: require('src/assets/icons/menu-dots.png'),
 };
 
 export type iconType = keyof typeof icons;

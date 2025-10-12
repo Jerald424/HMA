@@ -7,6 +7,7 @@ import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 import Header from './header';
 import Login from './login';
+import Offices from './offices';
 
 export default function Profile() {
   const { colors, spacing } = useTheme();
@@ -18,6 +19,8 @@ export default function Profile() {
     >
       <ScrollView style={{ flex: 1, backgroundColor: colors?.lightBackground }}>
         <Header />
+        <HMADivider />
+        <Offices />
         <HMADivider />
         <Login />
       </ScrollView>

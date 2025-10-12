@@ -5,20 +5,15 @@ import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import HMAModalTemplate from 'src/components/styled/template/modal';
 import { useTheme } from 'src/hooks/useTheme';
 import useLogin from './useLogin';
+import ProfileCard from '../component';
 
 export default function Login() {
   const { colors, spacing } = useTheme();
   const { isShowLogout, setIsShowLogout, onLogout, isLoadingLogout } =
     useLogin();
+
   return (
-    <View
-      style={{
-        backgroundColor: colors?.background,
-        paddingHorizontal: spacing?.md,
-      }}
-    >
-      <HMADivider space={'sm'} />
-      <HMAText color="textSecondary">Login</HMAText>
+    <ProfileCard title="Login">
       <TouchableOpacity
         onPress={() => setIsShowLogout(true)}
         style={{ paddingVertical: spacing.md }}
@@ -36,6 +31,6 @@ export default function Login() {
         }}
       />
       <HMAModalLoader isVisible={isLoadingLogout} />
-    </View>
+    </ProfileCard>
   );
 }
