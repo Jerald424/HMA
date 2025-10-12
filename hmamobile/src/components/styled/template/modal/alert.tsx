@@ -1,29 +1,27 @@
 import { useImperativeHandle, useState } from 'react';
 import HMAModalTemplate, { HMAModalTemplateProps } from '.';
 
-export type infoModalRefProps = {
-  showToast?: (arg?: { message?: string }) => void;
+export type alertRefProp = {
+  showAlert?: (arg?: { message?: string }) => void;
 };
 export interface HMAInfoModalProps {
-  ref?: React.RefObject<infoModalRefProps | null>;
+  ref?: React.RefObject<alertRefProp | null>;
   variant?: HMAModalTemplateProps['variant'];
   title?: string;
   description?: string;
 }
 
-export default function HMAErrorModal({
+export default function HMAAlert({
   ref,
   variant = 'error',
   title = 'Oops!',
   description,
 }: HMAInfoModalProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [descriptionTxtx, setDescriptionTxt] = useState(
-    'Something went wrong..',
-  );
+  const [descriptionTxt, setDescriptionTxt] = useState(description);
 
   useImperativeHandle(ref, () => ({
-    showToast: arg => {
+    showAlert: arg => {
       setIsOpen(true);
       if (arg?.message) setDescriptionTxt(arg?.message);
     },
@@ -32,10 +30,16 @@ export default function HMAErrorModal({
   return (
     <HMAModalTemplate
       variant={variant}
-      isVisible
+      isVisible={isOpen}
+      headingProps={{
+        children: title,
+      }}
       cancelTextProps={{ children: null }}
       descriptionProps={{
-        children: description,
+        children: descriptionTxt,
+      }}
+      okTextProps={{
+        onPress: () => setIsOpen(false),
       }}
     />
   );

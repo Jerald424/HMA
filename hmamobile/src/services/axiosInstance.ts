@@ -2,7 +2,12 @@ import axios from 'axios';
 
 const axiosInstance = axios.create({
   timeout: 60000,
-  baseURL: 'https://aneequlhaq-basic-elements-pre-prod-24313113.dev.odoo.com',
+  baseURL: 'https://bse-testing.odoo.com',
+  headers: {
+    ['Content-Type']: 'application/json',
+    Accept: 'application/json',
+  },
+  responseType: 'json',
 });
 
 axiosInstance.interceptors.response.use(
@@ -10,7 +15,7 @@ axiosInstance.interceptors.response.use(
     return response?.data;
   },
   error => {
-    return Promise.reject(error);
+    return Promise.reject(error?.response?.data);
   },
 );
 

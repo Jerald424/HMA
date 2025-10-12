@@ -5,7 +5,5 @@ export default async function loginApi({
 }: {
   data: { login: string; password: string };
 }) {
-  return await axiosInstance.get('/login', {
-    headers: data,
-  });
+  return await axiosInstance.post('/login', data);
 }

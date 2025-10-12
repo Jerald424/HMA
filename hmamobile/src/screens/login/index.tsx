@@ -4,18 +4,16 @@ import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
 import HMAForm from 'src/components/styled/organism/form';
+import HMAAlert from 'src/components/styled/template/modal/alert';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 import { SCREEN_WIDTH } from 'src/utils/variables';
 import { loginStyle } from './style';
 import useLogin from './useLogin';
-import ModalLoader from 'src/components/styled/molecules/loader/modalLoader';
-import HMAModalTemplate from 'src/components/styled/template/modal';
-import HMAErrorModal from 'src/components/styled/template/modal/errorModal';
 
-export default function Login({ navigation }) {
+export default function Login() {
   const { colors, spacing, metrics } = useTheme();
-  const { control, formData, handleSubmit, isPending } = useLogin();
+  const { control, formData, handleSubmit, isPending, alertRef } = useLogin();
 
   return (
     <Container
@@ -61,7 +59,7 @@ export default function Login({ navigation }) {
           />
         </ScrollView>
       </View>
-      <HMAErrorModal />
+      <HMAAlert ref={alertRef} />
     </Container>
   );
 }

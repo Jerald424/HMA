@@ -11,7 +11,6 @@ export default function HMATextInputWithHook({
   textInputProps,
   ...props
 }: HMATextInputBoxHookProps) {
-  console.log('props: ', props);
   if (props?.control && props?.name)
     return (
       <Controller
