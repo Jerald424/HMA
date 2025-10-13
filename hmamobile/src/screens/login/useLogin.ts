@@ -36,6 +36,8 @@ export default function useLogin() {
     mutationFn: loginApi,
   });
 
+  console.log('isPending: ', isPending);
+
   const formData: formDataProps = [
     {
       inputType: 'input-box',
@@ -51,7 +53,11 @@ export default function useLogin() {
     {
       inputType: 'input-box',
       name: 'password',
-      textInputProps: { placeholder: 'Enter password', secureTextEntry: true },
+      textInputProps: {
+        placeholder: 'Enter password',
+        secureTextEntry: true,
+        autoCapitalize: 'none',
+      },
       rules: {
         required: {
           value: true,

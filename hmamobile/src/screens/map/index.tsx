@@ -1,8 +1,15 @@
 import Container from 'src/components/styled/atoms/container';
 import HMAText from 'src/components/styled/atoms/text';
 import MapView, { Marker, Circle } from 'react-native-maps';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
+import useLiveLocation from 'src/hooks/useLiveLocation';
+import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
+import { useUserInfo } from 'src/redux/hooks';
+import OfficeCircle from './office';
+import UserIcon from './user';
+import HMAIcon from 'src/components/styled/atoms/icon';
+import { View } from 'react-native';
 
 export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
@@ -12,45 +19,45 @@ export let GEOFENCE = {
 };
 
 export default function Map() {
-  const [location, setLocation] = useState(null);
+  const { location } = useLiveLocation();
+  const { data: userInfo } = useUserInfo();
 
-  useEffect(() => {
-    const watchId = Geolocation.watchPosition(
-      pos => {
-        console.log('pos: ', pos);
-        setLocation(pos?.coords);
-      },
-      err => console.log('Location error:', err),
-      {
-        enableHighAccuracy: false,
-        distanceFilter: 1,
-        interval: 2000,
-      },
-    );
+  const userLocation = {
+    latitude: location?.latitude || 0,
+    longitude: location?.longitude || 0,
+  };
 
-    return () => Geolocation.clearWatch(watchId);
-  }, []);
-
-  if (!location) return <HMAText>LOADING</HMAText>;
+  if (!location) return <HMAModalLoader isVisible />;
   return (
-    <Container padding={0}>
+    <Container padding={0} safeAreaViewProps={{ edges: [] }}>
       <MapView
         style={{ flex: 1 }}
         initialRegion={{
-          latitude: GEOFENCE.latitude,
-          longitude: GEOFENCE.longitude,
+          latitude: location?.latitude || 0,
+          longitude: location?.longitude || 0,
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}
       >
         <Marker
-          coordinate={{
-            latitude: location?.latitude,
-            longitude: location?.longitude,
-          }}
-          pinColor="red"
-          title="You are here"
+          key="user-marker"
+          coordinate={userLocation}
+          anchor={{ x: 0.5, y: 0.5 }}
+          tracksViewChanges={false}
+          // icon={require('src/assets/avatar.png')}
         />
+        {userInfo?.offices?.map(office => (
+          <OfficeCircle
+            key={office?.id}
+            office={{
+              id: office?.id,
+              latitude: office?.lat,
+              longitude: office?.long,
+              name: office?.name,
+              radius: office?.radius,
+            }}
+          />
+        ))}
       </MapView>
     </Container>
   );
