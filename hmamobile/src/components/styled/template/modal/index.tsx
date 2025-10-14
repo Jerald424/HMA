@@ -2,7 +2,7 @@ import { useTheme } from 'src/hooks/useTheme';
 import HMAModalOrganism, { HMAModalOrganismProps } from '../../organism/modal';
 
 export interface HMAModalTemplateProps extends HMAModalOrganismProps {
-  variant?: 'info' | 'warning' | 'error';
+  variant?: 'info' | 'warning' | 'error' | 'success';
 }
 
 export default function HMAModalTemplate({
@@ -41,6 +41,16 @@ export default function HMAModalTemplate({
       btn: {
         color: {
           ok: 'error',
+        },
+      },
+    },
+    success: {
+      icon: require('src/assets/color-icons/check.png'),
+      heading: 'Success',
+      description: 'Action completed!!',
+      btn: {
+        color: {
+          ok: 'success',
         },
       },
     },

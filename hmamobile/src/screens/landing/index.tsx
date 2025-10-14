@@ -7,6 +7,7 @@ import { useUserInfo } from 'src/redux/hooks';
 import Dashboard from '../dashboard';
 import Profile from '../profile';
 import useLanding from './useLanding';
+import AddGeofence from '../dummy';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +41,17 @@ export default function Landing() {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        options={{
+          headerShown: false,
+          title: '',
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon name={focused ? 'user_fill' : 'user_outline'} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Testing"
+        component={AddGeofence}
         options={{
           headerShown: false,
           title: '',

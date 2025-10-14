@@ -1,4 +1,5 @@
 import axios from 'axios';
+import sessionExpires from 'src/function/sessionExpires';
 
 const axiosInstance = axios.create({
   timeout: 60000,
@@ -15,6 +16,8 @@ axiosInstance.interceptors.response.use(
     return response?.data;
   },
   error => {
+    console.log('error: ', error, error?.response);
+    if (error?.response?.status == 401) sessionExpires();
     return Promise.reject(error?.response?.data);
   },
 );

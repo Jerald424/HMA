@@ -11,6 +11,8 @@ export const icons = {
   history: require('src/assets/icons/history.png'),
   h_three_dot: require('src/assets/icons/menu-dots.png'),
   person: require('src/assets/icons/person.png'),
+  enter: require('src/assets/icons/enter.png'),
+  exit: require('src/assets/icons/exit.png'),
 };
 
 export type iconType = keyof typeof icons;

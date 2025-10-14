@@ -1,15 +1,10 @@
+import MapView, { Marker } from 'react-native-maps';
 import Container from 'src/components/styled/atoms/container';
-import HMAText from 'src/components/styled/atoms/text';
-import MapView, { Marker, Circle } from 'react-native-maps';
-import { useEffect, useMemo, useState } from 'react';
-import Geolocation from '@react-native-community/geolocation';
-import useLiveLocation from 'src/hooks/useLiveLocation';
 import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
-import { useUserInfo } from 'src/redux/hooks';
+import useLiveLocation from 'src/hooks/useLiveLocation';
+import { useAuth, useUserInfo } from 'src/redux/hooks';
+import FooterBtn from './footerBtn';
 import OfficeCircle from './office';
-import UserIcon from './user';
-import HMAIcon from 'src/components/styled/atoms/icon';
-import { View } from 'react-native';
 
 export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
@@ -21,6 +16,7 @@ export let GEOFENCE = {
 export default function Map() {
   const { location } = useLiveLocation();
   const { data: userInfo } = useUserInfo();
+  const { dummy_office } = useAuth();
 
   const userLocation = {
     latitude: location?.latitude || 0,
@@ -59,6 +55,7 @@ export default function Map() {
           />
         ))}
       </MapView>
+      <FooterBtn userLocation={userLocation} />
     </Container>
   );
 }

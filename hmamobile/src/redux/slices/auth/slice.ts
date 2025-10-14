@@ -7,6 +7,8 @@ export const initialState = {
     isLoading: false,
     data: null,
   },
+  dummy_office: {},
+  isSessionExpire: false,
 };
 
 const authSlice = createSlice({
@@ -19,9 +21,12 @@ const authSlice = createSlice({
     ) {
       state[payload.key] = payload.value;
     },
+    updateOffice(state, { payload }) {
+      state['userInfo']['data']['offices'].push(payload);
+    },
   },
   extraReducers: authThunk,
 });
 
 export default authSlice.reducer;
-export const { updateAuthSlice } = authSlice.actions;
+export const { updateAuthSlice, updateOffice } = authSlice.actions;

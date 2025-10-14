@@ -20,8 +20,8 @@ export default function OfficeCircle({ office }: { office: Office }) {
 
   const center = useMemo(
     () => ({
-      latitude: office.latitude || 0,
-      longitude: office.longitude || 0,
+      latitude: +office.latitude || 0,
+      longitude: +office.longitude || 0,
     }),
     [office.latitude, office.longitude],
   );
@@ -39,7 +39,7 @@ export default function OfficeCircle({ office }: { office: Office }) {
       <Circle
         key={office.id}
         center={center}
-        radius={office.radius}
+        radius={+office.radius}
         strokeColor={colors?.secondary}
         strokeWidth={2}
         fillColor={fillColor}

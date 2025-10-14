@@ -122,7 +122,7 @@ export default function HMAButton({
           borderRadius: metrics.radius.md,
           padding: sizeMap,
         },
-        isLoading && { opacity: 0.5 },
+        (isLoading || props?.disabled) && { opacity: 0.5 },
         cStyle.rowJustify,
         props?.style as ViewStyle,
       ]}
