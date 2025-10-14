@@ -28,7 +28,11 @@ export default function AuthNavigator() {
         }}
       />
 
-      <Stack.Screen name="Map" component={Map} />
+      <Stack.Screen
+        name="Map"
+        component={Map}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

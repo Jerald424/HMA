@@ -98,18 +98,18 @@ export default function FooterBtn({
         <HMAButton
           disabled={!!!matchedOffice}
           onPress={() => setModalType('in')}
-          style={{ width: 100, borderRadius: 50 }}
+          style={{ borderRadius: 50 }}
           leftIcon="enter"
-          title="IN"
+          title="CHECK IN "
           color="success"
         ></HMAButton>
         <HMADivider variant="vertical" />
         <HMAButton
           disabled={!!!matchedOffice}
           onPress={() => setModalType('out')}
-          style={{ width: 100, borderRadius: 50 }}
+          style={{ borderRadius: 50 }}
           leftIcon="exit"
-          title="OUT"
+          title="CHECK OUT"
           color="error"
         ></HMAButton>
       </View>

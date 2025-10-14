@@ -5,6 +5,7 @@ import useLiveLocation from 'src/hooks/useLiveLocation';
 import { useAuth, useUserInfo } from 'src/redux/hooks';
 import FooterBtn from './footerBtn';
 import OfficeCircle from './office';
+import Header from './header';
 
 export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
@@ -26,6 +27,7 @@ export default function Map() {
   if (!location) return <HMAModalLoader isVisible />;
   return (
     <Container padding={0} safeAreaViewProps={{ edges: [] }}>
+      <Header />
       <MapView
         style={{ flex: 1 }}
         initialRegion={{

@@ -13,6 +13,7 @@ export const icons = {
   person: require('src/assets/icons/person.png'),
   enter: require('src/assets/icons/enter.png'),
   exit: require('src/assets/icons/exit.png'),
+  arrow_left: require('src/assets/icons/arrow-left.png'),
 };
 
 export type iconType = keyof typeof icons;

@@ -28,7 +28,7 @@ export default function OfficeCircle({ office }: { office: Office }) {
 
   const fillColor = useMemo(
     () =>
-      `${colors?.secondary}${Math.floor(DEFAULT_FILL_OPACITY * 255)
+      `${colors?.error}${Math.floor(DEFAULT_FILL_OPACITY * 255)
         .toString(16)
         .padStart(2, '0')}`,
     [],
@@ -40,7 +40,7 @@ export default function OfficeCircle({ office }: { office: Office }) {
         key={office.id}
         center={center}
         radius={+office.radius}
-        strokeColor={colors?.secondary}
+        strokeColor={colors?.error}
         strokeWidth={2}
         fillColor={fillColor}
         zIndex={10}
