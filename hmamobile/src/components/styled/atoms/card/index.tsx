@@ -1,4 +1,8 @@
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
 import { useTheme } from 'src/hooks/useTheme';
 
 interface HMACardProps extends TouchableOpacityProps {
@@ -14,9 +18,12 @@ export default function HMACard({ border, ...props }: HMACardProps) {
     <TouchableOpacity
       {...props}
       style={[
-        { backgroundColor: colors.background },
+        {
+          backgroundColor: colors.background,
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: colors.border,
+        },
         props?.style,
-        metrics.shadow,
       ]}
     />
   );

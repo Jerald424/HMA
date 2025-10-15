@@ -3,6 +3,7 @@ import HMAText, { HMATextProps } from '../../atoms/text';
 import HMAModalMolecule, { HMAModalMoleculeProps } from '../../molecules/modal';
 import { useTheme } from 'src/hooks/useTheme';
 import Avatar, { HMAAvatarProps } from '../../atoms/avatar';
+import HMADivider from '../../atoms/divider';
 
 export interface HMAModalOrganismProps extends HMAModalMoleculeProps {
   headingProps?: HMATextProps;
@@ -50,6 +51,7 @@ export default function HMAModalOrganism({
       {avatarProps?.position == 'middle' && (
         <AvatarWrap style={{ marginTop: spacing.md }} />
       )}
+      <HMADivider />
       {descriptionProps?.children && (
         <HMAText
           align="center"
@@ -63,7 +65,6 @@ export default function HMAModalOrganism({
             <HMAText
               style={{ flex: 1, padding: spacing.sm }}
               align="center"
-              fontWeight={'600'}
               {...cancelTextProps}
             />
           )}
@@ -71,7 +72,6 @@ export default function HMAModalOrganism({
             <HMAText
               style={{ flex: 1, padding: spacing.sm }}
               align="center"
-              fontWeight={'600'}
               color="success"
               {...okTextProps}
             />

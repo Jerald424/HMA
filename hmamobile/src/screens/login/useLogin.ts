@@ -42,7 +42,7 @@ export default function useLogin() {
     {
       inputType: 'input-box',
       name: 'login',
-      textInputProps: { placeholder: 'Enter username' },
+      textInputProps: { placeholder: 'Enter username', autoCapitalize: 'none' },
       rules: {
         required: {
           value: true,

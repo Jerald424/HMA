@@ -17,7 +17,11 @@ axiosInstance.interceptors.response.use(
   },
   error => {
     console.log('error: ', error, error?.response);
-    if (error?.response?.status == 401) sessionExpires();
+    if (
+      error?.response?.config?.url !== '/login' &&
+      error?.response?.status == 401
+    )
+      sessionExpires();
     return Promise.reject(error?.response?.data);
   },
 );

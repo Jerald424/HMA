@@ -14,6 +14,7 @@ import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import HMAAlert, {
   alertRefProp,
 } from 'src/components/styled/template/modal/alert';
+import { spacing } from 'src/theme/spacing';
 
 export default function FooterBtn({
   userLocation,
@@ -87,7 +88,7 @@ export default function FooterBtn({
         style={[
           {
             position: 'absolute',
-            bottom,
+            bottom: bottom + spacing.md,
             left: 0,
             right: 0,
             justifyContent: 'center',
@@ -118,7 +119,7 @@ export default function FooterBtn({
         descriptionProps={{
           children: `Are you sure do you want to check ${
             modalType == 'in' ? 'in' : 'out'
-          } to the office?`,
+          } to the ${matchedOffice?.name} office?`,
         }}
         cancelTextProps={{
           onPress: () => setModalType(''),

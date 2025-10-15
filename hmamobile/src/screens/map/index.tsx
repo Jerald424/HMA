@@ -6,6 +6,7 @@ import { useAuth, useUserInfo } from 'src/redux/hooks';
 import FooterBtn from './footerBtn';
 import OfficeCircle from './office';
 import Header from './header';
+import withLocation from 'src/hoc/withLocation';
 
 export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
@@ -14,10 +15,9 @@ export let GEOFENCE = {
   id: 'VICTORIA MENS PG',
 };
 
-export default function Map() {
+function Map() {
   const { location } = useLiveLocation();
   const { data: userInfo } = useUserInfo();
-  const { dummy_office } = useAuth();
 
   const userLocation = {
     latitude: location?.latitude || 0,
@@ -42,7 +42,6 @@ export default function Map() {
           coordinate={userLocation}
           anchor={{ x: 0.5, y: 0.5 }}
           tracksViewChanges={false}
-          // icon={require('src/assets/avatar.png')}
         />
         {userInfo?.offices?.map(office => (
           <OfficeCircle
@@ -61,3 +60,5 @@ export default function Map() {
     </Container>
   );
 }
+
+export default withLocation(Map);

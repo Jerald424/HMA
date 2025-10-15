@@ -71,6 +71,7 @@ export default function HMAModalTemplate({
       descriptionProps={{
         children: variantMapping.description,
         ...props?.descriptionProps,
+        style: [{ lineHeight: 22 }, props?.descriptionProps?.style],
       }}
       cancelTextProps={{
         children: 'Cancel',

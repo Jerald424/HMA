@@ -9,7 +9,7 @@ import { cStyle } from 'src/utils/style';
 import { SCREEN_WIDTH } from 'src/utils/variables';
 
 export default function Header() {
-  const { colors, spacing } = useTheme();
+  const { colors, spacing, metrics } = useTheme();
   const { top } = useSafeAreaInsets();
   const navigation = useNavigation();
 
@@ -28,6 +28,7 @@ export default function Header() {
           alignSelf: 'center',
         },
         cStyle.rowAlign,
+        metrics.shadow,
       ]}
     >
       <TouchableOpacity hitSlop={10} onPress={navigation.goBack}>
