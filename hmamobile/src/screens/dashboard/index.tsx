@@ -44,7 +44,7 @@ export default function Dashboard({ navigation }) {
               id: '2',
               image: 'checklist',
               title: 'Attendance list',
-              link: 'Map',
+              link: 'AttendanceList',
             },
           ]}
           renderItem={({ item }) => (

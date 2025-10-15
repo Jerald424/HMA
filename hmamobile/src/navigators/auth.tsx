@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from 'src/hooks/useTheme';
+import AttendanceList from 'src/screens/attendanceList';
 import Dashboard from 'src/screens/dashboard';
 import Landing from 'src/screens/landing';
 import Map from 'src/screens/map';
@@ -33,6 +34,7 @@ export default function AuthNavigator() {
         component={Map}
         options={{ headerShown: false }}
       />
+      <Stack.Screen name="AttendanceList" component={AttendanceList} />
     </Stack.Navigator>
   );
 }

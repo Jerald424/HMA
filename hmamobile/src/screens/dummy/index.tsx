@@ -54,7 +54,7 @@ export default function AddGeofence() {
     },
   ];
   return (
-    <Container backgroundColor="background" safeAreaViewProps={{ edges: [] }}>
+    <Container backgroundColor="background">
       <ScrollView>
         <HMAForm data={formData} control={control} />
         <HMADivider />
