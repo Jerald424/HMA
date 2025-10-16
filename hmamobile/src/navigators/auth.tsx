@@ -34,7 +34,11 @@ export default function AuthNavigator() {
         component={Map}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="AttendanceList" component={AttendanceList} />
+      <Stack.Screen
+        name="AttendanceList"
+        component={AttendanceList}
+        options={{ title: 'Attendance List' }}
+      />
     </Stack.Navigator>
   );
 }
