@@ -1,4 +1,5 @@
 import { Alert, TextInput, TextInputProps, TextStyle } from 'react-native';
+import { blendWithWhite } from 'src/function/colorCorrection';
 import { useTheme } from 'src/hooks/useTheme';
 import { typography } from 'src/theme/typography';
 import fonts from 'src/utils/fonts';
@@ -20,12 +21,12 @@ export default function HMATextInput({
 
   return (
     <TextInput
-      placeholderTextColor={colors.textSecondary}
+      placeholderTextColor={blendWithWhite(colors.textSecondary, 0.6)}
       {...props}
       allowFontScaling={false}
       style={[
         {
-          color: colors.textPrimary,
+          color: colors.textSecondary,
           fontSize: fontMapping?.fontSize,
           fontFamily,
         },
