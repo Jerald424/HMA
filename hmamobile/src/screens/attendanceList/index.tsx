@@ -8,58 +8,64 @@ import HMACard from 'src/components/styled/atoms/card';
 import { useTheme } from 'src/hooks/useTheme';
 import HMABadge from 'src/components/styled/atoms/badge';
 import { cStyle } from 'src/utils/style';
+import FooterLoader from './footerLoader';
+import { useMemo } from 'react';
+import { formateDate } from 'src/function/dateConversion';
+import NoData from 'src/components/layout/noData';
 
 export default function AttendanceList() {
   const { onEndReach, list, isLoading } = useAttendanceList();
-  const { spacing } = useTheme();
   return (
-    <Container padding={0} safeAreaViewProps={{ edges: [] }}>
+    <Container
+      padding={0}
+      safeAreaViewProps={{ edges: ['bottom', 'left', 'right'] }}
+    >
       <FlatList
-        ListFooterComponent={
-          isLoading ? (
-            <>
-              <HMADivider />
-              <HMALoader size={'large'} />
-              <HMADivider />
-            </>
-          ) : (
-            <></>
-          )
-        }
+        ListFooterComponent={isLoading ? <FooterLoader /> : <></>}
         data={list}
-        renderItem={({ item }) => {
-          return (
-            <>
-              <HMACard style={{ padding: spacing?.sm }}>
-                <HMAText>{item?.date}</HMAText>
-                <HMADivider thickness={1} />
-                <HMAText size="small">Project: {item?.project?.name}</HMAText>
-                <HMADivider />
-                <View style={cStyle.row}>
-                  <HMABadge
-                    color={item?.type == 'in' ? 'success' : 'error'}
-                    label={item?.type == 'in' ? 'Check In' : 'Check Out'}
-                  />
-                  <HMADivider variant="vertical" />
-                  <HMABadge
-                    color="info"
-                    label={`Worked Hour: ${item?.['Worked Hours']}`}
-                  />
-                  <HMADivider variant="vertical" />
-
-                  <HMABadge
-                    color="secondary"
-                    label={`Overtime: ${item?.['Overtime']}`}
-                  />
-                </View>
-              </HMACard>
-              <HMADivider />
-            </>
-          );
-        }}
+        ListEmptyComponent={isLoading ? <></> : <NoData />}
+        renderItem={({ item }) => <SepItem item={item} />}
         onEndReached={() => onEndReach()}
         onEndReachedThreshold={0.5}
       />
     </Container>
   );
 }
+
+const SepItem = ({ item }: { item: any }) => {
+  const { spacing } = useTheme();
+  const dtHr = useMemo(() => formateDate(item?.date), [item]);
+  return (
+    <>
+      <HMACard cmpType="View" style={{ padding: spacing?.sm }}>
+        <HMAText>
+          {dtHr?.date} {dtHr?.time}
+        </HMAText>
+        <HMADivider thickness={1} />
+        <HMAText size="small">Project: {item?.project?.name}</HMAText>
+        <HMADivider />
+        <View style={cStyle.row}>
+          <HMABadge
+            size="sm"
+            color={item?.type == 'in' ? 'success' : 'error'}
+            label={item?.type == 'in' ? 'Check In' : 'Check Out'}
+          />
+          <HMADivider variant="vertical" />
+          <HMABadge
+            size="sm"
+            color="info"
+            label={`Worked Hour: ${item?.['Worked Hours']}`}
+          />
+          <HMADivider variant="vertical" />
+
+          <HMABadge
+            size="sm"
+            color="secondary"
+            label={`Overtime: ${item?.['Overtime']}`}
+          />
+        </View>
+      </HMACard>
+      <HMADivider />
+    </>
+  );
+};

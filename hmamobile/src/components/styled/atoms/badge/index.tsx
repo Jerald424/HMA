@@ -1,7 +1,8 @@
-import { View, ViewProps, ViewStyle } from 'react-native';
+import { StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import { colors } from 'src/theme/colors';
 import HMAText, { HMATextProps } from '../text';
 import { useTheme } from 'src/hooks/useTheme';
+import { blendWithWhite } from 'src/function/colorCorrection';
 
 export interface HMABadgeProps extends ViewProps {
   label?: string | number;
@@ -33,7 +34,7 @@ export default function HMABadge({
   textProps,
   ...props
 }: HMABadgeProps) {
-  const { colors } = useTheme();
+  const { colors, metrics } = useTheme();
   const sizeStyle: Record<typeof size, ViewStyle> = {
     sm: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 50 },
     md: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 50 },
@@ -78,11 +79,15 @@ export default function HMABadge({
         style={[
           sizeMap,
           positionMap,
-          { backgroundColor: colors?.[color] },
+          {
+            backgroundColor: blendWithWhite(colors?.[color], 0.9),
+            borderWidth: StyleSheet.hairlineWidth,
+            borderColor: blendWithWhite(colors?.[color], 0.6),
+          },
           props?.style,
         ]}
       >
-        <HMAText color={textColor} {...textPropsMap} {...textProps}>
+        <HMAText color={color} {...textPropsMap} {...textProps}>
           {label}
         </HMAText>
       </View>

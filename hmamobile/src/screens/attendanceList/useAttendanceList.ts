@@ -16,7 +16,7 @@ export default function useAttendanceList() {
     axiosInstance
       .get(`/attendance-list?offset=${offset}&limit=${LIMIT}`)
       .then(res => {
-        setTotalRec(100); //res?.total_records
+        setTotalRec(res?.total_records); //res?.total_records
         setList(prev => [...prev, ...res?.records]);
       })
       .finally(() => {

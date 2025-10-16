@@ -3,3 +3,8 @@ npx react-native bundle --platform android --dev false --entry-file index.js --b
 cd android
 
 gradlew assembleDebug
+
+app name change
+font
+logo
+Active

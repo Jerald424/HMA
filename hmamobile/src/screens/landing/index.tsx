@@ -49,7 +49,7 @@ export default function Landing() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Testing"
         component={AddGeofence}
         options={{
@@ -59,7 +59,7 @@ export default function Landing() {
             <TabBarIcon name={focused ? 'user_fill' : 'user_outline'} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
