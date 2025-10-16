@@ -17,7 +17,7 @@ export default function Header() {
     <View
       style={[
         {
-          backgroundColor: colors?.secondary,
+          backgroundColor: colors?.primary,
           padding: spacing.md,
           borderRadius: 50,
           position: 'absolute',
@@ -45,7 +45,7 @@ export default function Header() {
       </HMAText>
       <HMADivider variant="vertical" />
 
-      <HMAIcon name="arrow_left" variant="secondary" />
+      <HMAIcon name="arrow_left" variant="primary" />
     </View>
   );
 }

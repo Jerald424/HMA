@@ -16,7 +16,7 @@ export default function Landing() {
   useLanding();
 
   const TabBarIcon = ({ name }: { name: iconType }) => {
-    return <HMAIcon name={name} variant="textPrimary" />;
+    return <HMAIcon name={name} variant="primary" />;
   };
   return (
     <Tab.Navigator

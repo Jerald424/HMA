@@ -3,6 +3,7 @@ import { colors } from 'src/theme/colors';
 import HMAText, { HMATextProps } from '../text';
 import { useTheme } from 'src/hooks/useTheme';
 import { blendWithWhite } from 'src/function/colorCorrection';
+import fonts from 'src/utils/fonts';
 
 export interface HMABadgeProps extends ViewProps {
   label?: string | number;
@@ -87,7 +88,12 @@ export default function HMABadge({
           props?.style,
         ]}
       >
-        <HMAText color={color} {...textPropsMap} {...textProps}>
+        <HMAText
+          color={color}
+          {...textPropsMap}
+          {...textProps}
+          style={[{ fontFamily: fonts.large }, textProps?.style]}
+        >
           {label}
         </HMAText>
       </View>

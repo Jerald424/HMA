@@ -38,11 +38,13 @@ const SepItem = ({ item }: { item: any }) => {
   return (
     <>
       <HMACard cmpType="View" style={{ padding: spacing?.sm }}>
-        <HMAText>
+        <HMAText color="textSecondary">
           {dtHr?.date} {dtHr?.time}
         </HMAText>
         <HMADivider thickness={1} />
-        <HMAText size="small">Project: {item?.project?.name}</HMAText>
+        <HMAText color="textSecondary" size="small">
+          Project: {item?.project?.name}
+        </HMAText>
         <HMADivider />
         <View style={cStyle.row}>
           <HMABadge
@@ -60,7 +62,7 @@ const SepItem = ({ item }: { item: any }) => {
 
           <HMABadge
             size="sm"
-            color="secondary"
+            color="primary"
             label={`Overtime: ${item?.['Overtime']}`}
           />
         </View>

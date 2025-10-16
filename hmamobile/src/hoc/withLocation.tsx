@@ -53,7 +53,7 @@ export default function withLocation(Cmp: any) {
             children: 'Turn On Location !',
           }}
           descriptionProps={{
-            children: 'Please Enable location  in mobile to proceed',
+            children: 'Please Enable location in mobile to proceed',
           }}
           okTextProps={{
             children: 'Check',

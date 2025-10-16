@@ -11,6 +11,7 @@ import { SCREEN_WIDTH } from 'src/utils/variables';
 import { loginStyle } from './style';
 import useLogin from './useLogin';
 import HMAAvatar from 'src/components/styled/atoms/avatar';
+import HMACard from 'src/components/styled/atoms/card';
 
 export default function Login() {
   const { colors, spacing, metrics } = useTheme();
@@ -23,12 +24,27 @@ export default function Login() {
       safeAreaViewProps={{ edges: ['left', 'right'] }}
     >
       <View
-        style={[{ flex: 1.2, justifyContent: 'center', alignItems: 'center' }]}
+        style={[
+          {
+            flex: 1.2,
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+        ]}
       >
-        <HMAAvatar
-          source={require('src/assets/images/attendo-logo.png')}
-          size="lg"
-        />
+        <HMACard
+          style={[
+            {
+              padding: spacing.md,
+              borderRadius: 500,
+            },
+          ]}
+        >
+          <HMAAvatar
+            source={require('src/assets/images/attendo-logo.png')}
+            size="lg"
+          />
+        </HMACard>
       </View>
       <View
         style={{

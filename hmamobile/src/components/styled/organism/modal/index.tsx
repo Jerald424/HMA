@@ -4,6 +4,7 @@ import HMAModalMolecule, { HMAModalMoleculeProps } from '../../molecules/modal';
 import { useTheme } from 'src/hooks/useTheme';
 import Avatar, { HMAAvatarProps } from '../../atoms/avatar';
 import HMADivider from '../../atoms/divider';
+import fonts from 'src/utils/fonts';
 
 export interface HMAModalOrganismProps extends HMAModalMoleculeProps {
   headingProps?: HMATextProps;
@@ -54,6 +55,7 @@ export default function HMAModalOrganism({
       <HMADivider />
       {descriptionProps?.children && (
         <HMAText
+          color="textSecondary"
           align="center"
           style={{ marginTop: spacing.md }}
           {...descriptionProps}
@@ -63,14 +65,15 @@ export default function HMAModalOrganism({
         <View style={{ flexDirection: 'row', marginTop: spacing.md }}>
           {cancelTextProps?.children && (
             <HMAText
-              style={{ flex: 1, padding: spacing.sm }}
+              color="error"
+              style={{ flex: 1, padding: spacing.sm, fontFamily: fonts.title }}
               align="center"
               {...cancelTextProps}
             />
           )}
           {okTextProps?.children && (
             <HMAText
-              style={{ flex: 1, padding: spacing.sm }}
+              style={{ flex: 1, padding: spacing.sm, fontFamily: fonts.title }}
               align="center"
               color="success"
               {...okTextProps}

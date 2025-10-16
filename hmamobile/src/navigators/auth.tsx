@@ -4,6 +4,7 @@ import AttendanceList from 'src/screens/attendanceList';
 import Dashboard from 'src/screens/dashboard';
 import Landing from 'src/screens/landing';
 import Map from 'src/screens/map';
+import fonts from 'src/utils/fonts';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function AuthNavigator() {
         },
         headerTitleStyle: {
           color: colors.background,
+          fontFamily: fonts.title,
         },
         headerTintColor: colors.background,
       }}

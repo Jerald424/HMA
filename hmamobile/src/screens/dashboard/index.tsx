@@ -56,12 +56,14 @@ export default function Dashboard({ navigation }) {
                   alignItems: 'center',
                   padding: spacing.md,
                   borderRadius: metrics.radius.lg,
+                  height: 150,
+                  justifyContent: 'center',
                 },
               ]}
             >
-              <HMAIcon variant="secondary" size="lg" name={item?.image} />
-              <HMADivider />
-              <HMAText>{item?.title}</HMAText>
+              <HMAIcon variant="primary" size="lg" name={item?.image} />
+              <HMADivider space={'sm'} />
+              <HMAText color="primary">{item?.title}</HMAText>
             </HMACard>
           )}
         />

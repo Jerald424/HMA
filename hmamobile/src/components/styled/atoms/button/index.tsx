@@ -8,6 +8,7 @@ import { iconType } from '../icon/icon';
 import { HMATextInputProps } from '../input';
 import HMAText, { HMATextProps } from '../text';
 import HMALoader from '../loader';
+import fonts from 'src/utils/fonts';
 
 export interface HMAButtonProps extends PressableProps {
   title?: string;
@@ -89,11 +90,14 @@ export default function HMAButton({
     color: colors[color],
   };
 
-  const textStyleMap = {
-    solid: solidTextStyle,
-    outline: outlineTextStyle,
-    ghost: ghostTextStyle,
-  }[variant];
+  const textStyleMap = Object.assign(
+    { fontFamily: fonts.title },
+    {
+      solid: solidTextStyle,
+      outline: outlineTextStyle,
+      ghost: ghostTextStyle,
+    }[variant],
+  );
 
   const ghostIconStyle: HMAIconProps['style'] = {
     tintColor: colors[color],

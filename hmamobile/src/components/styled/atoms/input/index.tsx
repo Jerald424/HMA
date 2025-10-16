@@ -1,6 +1,7 @@
-import { TextInput, TextInputProps, TextStyle } from 'react-native';
+import { Alert, TextInput, TextInputProps, TextStyle } from 'react-native';
 import { useTheme } from 'src/hooks/useTheme';
 import { typography } from 'src/theme/typography';
+import fonts from 'src/utils/fonts';
 
 export interface HMATextInputProps extends TextInputProps {
   /**
@@ -14,6 +15,7 @@ export default function HMATextInput({
   ...props
 }: HMATextInputProps) {
   const { colors, typography } = useTheme();
+  const fontFamily = fonts[fontSize];
   const fontMapping = typography?.[fontSize];
 
   return (
@@ -25,7 +27,7 @@ export default function HMATextInput({
         {
           color: colors.textPrimary,
           fontSize: fontMapping?.fontSize,
-          fontWeight: fontMapping?.fontWeight as TextStyle['fontWeight'],
+          fontFamily,
         },
         props?.style,
       ]}
