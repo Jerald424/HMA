@@ -1,10 +1,7 @@
-import { ScrollView, StatusBar, View } from 'react-native';
-import HMAAvatar from 'src/components/styled/atoms/avatar';
+import { ScrollView } from 'react-native';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
-import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
-import { cStyle } from 'src/utils/style';
 import Header from './header';
 import Login from './login';
 import Offices from './offices';

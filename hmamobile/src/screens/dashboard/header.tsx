@@ -14,7 +14,7 @@ export default function Header() {
       <View style={{ flex: 1 }}>
         <HMAText color="background">Welcome</HMAText>
         <HMAText color="background" size="title">
-          {data?.Employee_Name || ''}
+          {data?.Employee_Name || '-'}
         </HMAText>
       </View>
       <HMAAvatar

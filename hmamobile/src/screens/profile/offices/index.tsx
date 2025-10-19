@@ -7,6 +7,7 @@ import { useTheme } from 'src/hooks/useTheme';
 import { useMemo } from 'react';
 import { cStyle } from 'src/utils/style';
 import HMAIcon from 'src/components/styled/atoms/icon';
+import isEmpty from 'lodash/isEmpty';
 
 export default function Offices() {
   const { data } = useUserInfo();
@@ -25,14 +26,20 @@ export default function Offices() {
   return (
     <ProfileCard title="Office">
       <View style={{ paddingTop: spacing.md }} />
-
-      {sortedOffices?.map((office: any, index: number, arr: any) => (
-        <Office
-          office={office}
-          key={office?.id}
-          isLast={arr?.length == index + 1}
-        />
-      ))}
+      {isEmpty(sortedOffices) ? (
+        <>
+          <HMAText>No offices found</HMAText>
+          <View style={{ paddingTop: spacing.md }} />
+        </>
+      ) : (
+        sortedOffices?.map((office: any, index: number, arr: any) => (
+          <Office
+            office={office}
+            key={office?.id}
+            isLast={arr?.length == index + 1}
+          />
+        ))
+      )}
     </ProfileCard>
   );
 }

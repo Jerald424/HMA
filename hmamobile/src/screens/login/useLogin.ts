@@ -8,7 +8,7 @@ import { updateAuthSlice } from 'src/redux/slices/auth/slice';
 import loginApi from './api/loginApi';
 import { useAppDispatch } from 'src/redux/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LOGIN_DATA, TOKEN } from 'src/utils/variables';
+import { BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import axiosInstance from 'src/services/axiosInstance';
 
 export const assignTokenToAxios = (token: string) => {
@@ -27,6 +27,14 @@ export const removeTokenFromAsyncStorage = () => {
   AsyncStorage.removeItem(TOKEN);
 };
 
+export const assignBaseURlToAxios = (url: string) => {
+  axiosInstance.defaults.baseURL = url;
+};
+
+export const assignBaseURlToAsyncStorage = (url: string) => {
+  AsyncStorage.setItem(BASE_URL, url);
+};
+
 export default function useLogin() {
   const dispatch = useAppDispatch();
   const alertRef = useRef<alertRefProp>(null);
@@ -36,9 +44,22 @@ export default function useLogin() {
     mutationFn: loginApi,
   });
 
-  console.log('isPending: ', isPending);
-
   const formData: formDataProps = [
+    {
+      inputType: 'input-box',
+      name: 'url',
+      textInputProps: { placeholder: 'Enter url', autoCapitalize: 'none' },
+      rules: {
+        required: {
+          value: true,
+          message: 'Url is required',
+        },
+        pattern: {
+          value: /^(https?:\/\/)[^\s"]+$/,
+          message: 'Enter valid url',
+        },
+      },
+    },
     {
       inputType: 'input-box',
       name: 'login',
@@ -69,17 +90,19 @@ export default function useLogin() {
 
   const onLogin = (data: any) => {
     mutate(
-      { data },
+      { data, baseURL: data?.url },
       {
         onError(error) {
           alertRef?.current?.showAlert?.({
             message: error?.Message ?? 'Something went wrong',
           });
         },
-        onSuccess(data) {
-          AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(data));
-          assignTokenToAsyncStorage(data?.token);
-          assignTokenToAxios(data?.token);
+        onSuccess(response) {
+          assignBaseURlToAsyncStorage(data?.url);
+          assignBaseURlToAxios(data?.url);
+          AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
+          assignTokenToAsyncStorage(response?.token);
+          assignTokenToAxios(response?.token);
           dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
         },
       },

@@ -1,8 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from '@tanstack/react-query';
 import { useLayoutEffect, useState } from 'react';
-import { assignTokenToAxios } from 'src/screens/login/useLogin';
-import { LOGIN_DATA, TOKEN } from 'src/utils/variables';
+import {
+  assignBaseURlToAsyncStorage,
+  assignBaseURlToAxios,
+  assignTokenToAxios,
+} from 'src/screens/login/useLogin';
+import { BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import verifyApi from './verifyApi';
 import { useAppDispatch } from 'src/redux/hooks';
 import { updateAuthSlice } from 'src/redux/slices/auth/slice';
@@ -17,11 +21,14 @@ export default function useInitial() {
 
   const checkToken = async () => {
     const token = await AsyncStorage.getItem(TOKEN);
-    if (token) {
+    const url = await AsyncStorage.getItem(BASE_URL);
+    if (token && url) {
       verifyMutate(
-        { token },
+        { token, url },
         {
           onSuccess() {
+            assignBaseURlToAsyncStorage(url);
+            assignBaseURlToAxios(url);
             assignTokenToAxios(token);
             dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
           },
