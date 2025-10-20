@@ -16,7 +16,7 @@ export default function useAttendanceList() {
     axiosInstance
       .get(url)
       .then(res => {
-        setTotalRec(res?.total_records); //res?.total_records
+        setTotalRec(res?.total_record);
         setList(prev => [...prev, ...res?.records]);
       })
       .finally(() => {
