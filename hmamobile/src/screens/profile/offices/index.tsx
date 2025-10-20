@@ -51,17 +51,21 @@ const Office = ({ office, isLast }: { office: any; isLast: boolean }) => {
     <View>
       <HMAText>{office?.name}</HMAText>
       <View style={[cStyle.row, { alignItems: 'baseline' }]}>
-        <HMAText style={{ flex: 1, marginRight: spacing?.md }} size="small">
+        <HMAText
+          style={{ flex: 1, marginRight: spacing?.md }}
+          size="small"
+          color="textSecondary"
+        >
           {office?.company}
         </HMAText>
         {!office?.active && (
           <HMAIcon
-            style={{ marginRight: spacing?.md }}
+            // style={{ marginRight: spacing?.md }}
             name="history"
             variant="warning"
           />
         )}
-        <HMAIcon name="h_three_dot" variant="textSecondary" />
+        {/* <HMAIcon name="h_three_dot" variant="textSecondary" /> */}
       </View>
       {isLast ? (
         <View style={{ paddingTop: spacing.md }} />
