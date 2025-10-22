@@ -10,8 +10,9 @@ import HMABadge from 'src/components/styled/atoms/badge';
 import { cStyle } from 'src/utils/style';
 import FooterLoader from './footerLoader';
 import { useMemo } from 'react';
-import { formateDate } from 'src/function/dateConversion';
+import { convertUserTimeZone, formateDate } from 'src/function/dateConversion';
 import NoData from 'src/components/layout/noData';
+import { useUserInfo } from 'src/redux/hooks';
 
 export default function AttendanceList() {
   const { onEndReach, list, isLoading } = useAttendanceList();
@@ -34,7 +35,11 @@ export default function AttendanceList() {
 
 const SepItem = ({ item }: { item: any }) => {
   const { spacing } = useTheme();
-  const dtHr = useMemo(() => formateDate(item?.date), [item]);
+  const { data } = useUserInfo();
+  const dtHr = useMemo(
+    () => convertUserTimeZone({ date: item?.date, timeZone: data?.Timezone }),
+    [item],
+  );
   return (
     <>
       <HMACard cmpType="View" style={{ padding: spacing?.sm }}>
