@@ -27,7 +27,9 @@ export default function Header() {
         >
           <HMAText size="large">{data?.Employee_Name || '-'}</HMAText>
           <HMADivider />
-          <HMAText size="regular">{data?.Email || '-'}</HMAText>
+          <HMAText size="regular" color="textSecondary">
+            {data?.Email || '-'}
+          </HMAText>
         </View>
       </View>
     </View>
