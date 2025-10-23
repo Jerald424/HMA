@@ -22,6 +22,26 @@ export const formateDate = (date: string = '16:10:2025 15:03:53') => {
   }
 };
 
+export const jsDateToTimeFormat = (date: Date) => {
+  try {
+    let [hour, min, sec] = [
+      date.getHours(),
+      date.getMinutes(),
+      date.getSeconds(),
+    ];
+    let meridiem = 'AM';
+    if (hour > 12) {
+      hour -= 12;
+      meridiem = 'PM';
+    }
+    return `${[hour, min, sec]
+      ?.map(item => String(item).padStart(2, '0'))
+      .join(':')} ${meridiem}`;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export function convertUserTimeZone({
   date,
   timeZone,

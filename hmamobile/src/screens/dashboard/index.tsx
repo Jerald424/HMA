@@ -37,7 +37,7 @@ export default function Dashboard({ navigation }) {
             {
               id: '1',
               image: 'map',
-              title: 'Entry',
+              title: 'Attendance Entry',
               link: 'Map',
             },
             {
@@ -63,7 +63,9 @@ export default function Dashboard({ navigation }) {
             >
               <HMAIcon variant="primary" size="lg" name={item?.image} />
               <HMADivider space={'sm'} />
-              <HMAText color="primary">{item?.title}</HMAText>
+              <HMAText color="primary" align="center">
+                {item?.title}
+              </HMAText>
             </HMACard>
           )}
         />

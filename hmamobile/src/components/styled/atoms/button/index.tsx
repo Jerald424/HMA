@@ -1,4 +1,9 @@
-import { Pressable, PressableProps, ViewStyle } from 'react-native';
+import {
+  Pressable,
+  PressableProps,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import { useTheme } from 'src/hooks/useTheme';
 import { colors } from 'src/theme/colors';
 import { cStyle } from 'src/utils/style';

@@ -15,17 +15,19 @@ export interface HMATextProps extends TextProps {
    */
   color?: keyof typeof colors;
   align?: TextStyle['textAlign'];
+  variant?: keyof typeof fonts;
 }
 
 export default function HMAText({
   size = 'regular',
   color = 'textPrimary',
+  variant,
   align,
   ...props
 }: HMATextProps) {
   const { typography, colors } = useTheme();
 
-  const fontFamily = fonts[size];
+  const fontFamily = fonts[variant ?? size];
 
   const style = {
     ...typography?.[size],
