@@ -24,7 +24,7 @@ export default function Offices() {
   }, [data]);
 
   return (
-    <ProfileCard title="Office">
+    <ProfileCard title="Allowed Work Locations">
       <View style={{ paddingTop: spacing.md }} />
       {isEmpty(sortedOffices) ? (
         <>
