@@ -43,19 +43,21 @@ export default function FooterBtn({
       <View
         style={[
           {
-            paddingBottom: bottom,
+            paddingBottom: bottom + spacing.sm,
             padding: spacing.md,
           },
         ]}
       >
         <Timer />
         <HMADivider />
-        <HMAText align="center">
-          Current Status:{' '}
-          <HMAText variant="title" color={isCheckIn ? 'success' : 'error'}>
-            {isCheckIn ? 'Check In' : 'Check Out'}
+        {lastAttendanceRecord && (
+          <HMAText align="center">
+            Current Status:{' '}
+            <HMAText variant="title" color={isCheckIn ? 'success' : 'error'}>
+              {isCheckIn ? 'Check In' : 'Check Out'}
+            </HMAText>
           </HMAText>
-        </HMAText>
+        )}
         <HMADivider />
         {isCheckIn && (
           <HMAText align="center" color="textSecondary">
