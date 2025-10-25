@@ -14,7 +14,7 @@ export interface HMABadgeProps extends ViewProps {
   /**
    * @default error
    */
-  color?: keyof typeof colors;
+  color?: 'blank' | keyof typeof colors;
   /**
    * @default background
    */
@@ -80,7 +80,7 @@ export default function HMABadge({
         style={[
           sizeMap,
           positionMap,
-          {
+          color !== 'blank' && {
             backgroundColor: blendWithWhite(colors?.[color], 0.9),
             borderWidth: StyleSheet.hairlineWidth,
             borderColor: blendWithWhite(colors?.[color], 0.6),

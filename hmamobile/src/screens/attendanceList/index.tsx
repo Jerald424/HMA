@@ -13,14 +13,12 @@ import { useMemo } from 'react';
 import { convertUserTimeZone, formateDate } from 'src/function/dateConversion';
 import NoData from 'src/components/layout/noData';
 import { useUserInfo } from 'src/redux/hooks';
+import Filter from './filter';
 
 export default function AttendanceList() {
   const { onEndReach, list, isLoading } = useAttendanceList();
   return (
-    <Container
-      padding={0}
-      safeAreaViewProps={{ edges: ['bottom', 'left', 'right'] }}
-    >
+    <Container padding={0} safeAreaViewProps={{ edges: ['left', 'right'] }}>
       <FlatList
         ListFooterComponent={isLoading ? <FooterLoader /> : <></>}
         data={list}
@@ -29,6 +27,7 @@ export default function AttendanceList() {
         onEndReached={() => onEndReach()}
         onEndReachedThreshold={0.5}
       />
+      <Filter />
     </Container>
   );
 }
