@@ -7,12 +7,13 @@ const getLastRecord = async () => {
   return response;
 };
 export default function useLastAttendanceRecord() {
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['get/last-attendance-record'],
     queryFn: getLastRecord,
   });
 
   return {
     data: data?.records?.[0],
+    refetch,
   };
 }

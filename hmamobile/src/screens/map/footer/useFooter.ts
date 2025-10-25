@@ -15,7 +15,7 @@ export default function useFooter({
   const { data: userInfo } = useUserInfo();
   const [modalType, setModalType] = useState('');
   const alertRef = useRef<alertRefProp>(null);
-  const { data: lastAttendanceRecord } = useLastAttendanceRecord();
+  const { data: lastAttendanceRecord, refetch } = useLastAttendanceRecord();
 
   const { mutate: markAttendance, isPending } = useMutation({
     mutationKey: ['mark/attendance'],
@@ -69,6 +69,9 @@ export default function useFooter({
             message: error?.Message ?? 'Something went wrong',
             title: 'Oops!',
           });
+        },
+        onSettled() {
+          refetch();
         },
       },
     );
