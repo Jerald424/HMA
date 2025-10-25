@@ -10,11 +10,18 @@ import { useTheme } from 'src/hooks/useTheme';
 import { useUserInfo } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
 import { SCREEN_HEIGHT } from 'src/utils/variables';
+import { useAttendanceListContext } from '..';
 
 export default function ProjectFilter({ projectRef }: { projectRef: any }) {
   const { spacing } = useTheme();
   const { data } = useUserInfo();
-  console.log('data: ', data);
+  const [selected, setSelected] = useState(null);
+  const { setFilters } = useAttendanceListContext();
+
+  const onApply = () => {
+    setFilters(prev => ({ ...prev, project_id: selected }));
+    projectRef?.current?.close?.();
+  };
 
   return (
     <HMABottomSheet
@@ -25,20 +32,26 @@ export default function ProjectFilter({ projectRef }: { projectRef: any }) {
         <HMAText size="large">Project Filter</HMAText>
         <HMADivider thickness={1} space={'md'} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          {data?.offices?.map(val => (
-            <TouchableOpacity
-              key={val?.id}
-              style={[cStyle.row, { padding: spacing.sm }]}
-            >
-              <HMACheckBox />
-              <HMADivider variant="vertical" />
-              <HMAText>{val?.name}</HMAText>
-            </TouchableOpacity>
-          ))}
+          {data?.offices?.map(val => {
+            const isSelected = selected == val?.project?.id;
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  setSelected(isSelected ? null : val?.project?.id)
+                }
+                key={val?.id}
+                style={[cStyle.row, { padding: spacing.sm }]}
+              >
+                <HMACheckBox isRadio value={isSelected} />
+                <HMADivider variant="vertical" />
+                <HMAText>{val?.name}</HMAText>
+              </TouchableOpacity>
+            );
+          })}
         </ScrollView>
         <HMADivider />
 
-        <HMAButton title="Apply" />
+        <HMAButton onPress={onApply} title="Apply" />
       </View>
     </HMABottomSheet>
   );
