@@ -4,7 +4,7 @@ export const makeColonDate = (date: Date) => {
   )} ${[date.getHours(), date.getMinutes(), date.getSeconds()].join(':')}`;
 };
 
-export const formateDate = (date: string = '16:10:2025 15:03:53') => {
+export const formateDate = (date: string = '16/10/2025 15:03:53') => {
   try {
     const [dt, time] = date?.split(' ');
     let [hour, min] = time?.split(':').map(Number);
@@ -14,7 +14,7 @@ export const formateDate = (date: string = '16:10:2025 15:03:53') => {
       meridiem = 'PM';
     }
     return {
-      date: dt?.split(':').join('/'),
+      date: dt,
       time: `${[hour, min].join(':')} ${meridiem}`,
     };
   } catch (error) {
@@ -72,7 +72,7 @@ export function convertUserTimeZone({
     const parts = fmt
       .formatToParts(dt)
       .reduce((acc, p) => ((acc[p.type] = p.value), acc), {});
-    const output = `${parts.day}:${parts.month}:${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
+    const output = `${parts.day}/${parts.month}/${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
     return formateDate(output);
   } catch (error) {
     console.log('ERROR:', error);

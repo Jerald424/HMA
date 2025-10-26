@@ -1,26 +1,11 @@
-import Container from 'src/components/styled/atoms/container';
-import useAttendanceList from './useAttendanceList';
-import { FlatList, View } from 'react-native';
-import HMAText from 'src/components/styled/atoms/text';
-import HMADivider from 'src/components/styled/atoms/divider';
-import HMALoader from 'src/components/styled/atoms/loader';
-import HMACard from 'src/components/styled/atoms/card';
-import { useTheme } from 'src/hooks/useTheme';
-import HMABadge from 'src/components/styled/atoms/badge';
-import { cStyle } from 'src/utils/style';
-import FooterLoader from './footerLoader';
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useMemo,
-} from 'react';
-import { convertUserTimeZone, formateDate } from 'src/function/dateConversion';
+import { createContext, Dispatch, SetStateAction, useContext } from 'react';
+import { FlatList } from 'react-native';
 import NoData from 'src/components/layout/noData';
-import { useUserInfo } from 'src/redux/hooks';
+import Container from 'src/components/styled/atoms/container';
 import Filter from './filter';
+import FooterLoader from './footerLoader';
 import SeparateItem from './seperateItem';
+import useAttendanceList from './useAttendanceList';
 
 export const initialAttendanceFilter = {
   project_id: null,

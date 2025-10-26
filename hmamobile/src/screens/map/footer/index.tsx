@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HMAButton from 'src/components/styled/atoms/button';
@@ -7,12 +8,12 @@ import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import HMAModalTemplate from 'src/components/styled/template/modal';
 import HMAAlert from 'src/components/styled/template/modal/alert';
 import { blendWithWhite } from 'src/function/colorCorrection';
+import { convertUserTimeZone } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
+import { useUserInfo } from 'src/redux/hooks';
 import { spacing } from 'src/theme/spacing';
 import Timer from './timer';
 import useFooter from './useFooter';
-import { formateDate } from 'src/function/dateConversion';
-import { useMemo } from 'react';
 
 export default function FooterBtn({
   userLocation,
@@ -21,6 +22,8 @@ export default function FooterBtn({
 }) {
   const { bottom } = useSafeAreaInsets();
   const { colors } = useTheme();
+  const { data: userInfo } = useUserInfo();
+
   const {
     matchedOffice,
     onAttendance,
@@ -30,10 +33,15 @@ export default function FooterBtn({
     alertRef,
     isCheckIn,
     lastAttendanceRecord,
+    isCheckOut,
   } = useFooter({ userLocation });
 
   const formatDt = useMemo(
-    () => formateDate(lastAttendanceRecord?.date),
+    () =>
+      convertUserTimeZone({
+        date: lastAttendanceRecord?.check_in,
+        timeZone: userInfo?.Timezone,
+      }),
     [lastAttendanceRecord],
   );
 
@@ -53,13 +61,13 @@ export default function FooterBtn({
         {lastAttendanceRecord && (
           <HMAText align="center">
             Current Status:{' '}
-            <HMAText variant="title" color={isCheckIn ? 'success' : 'error'}>
-              {isCheckIn ? 'Check In' : 'Check Out'}
+            <HMAText variant="title" color={isCheckOut ? 'error' : 'success'}>
+              {isCheckOut ? 'Check Out' : 'Check In'}
             </HMAText>
           </HMAText>
         )}
         <HMADivider />
-        {isCheckIn && (
+        {isCheckIn && !isCheckOut && (
           <HMAText align="center" color="textSecondary">
             Check In Time: {formatDt?.date} {formatDt?.time}
           </HMAText>
@@ -67,11 +75,11 @@ export default function FooterBtn({
         <HMADivider />
         {!!matchedOffice ? (
           <HMAButton
-            onPress={() => setModalType(isCheckIn ? 'out' : 'in')}
+            onPress={() => setModalType(isCheckOut ? 'in' : 'out')}
             style={{ borderRadius: 50 }}
-            leftIcon={isCheckIn ? 'exit' : 'enter'}
-            title={`CHECK ${isCheckIn ? 'OUT' : 'IN'}`}
-            color={isCheckIn ? 'error' : 'success'}
+            leftIcon={isCheckOut ? 'enter' : 'exit'}
+            title={`CHECK ${isCheckOut ? 'IN' : 'OUT'}`}
+            color={isCheckOut ? 'success' : 'error'}
           ></HMAButton>
         ) : (
           <View

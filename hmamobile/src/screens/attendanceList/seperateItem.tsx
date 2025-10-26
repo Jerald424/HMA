@@ -10,7 +10,6 @@ import { useUserInfo } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
 
 export default function SeparateItem({ item }: { item: any }) {
-  console.log('item: ', item);
   const { spacing } = useTheme();
   const { data } = useUserInfo();
   const dtHr = useMemo(
