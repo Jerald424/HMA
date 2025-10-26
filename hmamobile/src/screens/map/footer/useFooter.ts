@@ -15,7 +15,11 @@ export default function useFooter({
   const { data: userInfo } = useUserInfo();
   const [modalType, setModalType] = useState('');
   const alertRef = useRef<alertRefProp>(null);
-  const { data: lastAttendanceRecord, refetch } = useLastAttendanceRecord();
+  const {
+    data: lastAttendanceRecord,
+    refetch,
+    isFetching: isLoadingLastAttendance,
+  } = useLastAttendanceRecord();
 
   const { mutate: markAttendance, isPending } = useMutation({
     mutationKey: ['mark/attendance'],
@@ -87,5 +91,6 @@ export default function useFooter({
     isCheckIn,
     lastAttendanceRecord,
     isCheckOut,
+    isLoadingLastAttendance,
   };
 }

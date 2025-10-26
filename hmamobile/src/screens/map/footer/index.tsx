@@ -15,6 +15,8 @@ import { spacing } from 'src/theme/spacing';
 import Timer from './timer';
 import useFooter from './useFooter';
 import isEmpty from 'lodash/isEmpty';
+import HMALoader from 'src/components/styled/atoms/loader';
+import { cStyle } from 'src/utils/style';
 
 export default function FooterBtn({
   userLocation,
@@ -35,6 +37,7 @@ export default function FooterBtn({
     isCheckIn,
     lastAttendanceRecord,
     isCheckOut,
+    isLoadingLastAttendance,
   } = useFooter({ userLocation });
 
   const formatDt = useMemo(
@@ -59,42 +62,58 @@ export default function FooterBtn({
       >
         <Timer />
         <HMADivider />
-        {lastAttendanceRecord && (
-          <HMAText align="center">
-            Current Status:{' '}
-            <HMAText variant="title" color={isCheckOut ? 'error' : 'success'}>
-              {isCheckOut ? 'Check Out' : 'Check In'}
-            </HMAText>
-          </HMAText>
-        )}
-        <HMADivider />
-        {isCheckIn && !isCheckOut && (
-          <HMAText align="center" color="textSecondary">
-            Check In Time: {formatDt?.date} {formatDt?.time}
-          </HMAText>
-        )}
-        <HMADivider />
-        {!!matchedOffice ? (
-          <HMAButton
-            disabled={isEmpty(userLocation)}
-            onPress={() => setModalType(isCheckOut ? 'in' : 'out')}
-            style={{ borderRadius: 50 }}
-            leftIcon={isCheckOut ? 'enter' : 'exit'}
-            title={`CHECK ${isCheckOut ? 'IN' : 'OUT'}`}
-            color={isCheckOut ? 'success' : 'error'}
-          ></HMAButton>
-        ) : (
-          <View
-            style={{
-              backgroundColor: blendWithWhite(colors.error, 0.8),
-              padding: spacing.xs,
-            }}
-          >
-            <HMAText align="center" size="small" color="error" variant="large">
-              You are not currently at your work location. Attendance is only
-              allowed at your assigned work location.
-            </HMAText>
+        {isLoadingLastAttendance ? (
+          <View style={[{ height: 80 }, cStyle.rowJustify]}>
+            <HMALoader size="large" />
           </View>
+        ) : (
+          <>
+            {lastAttendanceRecord && (
+              <HMAText align="center">
+                Current Status:{' '}
+                <HMAText
+                  variant="title"
+                  color={isCheckOut ? 'error' : 'success'}
+                >
+                  {isCheckOut ? 'Check Out' : 'Check In'}
+                </HMAText>
+              </HMAText>
+            )}
+            <HMADivider />
+            {isCheckIn && !isCheckOut && (
+              <HMAText align="center" color="textSecondary">
+                Check In Time: {formatDt?.date} {formatDt?.time}
+              </HMAText>
+            )}
+            <HMADivider />
+            {!!matchedOffice ? (
+              <HMAButton
+                disabled={isEmpty(userLocation)}
+                onPress={() => setModalType(isCheckOut ? 'in' : 'out')}
+                style={{ borderRadius: 50 }}
+                leftIcon={isCheckOut ? 'enter' : 'exit'}
+                title={`CHECK ${isCheckOut ? 'IN' : 'OUT'}`}
+                color={isCheckOut ? 'success' : 'error'}
+              ></HMAButton>
+            ) : (
+              <View
+                style={{
+                  backgroundColor: blendWithWhite(colors.error, 0.8),
+                  padding: spacing.xs,
+                }}
+              >
+                <HMAText
+                  align="center"
+                  size="small"
+                  color="error"
+                  variant="large"
+                >
+                  You are not currently at your work location. Attendance is
+                  only allowed at your assigned work location.
+                </HMAText>
+              </View>
+            )}
+          </>
         )}
       </View>
       <HMAModalTemplate
