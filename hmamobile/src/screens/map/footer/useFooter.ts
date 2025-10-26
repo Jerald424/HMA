@@ -22,7 +22,8 @@ export default function useFooter({
     mutationFn: attendanceEntryApi,
   });
 
-  const isCheckIn = lastAttendanceRecord?.type == 'in';
+  const isCheckIn = !!lastAttendanceRecord?.check_in;
+  const isCheckOut = !!lastAttendanceRecord?.check_out;
 
   const matchedOffice = useMemo(() => {
     try {
@@ -86,5 +87,6 @@ export default function useFooter({
     alertRef,
     isCheckIn,
     lastAttendanceRecord,
+    isCheckOut,
   };
 }
