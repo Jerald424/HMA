@@ -56,7 +56,6 @@ export default function useFooter({
       { payload },
       {
         onSuccess(data) {
-          console.log('data: ', data);
           alertRef?.current?.showAlert?.({
             variant: 'success',
             message: `Check ${modalType == 'in' ? 'in' : 'out'} successfully`,

@@ -14,6 +14,7 @@ import { useUserInfo } from 'src/redux/hooks';
 import { spacing } from 'src/theme/spacing';
 import Timer from './timer';
 import useFooter from './useFooter';
+import isEmpty from 'lodash/isEmpty';
 
 export default function FooterBtn({
   userLocation,
@@ -75,6 +76,7 @@ export default function FooterBtn({
         <HMADivider />
         {!!matchedOffice ? (
           <HMAButton
+            disabled={isEmpty(userLocation)}
             onPress={() => setModalType(isCheckOut ? 'in' : 'out')}
             style={{ borderRadius: 50 }}
             leftIcon={isCheckOut ? 'enter' : 'exit'}

@@ -35,7 +35,7 @@ export default function withLocation(Cmp: any) {
       fetchPermission();
     }, []);
 
-    if (isLoading) return <HMAModalLoader isVisible />;
+    // if (isLoading) return <HMAModalLoader isVisible />;
     if (!isPermissionEnabled)
       return (
         <LocationPermissionModal
