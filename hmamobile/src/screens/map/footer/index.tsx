@@ -17,6 +17,7 @@ import useFooter from './useFooter';
 import isEmpty from 'lodash/isEmpty';
 import HMALoader from 'src/components/styled/atoms/loader';
 import { cStyle } from 'src/utils/style';
+import OfficeList from './officeList';
 
 export default function FooterBtn({
   userLocation,
@@ -127,10 +128,11 @@ export default function FooterBtn({
           onPress: () => setModalType(''),
         }}
         okTextProps={{
-          onPress: onAttendance,
+          onPress: () => onAttendance(),
         }}
       />
       <HMAAlert ref={alertRef} />
+      {/* <OfficeList /> */}
     </>
   );
 }

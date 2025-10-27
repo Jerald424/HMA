@@ -45,12 +45,21 @@ export default function useFooter({
     } catch (error) {}
   }, [userLocation, userInfo]);
 
-  const onAttendance = () => {
-    const payload = {
-      type: modalType,
+  const onAttendance = (arg?: {
+    project_id: number;
+    latitude: number;
+    longitude: number;
+  }) => {
+    arg = arg ?? {
       project_id: matchedOffice?.project?.id,
       latitude: userLocation?.latitude,
       longitude: userLocation?.longitude,
+    };
+    const payload = {
+      type: modalType,
+      project_id: arg?.project_id,
+      latitude: arg?.latitude,
+      longitude: arg?.longitude,
       date: makeColonDate(new Date()),
       mode: 'manual',
     };
