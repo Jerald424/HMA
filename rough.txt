@@ -1,3 +1,10 @@
+default
+inside_location | no_geofence_restriction | no_geofence_restriction_default_project_id
+
+QB-0343 = 123
+QB-0223 = 123
+QR-0002 = 123
+
 npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
 
 cd android

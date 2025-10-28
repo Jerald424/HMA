@@ -11,7 +11,7 @@ import { SCREEN_HEIGHT } from 'src/utils/variables';
 
 export default function OfficeList() {
   const officesRef = useRef(null);
-  const { spacing } = useTheme();
+  const { spacing, colors, metrics } = useTheme();
   const { data: userInfo } = useUserInfo();
 
   useEffect(() => {
@@ -27,15 +27,25 @@ export default function OfficeList() {
         <HMADivider thickness={1} />
         <ScrollView showsVerticalScrollIndicator={false}>
           {userInfo?.offices?.map((office: any) => (
-            <TouchableOpacity
-              key={office?.id}
-              style={[cStyle.row, { padding: spacing.sm }]}
-            >
-              <HMACheckBox isRadio />
-              <HMAText style={{ flex: 1, marginLeft: spacing.md }}>
-                {office?.name}
-              </HMAText>
-            </TouchableOpacity>
+            <View key={office?.id}>
+              <TouchableOpacity
+                style={[
+                  cStyle.row,
+                  {
+                    padding: spacing.md,
+                    borderWidth: 1,
+                    borderColor: colors.border,
+                    borderRadius: metrics?.radius?.sm,
+                  },
+                ]}
+              >
+                <HMACheckBox isRadio />
+                <HMAText style={{ flex: 1, marginLeft: spacing.md }}>
+                  {office?.name}
+                </HMAText>
+              </TouchableOpacity>
+              <HMADivider />
+            </View>
           ))}
         </ScrollView>
       </View>

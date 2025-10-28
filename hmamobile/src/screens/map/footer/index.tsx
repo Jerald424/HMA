@@ -39,6 +39,7 @@ export default function FooterBtn({
     lastAttendanceRecord,
     isCheckOut,
     isLoadingLastAttendance,
+    isGeofenceEnabled,
   } = useFooter({ userLocation });
 
   const formatDt = useMemo(
@@ -87,7 +88,7 @@ export default function FooterBtn({
               </HMAText>
             )}
             <HMADivider />
-            {!!matchedOffice ? (
+            {!!isGeofenceEnabled ? ( //NEED TO PROCEED
               <HMAButton
                 disabled={isEmpty(userLocation)}
                 onPress={() => setModalType(isCheckOut ? 'in' : 'out')}
@@ -132,7 +133,7 @@ export default function FooterBtn({
         }}
       />
       <HMAAlert ref={alertRef} />
-      {/* <OfficeList /> */}
+      <OfficeList />
     </>
   );
 }

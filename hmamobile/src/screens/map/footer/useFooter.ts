@@ -6,6 +6,7 @@ import isInsideGeofence from 'src/function/findUserInsideGeoLocation';
 import { makeColonDate } from 'src/function/dateConversion';
 import { alertRefProp } from 'src/components/styled/template/modal/alert';
 import useLastAttendanceRecord from '../hooks/useLastAttendanceRecord';
+import isEmpty from 'lodash/isEmpty';
 
 export default function useFooter({
   userLocation,
@@ -28,6 +29,8 @@ export default function useFooter({
 
   const isCheckIn = !!lastAttendanceRecord?.check_in;
   const isCheckOut = !!lastAttendanceRecord?.check_out;
+  const no_geofence_restriction = userInfo?.no_geofence_restriction;
+  const no_geofence_restriction_default_project_id = userInfo?.no_geofence_restriction_default_project_id;
 
   const matchedOffice = useMemo(() => {
     try {
@@ -44,6 +47,11 @@ export default function useFooter({
       );
     } catch (error) {}
   }, [userLocation, userInfo]);
+
+  const isGeofenceEnabled = !isEmpty(matchedOffice) || no_geofence_restriction || no_geofence_restriction_default_project_id;
+
+
+  
 
   const onAttendance = (arg?: {
     project_id: number;
@@ -101,5 +109,6 @@ export default function useFooter({
     lastAttendanceRecord,
     isCheckOut,
     isLoadingLastAttendance,
+    isGeofenceEnabled
   };
 }
