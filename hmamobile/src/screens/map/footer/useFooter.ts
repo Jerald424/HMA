@@ -7,6 +7,7 @@ import { makeColonDate } from 'src/function/dateConversion';
 import { alertRefProp } from 'src/components/styled/template/modal/alert';
 import useLastAttendanceRecord from '../hooks/useLastAttendanceRecord';
 import isEmpty from 'lodash/isEmpty';
+import useGeofenceRestriction from '../hooks/useGeofenceRestriction';
 
 export default function useFooter({
   userLocation,
@@ -16,11 +17,17 @@ export default function useFooter({
   const { data: userInfo } = useUserInfo();
   const [modalType, setModalType] = useState('');
   const alertRef = useRef<alertRefProp>(null);
+  const officesRef = useRef(null);
+
   const {
     data: lastAttendanceRecord,
     refetch,
     isFetching: isLoadingLastAttendance,
   } = useLastAttendanceRecord();
+  const {
+    no_geofence_restriction,
+    no_geofence_restriction_default_project_id,
+  } = useGeofenceRestriction();
 
   const { mutate: markAttendance, isPending } = useMutation({
     mutationKey: ['mark/attendance'],
@@ -29,11 +36,13 @@ export default function useFooter({
 
   const isCheckIn = !!lastAttendanceRecord?.check_in;
   const isCheckOut = !!lastAttendanceRecord?.check_out;
-  const no_geofence_restriction = userInfo?.no_geofence_restriction;
-  const no_geofence_restriction_default_project_id = userInfo?.no_geofence_restriction_default_project_id;
+
+  const isIn = !!!lastAttendanceRecord || isCheckOut;
 
   const matchedOffice = useMemo(() => {
     try {
+      //NEED TO CHANGE
+      // return userInfo?.offices?.[5];
       return userInfo?.offices?.find(office =>
         isInsideGeofence(
           {
@@ -48,38 +57,42 @@ export default function useFooter({
     } catch (error) {}
   }, [userLocation, userInfo]);
 
-  const isGeofenceEnabled = !isEmpty(matchedOffice) || no_geofence_restriction || no_geofence_restriction_default_project_id;
+  const isGeofenceEnabled =
+    !isEmpty(matchedOffice) ||
+    no_geofence_restriction ||
+    no_geofence_restriction_default_project_id;
 
+  const onPress = () => {
+    if (no_geofence_restriction || no_geofence_restriction_default_project_id)
+      officesRef?.current?.open?.();
+    else if (!!matchedOffice) setModalType(isIn ? 'in' : 'out');
+  };
 
-  
-
-  const onAttendance = (arg?: {
-    project_id: number;
-    latitude: number;
-    longitude: number;
-  }) => {
-    arg = arg ?? {
-      project_id: matchedOffice?.project?.id,
+  const onAttendance = (arg?: { project_id: number }) => {
+    // arg = arg ?? {
+    //   project_id: matchedOffice?.project?.id,
+    //   latitude: userLocation?.latitude,
+    //   longitude: userLocation?.longitude,
+    // };
+    const payload = {
+      type: isIn ? 'in' : 'out',
+      project_id: arg?.project_id ?? matchedOffice?.project?.id,
       latitude: userLocation?.latitude,
       longitude: userLocation?.longitude,
-    };
-    const payload = {
-      type: modalType,
-      project_id: arg?.project_id,
-      latitude: arg?.latitude,
-      longitude: arg?.longitude,
       date: makeColonDate(new Date()),
       mode: 'manual',
     };
     setModalType('');
+    console.log('payload: ', payload);
 
     markAttendance(
       { payload },
       {
         onSuccess(data) {
+          console.log('DATA: ', data);
           alertRef?.current?.showAlert?.({
             variant: 'success',
-            message: `Check ${modalType == 'in' ? 'in' : 'out'} successfully`,
+            message: `Check ${isIn ? 'in' : 'out'} successfully`,
             title: 'Success',
           });
         },
@@ -109,6 +122,9 @@ export default function useFooter({
     lastAttendanceRecord,
     isCheckOut,
     isLoadingLastAttendance,
-    isGeofenceEnabled
+    isGeofenceEnabled,
+    isIn,
+    onPress,
+    officesRef,
   };
 }

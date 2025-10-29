@@ -18,6 +18,7 @@ import isEmpty from 'lodash/isEmpty';
 import HMALoader from 'src/components/styled/atoms/loader';
 import { cStyle } from 'src/utils/style';
 import OfficeList from './officeList';
+import InOutButton from './components/inOutButton';
 
 export default function FooterBtn({
   userLocation,
@@ -40,6 +41,9 @@ export default function FooterBtn({
     isCheckOut,
     isLoadingLastAttendance,
     isGeofenceEnabled,
+    isIn,
+    onPress,
+    officesRef,
   } = useFooter({ userLocation });
 
   const formatDt = useMemo(
@@ -88,15 +92,12 @@ export default function FooterBtn({
               </HMAText>
             )}
             <HMADivider />
-            {!!isGeofenceEnabled ? ( //NEED TO PROCEED
-              <HMAButton
+            {!!isGeofenceEnabled ? (
+              <InOutButton
+                isIn={isIn}
                 disabled={isEmpty(userLocation)}
-                onPress={() => setModalType(isCheckOut ? 'in' : 'out')}
-                style={{ borderRadius: 50 }}
-                leftIcon={isCheckOut ? 'enter' : 'exit'}
-                title={`CHECK ${isCheckOut ? 'IN' : 'OUT'}`}
-                color={isCheckOut ? 'success' : 'error'}
-              ></HMAButton>
+                onPress={onPress}
+              ></InOutButton>
             ) : (
               <View
                 style={{
@@ -133,7 +134,12 @@ export default function FooterBtn({
         }}
       />
       <HMAAlert ref={alertRef} />
-      <OfficeList />
+      <OfficeList
+        officesRef={officesRef}
+        matchedOffice={matchedOffice}
+        isIn={isIn}
+        onAttendance={onAttendance}
+      />
     </>
   );
 }
