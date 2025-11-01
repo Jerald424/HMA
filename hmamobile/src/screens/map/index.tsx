@@ -12,6 +12,7 @@ import Header from './header';
 import OfficeCircle from './office';
 import HMAText from 'src/components/styled/atoms/text';
 import HMALoader from 'src/components/styled/atoms/loader';
+import { useEffect, useMemo, useRef } from 'react';
 
 export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
@@ -24,17 +25,37 @@ function Map({ position }: { position: any }) {
   const { location } = useLiveLocation();
   const { data: userInfo } = useUserInfo();
   const { colors, spacing, metrics } = useTheme();
+  const mapRef = useRef(null);
 
-  const userLocation = {
-    latitude: location?.latitude || position?.coords?.latitude || 0,
-    longitude: location?.longitude || position?.coords?.longitude || 0,
-  };
+  const userLocation = useMemo(
+    () => ({
+      latitude: location?.latitude || position?.coords?.latitude || 0,
+      longitude: location?.longitude || position?.coords?.longitude || 0,
+    }),
+    [location, position],
+  );
+
   const topRadiusStyle = {
     borderTopEndRadius: metrics.radius.lg,
     borderTopStartRadius: metrics.radius.lg,
     overflow: 'hidden',
   } as TextStyle;
   // if (!location) return <HMAModalLoader isVisible />;
+
+  useEffect(() => {
+    if (userLocation && mapRef.current) {
+      mapRef?.current?.animateToRegion?.(
+        {
+          latitude: userLocation.latitude,
+          longitude: userLocation.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        },
+        1000,
+      ); // 1000ms animation duration
+    }
+  }, [userLocation]);
+
   return (
     <Container
       padding={0}
@@ -57,10 +78,11 @@ function Map({ position }: { position: any }) {
 
           <View style={[{ flex: 1 }, topRadiusStyle]}>
             <MapView
+              ref={mapRef}
               style={[{ flex: 1 }]}
               initialRegion={{
-                latitude: location?.latitude || 0,
-                longitude: location?.longitude || 0,
+                latitude: userLocation?.latitude,
+                longitude: userLocation?.longitude,
                 latitudeDelta: 0.01,
                 longitudeDelta: 0.01,
               }}

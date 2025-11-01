@@ -39,6 +39,11 @@ export const checkLocationEnabled = async () => {
       error => {
         reject(error);
       },
+      {
+        enableHighAccuracy: false, // Set to false to avoid waiting for GPS
+        timeout: 60000, // Set a timeout (in milliseconds)
+        maximumAge: 0, // Don't use a cached position
+      },
     );
   });
 };
