@@ -11,6 +11,7 @@ import FooterBtn from './footer';
 import Header from './header';
 import OfficeCircle from './office';
 import HMAText from 'src/components/styled/atoms/text';
+import HMALoader from 'src/components/styled/atoms/loader';
 
 export let GEOFENCE = {
   latitude: 13.055663, // 🔹 your geofence center
@@ -33,7 +34,7 @@ function Map() {
     borderTopStartRadius: metrics.radius.lg,
     overflow: 'hidden',
   } as TextStyle;
-  if (!location) return <HMAModalLoader isVisible />;
+  // if (!location) return <HMAModalLoader isVisible />;
   return (
     <Container
       padding={0}
@@ -83,6 +84,11 @@ function Map() {
                 />
               ))}
             </MapView>
+            {!location && (
+              <HMALoader
+                style={{ position: 'absolute', margin: spacing.md, right: 0 }}
+              />
+            )}
           </View>
         </View>
         <FooterBtn userLocation={userLocation} />
