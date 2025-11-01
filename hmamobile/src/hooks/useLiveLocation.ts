@@ -7,7 +7,6 @@ export default function useLiveLocation() {
   useEffect(() => {
     const watchId = Geolocation.watchPosition(
       pos => {
-        console.log('pos: ', pos);
         setLocation(pos?.coords);
       },
       err => console.log('Location error:', err),

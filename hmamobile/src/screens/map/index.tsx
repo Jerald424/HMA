@@ -20,14 +20,14 @@ export let GEOFENCE = {
   id: 'VICTORIA MENS PG',
 };
 
-function Map() {
+function Map({ position }: { position: any }) {
   const { location } = useLiveLocation();
   const { data: userInfo } = useUserInfo();
   const { colors, spacing, metrics } = useTheme();
 
   const userLocation = {
-    latitude: location?.latitude || 0,
-    longitude: location?.longitude || 0,
+    latitude: location?.latitude || position?.coords?.latitude || 0,
+    longitude: location?.longitude || position?.coords?.longitude || 0,
   };
   const topRadiusStyle = {
     borderTopEndRadius: metrics.radius.lg,

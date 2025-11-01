@@ -15,6 +15,7 @@ export default function withLocation(Cmp: any) {
     const [isPermissionEnabled, setIsPermissionEnabled] = useState(false);
     const [isLocationOff, setIsLocationOff] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [position, setPosition] = useState<any>();
 
     const fetchPermission = async () => {
       const isEnabled = await ensureLocationPermission();
@@ -26,7 +27,10 @@ export default function withLocation(Cmp: any) {
     const onCheckLocationOn = () => {
       setIsLoading(true);
       checkLocationEnabled()
-        .then(() => setIsLocationOff(false))
+        .then(position => {
+          setIsLocationOff(false);
+          setPosition(position);
+        })
         .catch(() => setIsLocationOff(true))
         .finally(() => setIsLoading(false));
     };
@@ -65,6 +69,6 @@ export default function withLocation(Cmp: any) {
           }}
         />
       );
-    return <Cmp {...props} />;
+    return <Cmp {...props} position={position} />;
   };
 }
