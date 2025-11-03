@@ -39,15 +39,26 @@ export default function OfficeList({
   const offices = useMemo(() => {
     try {
       const off = [];
-      if (!!no_geofence_restriction_default_project_id)
+      const staticAddedIds: number[] = [];
+      if (!!no_geofence_restriction_default_project_id) {
         off?.push({
           id: '',
           name: no_geofence_restriction_default_project_name,
           project: { id: no_geofence_restriction_default_project_id },
         });
-      if (!!no_geofence_restriction && isArray(userInfo?.offices))
-        off?.push(...cloneDeep(userInfo?.offices));
-      else if (!!matchedOffice) off?.push(matchedOffice);
+        staticAddedIds.push(no_geofence_restriction_default_project_id);
+      }
+
+      if (!!matchedOffice) off?.push(matchedOffice);
+      else if (!!no_geofence_restriction && isArray(userInfo?.offices))
+        off?.push(
+          ...cloneDeep(
+            userInfo?.offices?.filter(
+              (office: any) => !staticAddedIds?.includes?.(office?.project?.id),
+            ),
+          ),
+        );
+      // else if (!!matchedOffice) off?.push(matchedOffice);
       if (!!matchedOffice)
         off?.sort((a, b) => {
           const aIsMatch = a?.project?.id == matchedOffice?.project?.id;

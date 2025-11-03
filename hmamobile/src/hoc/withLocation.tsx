@@ -26,6 +26,7 @@ export default function withLocation(Cmp: any) {
 
     const onCheckLocationOn = () => {
       setIsLoading(true);
+      setIsLocationOff(false);
       checkLocationEnabled()
         .then(position => {
           setIsLocationOff(false);
