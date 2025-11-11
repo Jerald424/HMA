@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>Attendo uses your location to detect when you enter or exit specific areas, helping trigger location-based actions while the app is in use.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need access to your location to provide personalized services, even when the app is in the background.</string>
+	<string>Attendo uses your location to monitor geofenced areas even when the app is in the background, ensuring timely alerts and automation based on your location.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need access to your location to provide personalized services.</string>
+	<string>Attendo uses your location to detect entry and exit from geofenced zones, even when the app is not actively open, to provide seamless location-based services. Continued use of GPS in the background may reduce battery life.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
