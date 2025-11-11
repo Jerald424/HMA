@@ -47,8 +47,8 @@ export default function SeparateItem({ item }: { item: any }) {
         <HMAText color="textSecondary" size="small">
           Project: {item?.project?.name}
         </HMAText>
-        <HMADivider />
-        <View style={cStyle.row}>
+        {/* <HMADivider /> */}
+        {/* <View style={cStyle.row}>
           <HMABadge
             size="sm"
             color="info"
@@ -61,7 +61,7 @@ export default function SeparateItem({ item }: { item: any }) {
             color="primary"
             label={`Overtime: ${item?.['overtime'] || '-'}`}
           />
-        </View>
+        </View> */}
       </HMACard>
       <HMADivider />
     </>
