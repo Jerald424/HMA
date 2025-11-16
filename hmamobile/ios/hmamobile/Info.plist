@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Attendo uses your location to detect when you enter or exit specific areas, helping trigger location-based actions while the app is in use.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Attendo uses your location to monitor geofenced areas even when the app is in the background, ensuring timely alerts and automation based on your location.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Attendo uses your location to detect entry and exit from geofenced zones, even when the app is not actively open, to provide seamless location-based services. Continued use of GPS in the background may reduce battery life.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -37,20 +31,18 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>arm64</string>
-	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
+	<key>UIBackgroundModes</key>
+<array>
+  <string>location</string>
+</array>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Attendo uses your location to detect entry and exit from geofenced zones, even when the app is not actively open, to provide seamless location-based services. Continued use of GPS in the background may reduce battery life.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Attendo uses your location to monitor geofenced areas even when the app is in the background, ensuring timely alerts and automation based on your location.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Attendo uses your location to detect when you enter or exit specific areas, helping trigger location-based actions while the app is in use.</string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SpotifyMix-Black.ttf</string>
@@ -60,5 +52,20 @@
 		<string>SpotifyMix-Thin.ttf</string>
 		<string>SpotifyMix-Ultra.ttf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>
