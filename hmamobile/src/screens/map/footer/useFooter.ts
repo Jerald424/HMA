@@ -8,6 +8,7 @@ import { alertRefProp } from 'src/components/styled/template/modal/alert';
 import useLastAttendanceRecord from '../hooks/useLastAttendanceRecord';
 import isEmpty from 'lodash/isEmpty';
 import useGeofenceRestriction from '../hooks/useGeofenceRestriction';
+import { useModal } from 'react-native-modalfy';
 
 export default function useFooter({
   userLocation,
@@ -18,6 +19,7 @@ export default function useFooter({
   const [modalType, setModalType] = useState('');
   const alertRef = useRef<alertRefProp>(null);
   const officesRef = useRef(null);
+  const { openModal, closeModal } = useModal();
 
   const {
     data: lastAttendanceRecord,
@@ -84,7 +86,7 @@ export default function useFooter({
     };
     setModalType('');
     console.log('payload: ', payload);
-
+    openModal('Loader');
     markAttendance(
       { payload },
       {
@@ -106,6 +108,7 @@ export default function useFooter({
         },
         onSettled() {
           refetch();
+          closeModal('Loader');
         },
       },
     );
@@ -114,7 +117,7 @@ export default function useFooter({
   return {
     onAttendance,
     matchedOffice,
-    isPending,
+
     modalType,
     setModalType,
     alertRef,

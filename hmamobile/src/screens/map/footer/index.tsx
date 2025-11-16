@@ -1,10 +1,10 @@
+import isEmpty from 'lodash/isEmpty';
 import { useMemo } from 'react';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import HMAButton from 'src/components/styled/atoms/button';
 import HMADivider from 'src/components/styled/atoms/divider';
+import HMALoader from 'src/components/styled/atoms/loader';
 import HMAText from 'src/components/styled/atoms/text';
-import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import HMAModalTemplate from 'src/components/styled/template/modal';
 import HMAAlert from 'src/components/styled/template/modal/alert';
 import { blendWithWhite } from 'src/function/colorCorrection';
@@ -12,13 +12,11 @@ import { convertUserTimeZone } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
 import { useUserInfo } from 'src/redux/hooks';
 import { spacing } from 'src/theme/spacing';
+import { cStyle } from 'src/utils/style';
+import InOutButton from './components/inOutButton';
+import OfficeList from './officeList';
 import Timer from './timer';
 import useFooter from './useFooter';
-import isEmpty from 'lodash/isEmpty';
-import HMALoader from 'src/components/styled/atoms/loader';
-import { cStyle } from 'src/utils/style';
-import OfficeList from './officeList';
-import InOutButton from './components/inOutButton';
 
 export default function FooterBtn({
   userLocation,
@@ -32,7 +30,6 @@ export default function FooterBtn({
   const {
     matchedOffice,
     onAttendance,
-    isPending,
     modalType,
     setModalType,
     alertRef,
@@ -57,7 +54,6 @@ export default function FooterBtn({
 
   return (
     <>
-      <HMAModalLoader isVisible={isPending} />
       <View
         style={[
           {
