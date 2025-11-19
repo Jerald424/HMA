@@ -11,15 +11,20 @@ import HMATextInputWithHook, {
   HMATextInputBoxHookProps,
 } from '../../molecules/input/inputWithHK';
 import HMADivider from '../../atoms/divider';
+import HMADropdownWithHook, {
+  HMADropdownHookProps,
+} from '../../molecules/dropdown/dropdownWithHK';
 
 export type controlInter = Control<FieldValues, any>;
 export type resetInter = UseFormReset<FieldValues>;
 export type watchInter = UseFormWatch<FieldValues>;
 export type setValueInter = UseFormSetValue<FieldValues>;
 
-export interface formData extends Partial<HMATextInputBoxHookProps> {
+export interface formData
+  extends Partial<HMATextInputBoxHookProps>,
+    Partial<HMADropdownHookProps> {
   name: string;
-  inputType: 'input-box';
+  inputType: 'input-box' | 'drop-down';
   conProps?: ViewProps;
 }
 
@@ -32,6 +37,7 @@ export interface HMAFormProps extends ViewProps {
 
 const cmp = {
   'input-box': HMATextInputWithHook,
+  'drop-down': HMADropdownWithHook,
 };
 
 export default function HMAForm({ data, control, ...props }: HMAFormProps) {
