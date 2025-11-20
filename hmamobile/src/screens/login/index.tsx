@@ -1,4 +1,4 @@
-import { ScrollView, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
@@ -12,10 +12,19 @@ import { loginStyle } from './style';
 import useLogin from './useLogin';
 import HMAAvatar from 'src/components/styled/atoms/avatar';
 import HMACard from 'src/components/styled/atoms/card';
+import HMACheckBox from 'src/components/styled/atoms/checkbox';
 
 export default function Login() {
   const { colors, spacing, metrics } = useTheme();
-  const { control, formData, handleSubmit, isPending, alertRef } = useLogin();
+  const {
+    control,
+    formData,
+    handleSubmit,
+    isPending,
+    alertRef,
+    isRemember,
+    setIsRemember,
+  } = useLogin();
 
   return (
     <Container
@@ -71,6 +80,17 @@ export default function Login() {
           </HMAText>
           <HMADivider space={'md'} />
           <HMAForm data={formData} control={control} />
+          <View style={[cStyle.rowAlign]}>
+            <HMACheckBox
+              hitSlop={20}
+              value={isRemember}
+              onChange={() => setIsRemember(!isRemember)}
+            />
+            <HMAText style={{ flex: 1, marginLeft: spacing.md }}>
+              Remember me
+            </HMAText>
+          </View>
+          <HMADivider space={'md'} />
 
           <HMAButton
             isLoading={isPending}

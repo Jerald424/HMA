@@ -37,9 +37,10 @@ export const assignBaseURlToAsyncStorage = (url: string) => {
 
 export default function useLogin() {
   const [accounts, setAccounts] = useState({ url: [], login: [] });
+  const [isRemember, setIsRemember] = useState(true);
   const dispatch = useAppDispatch();
   const alertRef = useRef<alertRefProp>(null);
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset } = useForm();
   const { mutate, isPending } = useMutation({
     mutationKey: ['login'],
     mutationFn: loginApi,
@@ -121,8 +122,15 @@ export default function useLogin() {
 
   const revokeAccounts = async () => {
     try {
-      const acVal = await AsyncStorage.getItem(ACCOUNTS);
-      if (!!acVal) setAccounts(JSON.parse(acVal));
+      let acVal = await AsyncStorage.getItem(ACCOUNTS);
+      if (!!acVal) {
+        acVal = JSON.parse(acVal);
+        reset({
+          url: acVal?.url?.pop?.(),
+          login: acVal?.login?.pop?.(),
+        });
+        setAccounts(acVal);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -141,7 +149,7 @@ export default function useLogin() {
           });
         },
         onSuccess(response) {
-          assignAccountsToAS(data);
+          if (isRemember) assignAccountsToAS(data);
           assignBaseURlToAsyncStorage(data?.url?.value);
           assignBaseURlToAxios(data?.url?.value);
           AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
@@ -163,5 +171,7 @@ export default function useLogin() {
     handleSubmit: handleSubmit(onLogin),
     isPending,
     alertRef,
+    isRemember,
+    setIsRemember,
   };
 }
