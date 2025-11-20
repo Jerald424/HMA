@@ -1,18 +1,18 @@
-import { Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
+import isEmpty from 'lodash/isEmpty';
+import { useMemo, useRef, useState } from 'react';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import NoData from 'src/components/layout/noData';
 import { useTheme } from 'src/hooks/useTheme';
+import { cStyle } from 'src/utils/style';
+import { HAIRLINE_WIDTH, SCREEN_HEIGHT } from 'src/utils/variables';
+import HMAButton from '../../atoms/button';
+import HMACheckBox from '../../atoms/checkbox';
+import HMADivider from '../../atoms/divider';
 import HMAIcon from '../../atoms/icon';
 import HMATextInput from '../../atoms/input';
-import HMABottomSheet from '../../atoms/bottomSheet';
-import { useMemo, useRef, useState } from 'react';
 import HMAText from '../../atoms/text';
-import HMACheckBox from '../../atoms/checkbox';
-import { HAIRLINE_WIDTH, SCREEN_HEIGHT } from 'src/utils/variables';
-import { cStyle } from 'src/utils/style';
-import HMADivider from '../../atoms/divider';
 import HMATextInputMolecule, { HMATextInputMoleculeProps } from '../input';
-import isEmpty from 'lodash/isEmpty';
-import NoData from 'src/components/layout/noData';
-import HMAButton from '../../atoms/button';
+import HMAModalMolecule from '../modal';
 
 type optionType = { [key: string]: string };
 
@@ -43,6 +43,7 @@ export default function HMADropdownMolecule({
   const { colors, metrics, spacing } = useTheme();
   const bsRef = useRef(null);
   const [val, setVal] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const filteredOptions = useMemo(() => {
     try {
@@ -59,13 +60,13 @@ export default function HMADropdownMolecule({
 
   const onSelectItem = (item: any) => {
     onSelect?.(item);
-    bsRef?.current?.close?.();
+    setIsOpen(false);
   };
 
   return (
     <>
       <TouchableOpacity
-        onPress={() => bsRef?.current?.open?.()}
+        onPress={() => setIsOpen(true)}
         style={{ position: 'relative', justifyContent: 'center' }}
       >
         <HMATextInput
@@ -88,48 +89,42 @@ export default function HMADropdownMolecule({
           <HMAIcon name={'arrow_down'} />
         </View>
       </TouchableOpacity>
-      <HMABottomSheet
-        customStyles={{
-          container: {
-            height: SCREEN_HEIGHT / 1.2,
-            padding: spacing.md,
-          },
-        }}
-        ref={bsRef}
-      >
-        <HMATextInputMolecule
-          {...searchTextInputProps}
-          value={val}
-          onChangeText={setVal}
-        />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {filteredOptions?.map(item => (
-            <SeparateOption
-              onSelectItem={onSelectItem}
-              optionalLabel={optionalLabel}
-              optionalValue={optionalValue}
-              item={item}
-              key={item?.[optionalValue]}
-              value={value}
-            />
-          ))}
-          {val && (
-            <SeparateOption
-              onSelectItem={onSelectItem}
-              isAdd
-              optionalLabel={optionalLabel}
-              optionalValue={optionalValue}
-              item={{
-                label: val,
-                value: val,
-              }}
-              value={value}
-            />
-          )}
-          {isEmpty(options) && !val && <NoData />}
-        </ScrollView>
-        <HMAButton title="CLOSE" onPress={bsRef?.current?.close} />
-      </HMABottomSheet>
+      <HMAModalMolecule isVisible={isOpen}>
+        <View style={{ height: SCREEN_HEIGHT - 100, padding: spacing.md }}>
+          <HMATextInputMolecule
+            {...searchTextInputProps}
+            value={val}
+            onChangeText={setVal}
+          />
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {filteredOptions?.map(item => (
+              <SeparateOption
+                onSelectItem={onSelectItem}
+                optionalLabel={optionalLabel}
+                optionalValue={optionalValue}
+                item={item}
+                key={item?.[optionalValue]}
+                value={value}
+              />
+            ))}
+            {val && (
+              <SeparateOption
+                onSelectItem={onSelectItem}
+                isAdd
+                optionalLabel={optionalLabel}
+                optionalValue={optionalValue}
+                item={{
+                  label: val,
+                  value: val,
+                }}
+                value={value}
+              />
+            )}
+            {isEmpty(options) && !val && <NoData />}
+          </ScrollView>
+          <HMAButton title="CLOSE" onPress={() => setIsOpen(false)} />
+        </View>
+      </HMAModalMolecule>
     </>
   );
 }
