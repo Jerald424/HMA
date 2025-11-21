@@ -16,7 +16,6 @@ const getPermissionForPlatform = () => {
   return PERMISSIONS.IOS.LOCATION_ALWAYS;
 };
 
-
 export async function ensureLocationPermission(): Promise<boolean> {
   if (!IS_ANDROID) {
     const whenInUse = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
@@ -48,12 +47,12 @@ export const checkLocationEnabled = async () => {
         resolve(position);
       },
       error => {
+        console.log('ERROR: ', error);
         reject(error);
       },
       {
-        enableHighAccuracy: true, // Set to false to avoid waiting for GPS
-        timeout: 60000, // Set a timeout (in milliseconds)
-        maximumAge: 0, // Don't use a cached position
+        enableHighAccuracy: false,
+        timeout: 60000,
       },
     );
   });

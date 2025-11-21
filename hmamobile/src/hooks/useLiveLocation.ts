@@ -11,7 +11,7 @@ export default function useLiveLocation() {
       },
       err => console.log('Location error:', err),
       {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         distanceFilter: 1,
         interval: 2000,
       },
