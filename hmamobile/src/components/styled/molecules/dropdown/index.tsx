@@ -90,7 +90,7 @@ export default function HMADropdownMolecule({
         </View>
       </TouchableOpacity>
       <HMAModalMolecule isVisible={isOpen}>
-        <View style={{ height: SCREEN_HEIGHT - 100, padding: spacing.md }}>
+        <View style={{ height: SCREEN_HEIGHT / 1.5, padding: spacing.md }}>
           <HMATextInputMolecule
             {...searchTextInputProps}
             value={val}
