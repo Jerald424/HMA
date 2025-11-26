@@ -1,0 +1,29 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/SpotifyMix-Black.ttf",
+      "sha1": "cb370c8e33d144ea5e590798e7bd38e20afcfc07"
+    },
+    {
+      "path": "assets/fonts/SpotifyMix-Bold.ttf",
+      "sha1": "9d2b9cfeb6449a1606a1961fd93a85bcf6dc5a95"
+    },
+    {
+      "path": "assets/fonts/SpotifyMix-Medium.ttf",
+      "sha1": "513d36a695613952304e31de508941317400474c"
+    },
+    {
+      "path": "assets/fonts/SpotifyMix-Regular.ttf",
+      "sha1": "45d42b9845b4cc4be50a2f8dedc9086b3183a251"
+    },
+    {
+      "path": "assets/fonts/SpotifyMix-Thin.ttf",
+      "sha1": "cf5d0278da42cb517c760dfb3aee16090e07cb1a"
+    },
+    {
+      "path": "assets/fonts/SpotifyMix-Ultra.ttf",
+      "sha1": "e3f4701cec0bdbfc2c50317b7c625df0ba841a69"
+    }
+  ]
+}

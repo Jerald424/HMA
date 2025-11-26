@@ -5,6 +5,9 @@ export const cStyle = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  row: {
+    flexDirection: 'row',
+  },
   rowJustify: {
     flexDirection: 'row',
     alignItems: 'center',

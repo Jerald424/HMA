@@ -2,7 +2,7 @@ import { useTheme } from 'src/hooks/useTheme';
 import HMAModalOrganism, { HMAModalOrganismProps } from '../../organism/modal';
 
 export interface HMAModalTemplateProps extends HMAModalOrganismProps {
-  variant?: 'info' | 'warning' | 'error';
+  variant?: 'info' | 'warning' | 'error' | 'success';
 }
 
 export default function HMAModalTemplate({
@@ -36,12 +36,21 @@ export default function HMAModalTemplate({
     },
     error: {
       icon: require('src/assets/color-icons/error.png'),
-      heading: 'Are you sure?',
-      description:
-        "This action can't be undone. Please confirm if you want to proceed.",
+      heading: 'Oops!',
+      description: 'Something went wrong..',
       btn: {
         color: {
           ok: 'error',
+        },
+      },
+    },
+    success: {
+      icon: require('src/assets/color-icons/check.png'),
+      heading: 'Success',
+      description: 'Action completed!!',
+      btn: {
+        color: {
+          ok: 'success',
         },
       },
     },
@@ -62,6 +71,7 @@ export default function HMAModalTemplate({
       descriptionProps={{
         children: variantMapping.description,
         ...props?.descriptionProps,
+        style: [{ lineHeight: 22 }, props?.descriptionProps?.style],
       }}
       cancelTextProps={{
         children: 'Cancel',

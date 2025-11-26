@@ -1,0 +1,120 @@
+{
+  "info": {
+    "_postman_id": "3d0bef77-b2f2-4a56-9172-a670142124cb",
+    "name": "attendance_app",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "34067031"
+  },
+  "item": [
+    {
+      "name": "New Folder",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "login",
+                "value": "test",
+                "type": "text"
+              },
+              {
+                "key": "password",
+                "value": "123",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://aneequlhaq-basic-elements-pre-prod-24313113.dev.odoo.com/login",
+              "protocol": "https",
+              "host": [
+                "aneequlhaq-basic-elements-pre-prod-24313113",
+                "dev",
+                "odoo",
+                "com"
+              ],
+              "path": ["login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "verify",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "8ae7bd7a-bea4-442f-80ec-034adfc76e1f",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://aneequlhaq-basic-elements-pre-prod-24313113.dev.odoo.com/verify",
+              "protocol": "https",
+              "host": [
+                "aneequlhaq-basic-elements-pre-prod-24313113",
+                "dev",
+                "odoo",
+                "com"
+              ],
+              "path": ["verify"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user-info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "8ae7bd7a-bea4-442f-80ec-034adfc76e1f",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://aneequlhaq-basic-elements-pre-prod-24313113.dev.odoo.com/user-info",
+              "protocol": "https",
+              "host": [
+                "aneequlhaq-basic-elements-pre-prod-24313113",
+                "dev",
+                "odoo",
+                "com"
+              ],
+              "path": ["user-info"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "8ae7bd7a-bea4-442f-80ec-034adfc76e1f",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://aneequlhaq-basic-elements-pre-prod-24313113.dev.odoo.com/logout",
+              "protocol": "https",
+              "host": [
+                "aneequlhaq-basic-elements-pre-prod-24313113",
+                "dev",
+                "odoo",
+                "com"
+              ],
+              "path": ["logout"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
