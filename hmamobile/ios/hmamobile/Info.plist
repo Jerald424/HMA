@@ -35,6 +35,14 @@
 <array>
   <string>location</string>
 </array>
+	
+	<key>NSCameraUsageDescription</key>
+	<string>Attendo needs access to your camera to capture photos for face recognition and attendance.</string>
+
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Attendo needs access to your microphone for audio features during attendance verification.</string>
+
+
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Attendo uses your location to detect entry and exit from geofenced zones, even when the app is not actively open, to provide seamless location-based services. Continued use of GPS in the background may reduce battery life.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
