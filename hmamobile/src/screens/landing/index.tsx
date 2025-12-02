@@ -4,11 +4,14 @@ import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import KioskAttendanceMode from '../kioskMode';
 import ManualMode from '../manualMode';
+import useLanding from './useLanding';
+import { LandingContext } from './context';
 
 const Tab = createBottomTabNavigator();
 
 export default function Landing() {
   const { colors } = useTheme();
+  const { contextValue } = useLanding();
 
   const Label = ({ focused, label }: { focused: boolean; label: string }) => (
     <View>
@@ -16,40 +19,42 @@ export default function Landing() {
     </View>
   );
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarIconStyle: {
-          height: 0,
-        },
-        tabBarStyle: {
-          paddingTop: 6,
-          backgroundColor: colors?.background,
-          borderTopWidth: 0,
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Dashboard"
-        component={KioskAttendanceMode}
-        options={{
-          headerShown: false,
-          title: '',
-          tabBarLabel: ({ focused }) => (
-            <Label focused={focused} label="Kiosk" />
-          ),
+    <LandingContext value={contextValue}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarIconStyle: {
+            height: 0,
+          },
+          tabBarStyle: {
+            paddingTop: 6,
+            backgroundColor: colors?.background,
+            borderTopWidth: 0,
+          },
         }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ManualMode}
-        options={{
-          headerShown: false,
-          title: '',
-          tabBarLabel: ({ focused }) => (
-            <Label focused={focused} label="Manual" />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Dashboard"
+          component={KioskAttendanceMode}
+          options={{
+            headerShown: false,
+            title: '',
+            tabBarLabel: ({ focused }) => (
+              <Label focused={focused} label="Kiosk" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ManualMode}
+          options={{
+            headerShown: false,
+            title: '',
+            tabBarLabel: ({ focused }) => (
+              <Label focused={focused} label="Manual" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </LandingContext>
   );
 }

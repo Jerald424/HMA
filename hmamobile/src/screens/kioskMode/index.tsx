@@ -1,17 +1,21 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image, View } from 'react-native';
-import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import { useEffect } from 'react';
+import { View } from 'react-native';
+import { useCameraPermission } from 'react-native-vision-camera';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
-
-const Tab = createBottomTabNavigator();
+import CameraContainer from './camera';
+import Permission from './permission';
+import Shutter from './shutter';
 
 export default function KioskAttendanceMode() {
-  const device = useCameraDevice('back');
+  const { colors, spacing, metrics } = useTheme();
+  const { requestPermission, hasPermission } = useCameraPermission();
 
-  const { colors, spacing } = useTheme();
+  useEffect(() => {
+    requestPermission();
+  }, []);
 
   return (
     <Container
@@ -38,22 +42,7 @@ export default function KioskAttendanceMode() {
             Kiosk Attendance
           </HMAText>
           <View style={[{ flex: 1 }]}>
-            <Image
-              source={require('src/assets/icons/qr-scan.png')}
-              style={{
-                height: 200,
-                width: 200,
-                position: 'absolute',
-                tintColor: 'white',
-                // top: 100,
-                zIndex: 99,
-                alignSelf: 'center',
-                top: 50,
-              }}
-            />
-            {device && (
-              <Camera style={{ flex: 1 }} device={device} isActive={true} />
-            )}
+            {hasPermission ? <CameraContainer /> : <Permission />}
           </View>
         </View>
         <View
@@ -63,24 +52,7 @@ export default function KioskAttendanceMode() {
             },
           ]}
         >
-          <View
-            style={{
-              padding: 2,
-              borderWidth: 4,
-              borderRadius: 50,
-              borderColor: 'red',
-              alignSelf: 'center',
-            }}
-          >
-            <View
-              style={{
-                height: 60,
-                width: 60,
-                backgroundColor: 'red',
-                borderRadius: 50,
-              }}
-            />
-          </View>
+          <Shutter />
         </View>
       </View>
     </Container>

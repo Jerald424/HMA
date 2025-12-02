@@ -1,9 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import LocationPermissionModal from 'src/components/layout/locationPermissionModal';
-import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
+import LocationPermissionModal from 'src/components/layout/askPermissionModal';
 import HMAModalOrganism from 'src/components/styled/organism/modal';
-import HMAModalTemplate from 'src/components/styled/template/modal';
 import {
   checkLocationEnabled,
   ensureLocationPermission,
