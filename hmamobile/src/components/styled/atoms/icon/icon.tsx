@@ -17,6 +17,10 @@ export const icons = {
   project: require('src/assets/icons/diagram-project.png'),
   calendar: require('src/assets/icons/calendar.png'),
   arrow_down: require('src/assets/icons/arrow-down.png'),
+  rotate: require('src/assets/icons/rotate-reverse.png'),
+  power: require('src/assets/icons/power.png'),
+  bolt: require('src/assets/icons/bolt.png'),
+  bolt_slash: require('src/assets/icons/bolt-slash.png'),
 };
 
 export type iconType = keyof typeof icons;
