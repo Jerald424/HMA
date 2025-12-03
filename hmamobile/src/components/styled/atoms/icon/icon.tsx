@@ -21,6 +21,7 @@ export const icons = {
   power: require('src/assets/icons/power.png'),
   bolt: require('src/assets/icons/bolt.png'),
   bolt_slash: require('src/assets/icons/bolt-slash.png'),
+  search: require('src/assets/icons/search.png'),
 };
 
 export type iconType = keyof typeof icons;

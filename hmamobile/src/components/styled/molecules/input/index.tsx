@@ -1,12 +1,15 @@
 import { useTheme } from 'src/hooks/useTheme';
 import HMATextInput, { HMATextInputProps } from '../../atoms/input';
-import HMAIcon from '../../atoms/icon';
-import { TouchableOpacity, View } from 'react-native';
+import HMAIcon, { HMAIconProps } from '../../atoms/icon';
+import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
 import { useState } from 'react';
 
-export interface HMATextInputMoleculeProps extends HMATextInputProps {}
+export interface HMATextInputMoleculeProps extends HMATextInputProps {
+  rightIconProps?: HMAIconProps & { visible?: boolean };
+}
 
 export default function HMATextInputMolecule({
+  rightIconProps,
   ...props
 }: HMATextInputMoleculeProps) {
   const { colors, metrics, spacing } = useTheme();
@@ -29,14 +32,29 @@ export default function HMATextInputMolecule({
         ]}
       />
       {props?.secureTextEntry && (
-        <TouchableOpacity
-          hitSlop={20}
+        <RightIcon
+          iconProps={{ name: isShowPassword ? 'eye' : 'eye_crossed' }}
           onPress={() => setIsShowPassword(prev => !prev)}
-          style={{ position: 'absolute', right: spacing.md }}
-        >
-          <HMAIcon name={isShowPassword ? 'eye' : 'eye_crossed'} />
-        </TouchableOpacity>
+        />
       )}
+      {rightIconProps?.visible && <RightIcon iconProps={rightIconProps} />}
     </View>
   );
 }
+
+const RightIcon = ({
+  iconProps,
+  ...props
+}: TouchableOpacityProps & { iconProps: HMAIconProps }) => {
+  const { spacing } = useTheme();
+
+  return (
+    <TouchableOpacity
+      {...props}
+      hitSlop={20}
+      style={{ position: 'absolute', right: spacing.md }}
+    >
+      <HMAIcon {...iconProps} />
+    </TouchableOpacity>
+  );
+};

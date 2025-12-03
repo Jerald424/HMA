@@ -1,15 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Camera, useCameraPermission } from 'react-native-vision-camera';
+import Header from 'src/components/layout/header';
 import Container from 'src/components/styled/atoms/container';
-import HMADivider from 'src/components/styled/atoms/divider';
-import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
+import { useLandingContext } from '../landing/context';
 import CameraContainer from './camera';
 import Permission from './permission';
 import Shutter from './shutter';
-import Header from 'src/components/layout/header';
-import { useLandingContext } from '../landing/context';
 
 export default function KioskAttendanceMode() {
   const { colors, spacing, metrics } = useTheme();
