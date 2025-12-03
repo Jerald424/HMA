@@ -6,6 +6,7 @@ import KioskAttendanceMode from '../kioskMode';
 import ManualMode from '../manualMode';
 import useLanding from './useLanding';
 import { LandingContext } from './context';
+import SyncAttendance from '../sync';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +34,7 @@ export default function Landing() {
         }}
       >
         <Tab.Screen
-          name="Dashboard"
+          name="Kiosk"
           component={KioskAttendanceMode}
           options={{
             headerShown: false,
@@ -44,13 +45,31 @@ export default function Landing() {
           }}
         />
         <Tab.Screen
-          name="Profile"
+          name="Manual"
           component={ManualMode}
           options={{
             headerShown: false,
             title: '',
             tabBarLabel: ({ focused }) => (
               <Label focused={focused} label="Manual" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Sync"
+          component={SyncAttendance}
+          options={{
+            tabBarBadge: 9,
+            tabBarBadgeStyle: {
+              zIndex: 99,
+              right: -10,
+              top: -10,
+              backgroundColor: colors.error,
+            },
+            headerShown: false,
+            title: '',
+            tabBarLabel: ({ focused }) => (
+              <Label focused={focused} label="Sync" />
             ),
           }}
         />

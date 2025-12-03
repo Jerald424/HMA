@@ -37,9 +37,9 @@ export default function HMABadge({
 }: HMABadgeProps) {
   const { colors, metrics } = useTheme();
   const sizeStyle: Record<typeof size, ViewStyle> = {
-    sm: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 50 },
-    md: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 50 },
-    lg: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 50 },
+    sm: { paddingHorizontal: 6, paddingVertical: 2, borderRadius: 4 },
+    md: { paddingHorizontal: 8, paddingVertical: 3, borderRadius: 4 },
+    lg: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 4 },
   };
   const sizeMap = sizeStyle[size];
 
