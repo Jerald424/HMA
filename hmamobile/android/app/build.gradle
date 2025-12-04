@@ -91,7 +91,12 @@ if (keystorePropertiesFile.exists()) {
             targetSdkVersion rootProject.ext.targetSdkVersion
             versionCode 1
             versionName "1.0"
+            aaptOptions {
+                noCompress "Regula/faceSdkResource.dat"
+            }
         }
+      
+
         signingConfigs {
             debug {
                 storeFile file('debug.keystore')

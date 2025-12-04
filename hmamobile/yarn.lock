@@ -1809,6 +1809,21 @@
     redux-thunk "^3.1.0"
     reselect "^5.1.0"
 
+"@regulaforensics/face-core-basic@^7.2.265":
+  version "7.2.265"
+  resolved "https://registry.npmjs.org/@regulaforensics/face-core-basic/-/face-core-basic-7.2.265.tgz"
+  integrity sha512-K11TJmJD9+1PYTDIYtDcMwPejnYEDAB37BmTksqsMeB/93c9mx52PHTJgjzORbbA00gZV6PWVT64INnybsPALg==
+
+"@regulaforensics/face-sdk@^7.2.601":
+  version "7.2.601"
+  resolved "https://registry.npmjs.org/@regulaforensics/face-sdk/-/face-sdk-7.2.601.tgz"
+  integrity sha512-gBrxZX9nrm4muNNZW8t3nK9L50vNQe6IdwffSvc3YppWx4Jd/EcJseMZ6LgdwJ78xv++BMV6N/JPq9FZKILqxw==
+
+"@regulaforensics/react-native-face-api@^7.1.628":
+  version "7.1.628"
+  resolved "https://registry.npmjs.org/@regulaforensics/react-native-face-api/-/react-native-face-api-7.1.628.tgz"
+  integrity sha512-RCELSvgeEIeWMzRQ6EXTKZwBSj8+I4awqLl0e8vtt7Uel1v7d9D/tKlZ+2ifyjythbAYrncP0EEzquzUCPghrQ==
+
 "@sideway/address@^4.1.5":
   version "4.1.5"
   resolved "https://registry.npmjs.org/@sideway/address/-/address-4.1.5.tgz"
