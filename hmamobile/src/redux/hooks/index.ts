@@ -6,3 +6,4 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useAuth = () => useAppSelector(s => s.auth);
 export const useUserInfo = () => useAppSelector(s => s.auth.userInfo);
+export const useEmployee = () => useAppSelector(s => s.employee);

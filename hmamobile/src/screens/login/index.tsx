@@ -46,6 +46,7 @@ export default function Login() {
             {
               padding: spacing.md,
               borderRadius: 500,
+              borderWidth: 0,
             },
           ]}
         >

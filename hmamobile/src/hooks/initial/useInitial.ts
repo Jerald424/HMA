@@ -21,6 +21,7 @@ export default function useInitial() {
 
   const checkToken = async () => {
     const token = await AsyncStorage.getItem(TOKEN);
+    console.log('token: ', token);
     const url = await AsyncStorage.getItem(BASE_URL);
     if (token && url) {
       verifyMutate(
