@@ -1,18 +1,20 @@
 
-// android/app/src/main/java/com/facecompare/FaceComparePackage.kt
+// android/app/src/main/java/com/facecompare/FaceCompare.kt
 package com.hmamobile
 
-import com.facebook.react.ReactPackage
-import com.facebook.react.bridge.NativeModule
-import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.uimanager.ViewManager
+import kotlin.math.sqrt
 
-class FaceComparePackage : ReactPackage {
-    override fun createNativeModules(reactContext: ReactApplicationContext): List<NativeModule> {
-        return listOf(FaceCompareModule(reactContext))
+object FaceCompare {
+    fun cosineSimilarity(a: FloatArray, b: FloatArray): Float {
+        var dot = 0f; var na = 0f; var nb = 0f
+        for (i in a.indices) {
+            dot += a[i]*b[i]; na += a[i]*a[i]; nb += b[i]*b[i]
+        }
+        return dot / (sqrt(na) * sqrt(nb) + 1e-12f)
     }
-
-    override fun createViewManagers(reactContext: ReactApplicationContext): List<ViewManager<*, *>> {
-        return emptyList()
+    fun l2Distance(a: FloatArray, b: FloatArray): Float {
+        var s = 0f
+        for (i in a.indices) { val d = a[i]-b[i]; s += d*d }
+        return sqrt(s)
     }
 }
