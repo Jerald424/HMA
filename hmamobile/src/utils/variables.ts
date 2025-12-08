@@ -9,3 +9,4 @@ export const BASE_URL = 'BASE_URL';
 export const ACCOUNTS = 'ACCOUNTS';
 export const IS_ANDROID = Platform.OS == 'android';
 export const HAIRLINE_WIDTH = StyleSheet.hairlineWidth;
+export const KIOSK_EMPLOYEE_DATA = 'KIOSK_EMPLOYEE_DATA_(DO NOT EDIT)';

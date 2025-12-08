@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from '@tanstack/react-query';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import {
   assignBaseURlToAsyncStorage,
   assignBaseURlToAxios,
@@ -10,6 +10,7 @@ import { BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import verifyApi from './verifyApi';
 import { useAppDispatch } from 'src/redux/hooks';
 import { updateAuthSlice } from 'src/redux/slices/auth/slice';
+import { createTables } from 'src/database/createTables';
 
 export default function useInitial() {
   const [isReady, setIsReady] = useState(false);
@@ -47,6 +48,10 @@ export default function useInitial() {
 
   useLayoutEffect(() => {
     checkToken();
+  }, []);
+
+  useEffect(() => {
+    createTables();
   }, []);
 
   return {
