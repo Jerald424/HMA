@@ -1,35 +1,30 @@
-import { Text } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import AuthNavigator from './navigators/auth';
-import UnAuthNavigator from './navigators/unAuth';
-import { useAuth } from './redux/hooks';
-import useInitial from './hooks/initial/useInitial';
-import HMAModalLoader from './components/styled/molecules/loader/modalLoader';
-import SessionExpires from './components/layout/sessionExpires';
+import React from 'react';
+import { View, Text, Button } from 'react-native';
+import { compareFaces } from './FaceCompare';
 
-const Stack = createStackNavigator();
 export default function App() {
-  const { isLogin } = useAuth();
-  const { isLoadingInitial } = useInitial();
-  if (isLoadingInitial) return <HMAModalLoader isVisible />;
+  const [res, setRes] = React.useState<any>(null);
+
+  async function runCompare() {
+    const b64A = '';
+    const b64B = '';
+
+    const result = await compareFaces(b64A, b64B);
+    setRes(result);
+  }
+
   return (
-    <>
-      <Stack.Navigator>
-        {isLogin ? (
-          <Stack.Screen
-            name="auth"
-            component={AuthNavigator}
-            options={{ headerShown: false }}
-          />
-        ) : (
-          <Stack.Screen
-            name="un-auth"
-            component={UnAuthNavigator}
-            options={{ headerShown: false }}
-          />
-        )}
-      </Stack.Navigator>
-      <SessionExpires />
-    </>
+    <View style={{ padding: 20 }}>
+      <Button title="Compare Static Images" onPress={runCompare} />
+      {res && (
+        <Text>
+          Similarity: {res.similarity.toFixed(4)}
+          {'\n'}
+          L2 Distance: {res.distance.toFixed(4)}
+          {'\n'}
+          Matched: {String(res.matched)}
+        </Text>
+      )}
+    </View>
   );
 }
