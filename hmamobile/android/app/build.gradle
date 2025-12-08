@@ -84,6 +84,11 @@ if (keystorePropertiesFile.exists()) {
         buildToolsVersion rootProject.ext.buildToolsVersion
         compileSdk rootProject.ext.compileSdkVersion
 
+        aaptOptions {
+            noCompress "tflite"
+        }
+
+
         namespace "com.hmamobile"
         defaultConfig {
             applicationId "com.hmamobile"
@@ -124,6 +129,14 @@ if (keystorePropertiesFile.exists()) {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+
+    // ML Kit face detection
+    implementation 'com.google.mlkit:face-detection:16.1.5'
+    // TensorFlow Lite
+    implementation 'org.tensorflow:tensorflow-lite:2.12.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.3' // optional, not strictly required
+    // coroutine support for Tasks.await
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")
