@@ -4,6 +4,8 @@ import com.facebook.react.bridge.*
 import android.graphics.Bitmap
 import kotlinx.coroutines.*
 import java.lang.Exception
+import android.graphics.BitmapFactory
+
 
 class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
 
@@ -34,10 +36,12 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
                     val map = employees.getMap(i) ?: continue
                     val id = map.getInt("id")
                     val name = map.getString("name") ?: ""
-                    val imgBase64 = map.getString("image") ?: continue
+                    //val imgBase64 = map.getString("image") ?: continue
 
-                    val bmp: Bitmap = Utils.base64ToBitmap(imgBase64)
-                        ?: continue // skip invalid image
+                    val imageUrl = map.getString("imageUrl") ?: continue
+                    val file = Utils.downloadImageToFile(reactContext, imageUrl, "$id.jpg")
+                    val bmp = BitmapFactory.decodeFile(file?.path)
+                   
 
                     // save image file (optional)
                     Utils.saveBitmapToFile(reactContext, bmp, "$id.jpg")
