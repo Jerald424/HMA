@@ -36,7 +36,11 @@ export default function Permission() {
           style={{ alignSelf: 'center' }}
         />
       </View>
-      {/* <AskPermissionModal isVisible={!hasPermission} /> */}
+      <AskPermissionModal
+        type="camera"
+        isVisible={!hasPermission}
+        // onPermissionEnabled={requestPermission}
+      />
     </>
   );
 }
