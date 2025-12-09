@@ -4,10 +4,10 @@ import { Camera, useCameraPermission } from 'react-native-vision-camera';
 import Header from 'src/components/layout/header';
 import Container from 'src/components/styled/atoms/container';
 import { useTheme } from 'src/hooks/useTheme';
-import { useLandingContext } from '../landing/context';
 import CameraContainer from './camera';
 import Permission from './permission';
 import Shutter from './shutter';
+import { useLandingContext } from '../landing/context';
 
 export default function KioskAttendanceMode() {
   const { colors, spacing, metrics } = useTheme();

@@ -36,7 +36,7 @@ export default function Permission() {
           style={{ alignSelf: 'center' }}
         />
       </View>
-      <AskPermissionModal isVisible={!hasPermission} />
+      {/* <AskPermissionModal isVisible={!hasPermission} /> */}
     </>
   );
 }

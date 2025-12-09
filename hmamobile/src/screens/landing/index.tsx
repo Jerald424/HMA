@@ -1,65 +1,68 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HMAIcon from 'src/components/styled/atoms/icon';
-import { iconType } from 'src/components/styled/atoms/icon/icon';
-import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
+import { View } from 'react-native';
+import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
-import { useUserInfo } from 'src/redux/hooks';
-import Dashboard from '../dashboard';
-import Profile from '../profile';
+import KioskAttendanceMode from '../kioskMode';
 import useLanding from './useLanding';
-import AddGeofence from '../dummy';
+import { LandingContext } from './context';
+import SyncAttendance from '../sync';
 
 const Tab = createBottomTabNavigator();
 
 export default function Landing() {
   const { colors } = useTheme();
-  useLanding();
+  const { contextValue } = useLanding();
 
-  const TabBarIcon = ({ name }: { name: iconType }) => {
-    return <HMAIcon name={name} variant="primary" />;
-  };
+  const Label = ({ focused, label }: { focused: boolean; label: string }) => (
+    <View>
+      <HMAText color={focused ? 'primary' : 'textSecondary'}>{label}</HMAText>
+    </View>
+  );
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: {
-          paddingTop: 6,
-          backgroundColor: colors?.background,
-        },
-      }}
-    >
-      <Tab.Screen
-        name="Dashboard"
-        component={Dashboard}
-        options={{
-          headerShown: false,
-          title: '',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name={focused ? 'home_fill' : 'home_outline'} />
-          ),
+    <LandingContext value={contextValue}>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarIconStyle: {
+            height: 0,
+          },
+          tabBarStyle: {
+            paddingTop: 6,
+            backgroundColor: colors?.background,
+            borderTopWidth: 0,
+          },
         }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          headerShown: false,
-          title: '',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name={focused ? 'user_fill' : 'user_outline'} />
-          ),
-        }}
-      />
-      {/* <Tab.Screen
-        name="Testing"
-        component={AddGeofence}
-        options={{
-          headerShown: false,
-          title: '',
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon name={focused ? 'user_fill' : 'user_outline'} />
-          ),
-        }}
-      /> */}
-    </Tab.Navigator>
+      >
+        <Tab.Screen
+          name="Kiosk"
+          component={KioskAttendanceMode}
+          options={{
+            headerShown: false,
+            title: '',
+            tabBarLabel: ({ focused }) => (
+              <Label focused={focused} label="Kiosk" />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="Sync"
+          component={SyncAttendance}
+          options={{
+            tabBarBadge: 9,
+            tabBarBadgeStyle: {
+              zIndex: 99,
+              right: -10,
+              top: -10,
+              backgroundColor: colors.error,
+            },
+            headerShown: false,
+            title: '',
+            tabBarLabel: ({ focused }) => (
+              <Label focused={focused} label="Sync" />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </LandingContext>
   );
 }
