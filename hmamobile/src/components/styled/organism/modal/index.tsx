@@ -22,6 +22,7 @@ export default function HMAModalOrganism({
   cancelTextProps,
   okTextProps,
   avatarProps,
+  children,
   ...props
 }: HMAModalOrganismProps) {
   const { spacing } = useTheme();
@@ -81,6 +82,7 @@ export default function HMAModalOrganism({
           )}
         </View>
       )}
+      {children}
     </HMAModalMolecule>
   );
 }

@@ -8,6 +8,10 @@ export const LandingContext = createContext({
   isPending: false,
   onSync: (arg: { start: number }) => {},
   employee: [],
+  localRecord: [],
+  setLocalRecord: () => {},
+  onMatch: (emp: any) => {},
+  isLoadingMark: false,
 });
 
 export const useLandingContext = () => useContext(LandingContext);

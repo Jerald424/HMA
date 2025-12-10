@@ -69,11 +69,12 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
      * Returns: Promise resolved with Array of maps [{id, name, score}]
      */
     @ReactMethod
-    fun compareCapturedFace(base64: String, topN: Int, promise: Promise) {
+    fun compareCapturedFace(filePath: String, topN: Int, promise: Promise) {
         scope.launch {
             try {
-                val bmp = Utils.base64ToBitmap(base64)
-                    ?: return@launch promise.reject("INVALID_IMAGE", "Cannot decode base64")
+                //val bmp = Utils.base64ToBitmap(base64)
+                  //  ?: return@launch promise.reject("INVALID_IMAGE", "Cannot decode base64")
+                val bmp = BitmapFactory.decodeFile(filePath) ?: return@launch promise.reject("INVALID_IMAGE", "Cannot get image")
 
                 val liveEmb = manager.detectAndGetEmbedding(bmp)
                     ?: return@launch promise.reject("NO_FACE", "No face detected in image")

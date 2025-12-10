@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from '@tanstack/react-query';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import {
   assignBaseURlToAsyncStorage,
   assignBaseURlToAxios,
@@ -10,11 +10,18 @@ import { BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import verifyApi from './verifyApi';
 import { useAppDispatch } from 'src/redux/hooks';
 import { updateAuthSlice } from 'src/redux/slices/auth/slice';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 export default function useInitial() {
-  const [isReady, setIsReady] = useState(false);
+  const [isMount, setIsMount] = useState(false);
+  const { isConnected } = useNetInfo();
   const dispatch = useAppDispatch();
-  const { mutate: verifyMutate, isPending } = useMutation({
+  const {
+    data,
+    mutate: verifyMutate,
+    isPending,
+    error: isVerifyError,
+  } = useMutation({
     mutationKey: ['verify-token'],
     mutationFn: verifyApi,
   });
@@ -23,32 +30,38 @@ export default function useInitial() {
     const token = await AsyncStorage.getItem(TOKEN);
     const url = await AsyncStorage.getItem(BASE_URL);
     if (token && url) {
-      verifyMutate(
-        { token, url },
-        {
-          onSuccess() {
-            assignBaseURlToAsyncStorage(url);
-            assignBaseURlToAxios(url);
-            assignTokenToAxios(token);
-            dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+      assignBaseURlToAsyncStorage(url);
+      assignBaseURlToAxios(url);
+      assignTokenToAxios(token);
+      dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+      setIsMount(true);
+      if (isConnected)
+        verifyMutate(
+          { token, url },
+          {
+            onSuccess() {
+              // assignBaseURlToAsyncStorage(url);
+              // assignBaseURlToAxios(url);
+              // assignTokenToAxios(token);
+              // dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+            },
+
+            onError(error) {
+              // console.log('ERROR: ', error);
+              // AsyncStorage.multiRemove([TOKEN, LOGIN_DATA]);
+            },
           },
-          onSettled() {
-            setIsReady(true);
-          },
-          onError(error) {
-            console.log('ERROR: ', error);
-            AsyncStorage.multiRemove([TOKEN, LOGIN_DATA]);
-          },
-        },
-      );
-    } else setIsReady(true);
+        );
+    } else setIsMount(true);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     checkToken();
-  }, []);
+  }, [isConnected]);
 
   return {
-    isLoadingInitial: isPending || !isReady,
+    isLoadingInitial: !isMount,
+    isConnected,
+    isVerifyError,
   };
 }

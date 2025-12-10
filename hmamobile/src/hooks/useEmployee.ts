@@ -19,7 +19,7 @@ const fetchEmployee = async () => {
   });
 };
 
-export const ITEM_PER_INIT = 50;
+export const ITEM_PER_INIT = 5;
 
 export default function useEmployee() {
   const [isInitProgress, setInitProgress] = useState(false);

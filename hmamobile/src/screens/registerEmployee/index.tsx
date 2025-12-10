@@ -1,30 +1,54 @@
-import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import HMAButton from 'src/components/styled/atoms/button';
 import Container from 'src/components/styled/atoms/container';
+import HMADivider from 'src/components/styled/atoms/divider';
 import HMALoader from 'src/components/styled/atoms/loader';
 import HMAText from 'src/components/styled/atoms/text';
-import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import { ITEM_PER_INIT } from 'src/hooks/useEmployee';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
+import { EMPLOYEE_REGISTER_COUNT } from 'src/utils/variables';
 import { useLandingContext } from '../landing/context';
-import { useState } from 'react';
-import HMADivider from 'src/components/styled/atoms/divider';
 
 export default function RegisterEmployee() {
   const { colors, metrics } = useTheme();
   const { isInitProgress, isPending, onSync, employee } = useLandingContext();
+  const EMPLOYEE_LENGTH = employee?.length;
 
   const [doneCount, setDoneCount] = useState(0);
 
   const handleSync = () => {
     onSync({ start: doneCount }).then(() => {
-      setDoneCount(prev => {
-        const up = prev + ITEM_PER_INIT;
-        if (up > employee?.length) return 0;
-        else up;
-      });
+      let up = doneCount + ITEM_PER_INIT;
+      if (up > EMPLOYEE_LENGTH) {
+        up = EMPLOYEE_LENGTH;
+      }
+      AsyncStorage.setItem(EMPLOYEE_REGISTER_COUNT, JSON.stringify(up));
+      setDoneCount(up);
     });
   };
+
+  const handleReset = () => {
+    AsyncStorage.setItem(EMPLOYEE_REGISTER_COUNT, JSON.stringify(0));
+    setDoneCount(0);
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      let count = await AsyncStorage.getItem(EMPLOYEE_REGISTER_COUNT);
+      if (count) {
+        try {
+          count = JSON.parse(count);
+          setDoneCount(count);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+    load();
+  }, []);
 
   return (
     <Container>
@@ -38,6 +62,7 @@ export default function RegisterEmployee() {
         You can initialize up to {ITEM_PER_INIT} employees per request
       </HMAText>
       <HMADivider space={'md'} />
+      <HMAButton title="RESET" onPress={handleReset} />
     </Container>
   );
 }

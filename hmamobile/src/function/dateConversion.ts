@@ -26,8 +26,8 @@ export const jsDateToTimeFormat = (date: Date) => {
   try {
     let [hour, min, sec] = [
       date.getHours(),
-      date.getMinutes(),
-      date.getSeconds(),
+      date.getMinutes().toString().padStart(2, '0'),
+      date.getSeconds().toString().padStart(2, '0'),
     ];
     let meridiem = 'AM';
     if (hour > 12) {

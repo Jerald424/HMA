@@ -6,14 +6,21 @@ import { useAuth } from './redux/hooks';
 import useInitial from './hooks/initial/useInitial';
 import HMAModalLoader from './components/styled/molecules/loader/modalLoader';
 import SessionExpires from './components/layout/sessionExpires';
+import { createContext, useContext } from 'react';
+
+const AppContext = createContext({
+  isConnected: false,
+  isVerifyError: false,
+});
+export const useAppContext = () => useContext(AppContext);
 
 const Stack = createStackNavigator();
 export default function App() {
   const { isLogin } = useAuth();
-  const { isLoadingInitial } = useInitial();
+  const { isLoadingInitial, isConnected, isVerifyError } = useInitial();
   if (isLoadingInitial) return <HMAModalLoader isVisible />;
   return (
-    <>
+    <AppContext value={{ isConnected, isVerifyError }}>
       <Stack.Navigator>
         {isLogin ? (
           <Stack.Screen
@@ -30,6 +37,6 @@ export default function App() {
         )}
       </Stack.Navigator>
       <SessionExpires />
-    </>
+    </AppContext>
   );
 }

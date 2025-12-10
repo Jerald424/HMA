@@ -8,6 +8,7 @@ import CameraContainer from './camera';
 import Permission from './permission';
 import Shutter from './shutter';
 import { useLandingContext } from '../landing/context';
+import FaceNet from 'src/native/FaceNet';
 
 export default function KioskAttendanceMode() {
   const { colors, spacing, metrics } = useTheme();
@@ -22,8 +23,13 @@ export default function KioskAttendanceMode() {
     setIsTaking(true);
     const photo = await cameraRef?.current?.takePhoto?.();
     setIsTaking(false);
-    onAttendance();
-    console.log('photo: ', photo);
+    onAttendance(photo);
+    try {
+      const response = await FaceNet.compareCapturedFace(photo?.path, 5);
+      console.log('RESPONSE', response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {

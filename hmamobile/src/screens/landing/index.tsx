@@ -7,12 +7,23 @@ import useLanding from './useLanding';
 import { LandingContext } from './context';
 import SyncAttendance from '../sync';
 import RegisterEmployee from '../registerEmployee';
+import TopMatchesEmployee from 'src/components/layout/topMatchesEmployee';
+import Toast from 'src/components/styled/atoms/toast';
 
 const Tab = createBottomTabNavigator();
 
 export default function Landing() {
-  const { colors } = useTheme();
-  const { contextValue } = useLanding();
+  const { colors, spacing } = useTheme();
+  const {
+    contextValue,
+    topMatch,
+    onMatch,
+    isLoadingAttendance,
+    toastRef,
+    localRecord,
+  } = useLanding();
+
+  const LOC_REC_COUNT = localRecord?.length;
 
   const Label = ({ focused, label }: { focused: boolean; label: string }) => (
     <View>
@@ -21,6 +32,9 @@ export default function Landing() {
   );
   return (
     <LandingContext value={contextValue}>
+      <Toast isVisible={isLoadingAttendance} text=" Loading ..." />
+      <Toast ref={toastRef} />
+
       <Tab.Navigator
         screenOptions={{
           tabBarIconStyle: {
@@ -49,7 +63,7 @@ export default function Landing() {
           name="Sync"
           component={SyncAttendance}
           options={{
-            tabBarBadge: 9,
+            tabBarBadge: LOC_REC_COUNT == 0 ? undefined : LOC_REC_COUNT,
             tabBarBadgeStyle: {
               zIndex: 99,
               right: -10,
@@ -75,6 +89,7 @@ export default function Landing() {
           }}
         />
       </Tab.Navigator>
+      <TopMatchesEmployee onMatch={onMatch} topMatch={topMatch} />
     </LandingContext>
   );
 }
