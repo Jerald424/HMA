@@ -6,7 +6,7 @@ import { fetchUserInfo } from 'src/redux/slices/auth/thunk';
 export default function useLanding() {
   const dispatch = useAppDispatch();
   const [mode, setMode] = useState({ label: 'Check In', value: 'check-in' });
-  useEmployeeData();
+  const { isInitProgress, isPending, onSync, employee } = useEmployeeData();
 
   const onAttendance = () => {};
 
@@ -14,6 +14,10 @@ export default function useLanding() {
     onAttendance,
     mode,
     setMode,
+    isInitProgress,
+    isPending,
+    onSync,
+    employee,
   };
 
   useEffect(() => {

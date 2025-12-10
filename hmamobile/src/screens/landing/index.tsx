@@ -6,6 +6,7 @@ import KioskAttendanceMode from '../kioskMode';
 import useLanding from './useLanding';
 import { LandingContext } from './context';
 import SyncAttendance from '../sync';
+import RegisterEmployee from '../registerEmployee';
 
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +60,17 @@ export default function Landing() {
             title: '',
             tabBarLabel: ({ focused }) => (
               <Label focused={focused} label="Sync" />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="RegisterEmployee"
+          component={RegisterEmployee}
+          options={{
+            headerShown: false,
+            title: '',
+            tabBarLabel: ({ focused }) => (
+              <Label focused={focused} label="Register" />
             ),
           }}
         />

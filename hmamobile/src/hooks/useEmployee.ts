@@ -1,44 +1,57 @@
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import axiosInstance from 'src/services/axiosInstance';
-import isEmpty from 'lodash/isEmpty';
-import FaceNet from 'src/native/FaceNet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TOKEN } from 'src/utils/variables';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { Alert } from 'react-native';
+import FaceNet from 'src/native/FaceNet';
+import axiosInstance from 'src/services/axiosInstance';
+import { BASE_URL } from 'src/utils/variables';
 
 const fetchEmployee = async () => {
   const response = await axiosInstance.get('api/employee-list', {
     timeout: 0,
   });
-  return response;
+  const domain = await AsyncStorage.getItem(BASE_URL);
+  return response?.map(res => {
+    delete res['image'];
+    Object.assign(res, { imageUrl: `${domain}${res?.url}` });
+    delete res['url'];
+    return res;
+  });
 };
 
+export const ITEM_PER_INIT = 50;
+
 export default function useEmployee() {
-  const { data, isPending } = useQuery({
+  const [isInitProgress, setInitProgress] = useState(false);
+  const { data, isPending, error } = useQuery({
     queryKey: ['fetch/employee'],
     queryFn: fetchEmployee,
   });
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = [
-          {
-            id: 1,
-            name: 'MANIKAN',
-            imageUrl:
-              'https://media.assettype.com/tnm%2Fimport%2Fsites%2Fdefault%2Ffiles%2FManikandan_171121_3_1200.jpg?w=1024&auto=format%2Ccompress&fit=max',
-          },
-        ];
+  console.log('data: ', data);
 
-        console.log('START INIT', 'TOKEN', await AsyncStorage.getItem(TOKEN));
-        await FaceNet.initializeEmployees(data);
-        console.log('INIT SUCCESSFUL');
-      } catch (error) {
-        console.error('ERROR WHILE INIT EMP: ', error);
-      }
-    };
+  const onSync = async (arg: { start: number }) => {
+    try {
+      setInitProgress(true);
+      console.log('INIT START');
+      const emp = data?.slice?.(arg?.start, arg?.start + ITEM_PER_INIT);
+      console.log('emp: ', emp);
+      await FaceNet.initializeEmployees(emp);
+      console.log('INIT END');
 
-    load();
-  }, []);
+      setInitProgress(false);
+    } catch (error) {
+      setInitProgress(false);
+
+      console.error(error);
+      Alert.alert('Error while init', JSON.stringify(error));
+    }
+  };
+
+  return {
+    onSync,
+    isInitProgress,
+    isPending,
+    employee: data,
+  };
 }
