@@ -10,6 +10,7 @@ import { useAppDispatch } from 'src/redux/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ACCOUNTS, BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import axiosInstance from 'src/services/axiosInstance';
+import { useAppContext } from 'src/App';
 
 export const assignTokenToAxios = (token: string) => {
   axiosInstance.defaults.headers[TOKEN] = token;
@@ -45,6 +46,8 @@ export default function useLogin() {
     mutationKey: ['login'],
     mutationFn: loginApi,
   });
+
+  const { verifyToken } = useAppContext();
 
   const formData: formDataProps = [
     {
@@ -155,6 +158,7 @@ export default function useLogin() {
           AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
           assignTokenToAsyncStorage(response?.token);
           assignTokenToAxios(response?.token);
+          verifyToken({ token: response?.token, url: data?.url?.value });
           dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
         },
       },

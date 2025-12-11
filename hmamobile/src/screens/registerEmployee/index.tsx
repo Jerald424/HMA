@@ -1,27 +1,43 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import {
+  Pressable,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
+import { useAppContext } from 'src/App';
+import NoData from 'src/components/layout/noData';
 import HMAButton from 'src/components/styled/atoms/button';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMALoader from 'src/components/styled/atoms/loader';
 import HMAText from 'src/components/styled/atoms/text';
-import { ITEM_PER_INIT } from 'src/hooks/useEmployee';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 import { EMPLOYEE_REGISTER_COUNT } from 'src/utils/variables';
 import { useLandingContext } from '../landing/context';
+import HMAModalOrganism from 'src/components/styled/organism/modal';
+import HMATextInputMolecule from 'src/components/styled/molecules/input';
 
 export default function RegisterEmployee() {
   const { colors, metrics } = useTheme();
-  const { isInitProgress, isPending, onSync, employee } = useLandingContext();
+  const {
+    isInitProgress,
+    isPending,
+    onSync,
+    employee,
+    itemPerInit,
+    setItemPerInit,
+  } = useLandingContext();
+  const { isConnected } = useAppContext();
   const EMPLOYEE_LENGTH = employee?.length;
+  const [isOpenEdit, setIsOpenEdit] = useState(false);
 
   const [doneCount, setDoneCount] = useState(0);
 
   const handleSync = () => {
     onSync({ start: doneCount }).then(() => {
-      let up = doneCount + ITEM_PER_INIT;
+      let up = doneCount + itemPerInit;
       if (up > EMPLOYEE_LENGTH) {
         up = EMPLOYEE_LENGTH;
       }
@@ -50,6 +66,17 @@ export default function RegisterEmployee() {
     load();
   }, []);
 
+  if (!isConnected)
+    return (
+      <Container>
+        <NoData
+          message="No internet connection.."
+          avatarProps={{
+            source: require('src/assets/color-icons/wifi-slash.png'),
+          }}
+        />
+      </Container>
+    );
   return (
     <Container>
       <BigRoundButton
@@ -58,11 +85,24 @@ export default function RegisterEmployee() {
         title={`${doneCount} / ${employee?.length || 0}\n Init`}
       />
       <HMADivider space={'md'} />
-      <HMAText align="center">
-        You can initialize up to {ITEM_PER_INIT} employees per request
-      </HMAText>
+      <Pressable onLongPress={() => setIsOpenEdit(true)}>
+        <HMAText align="center">
+          You can initialize up to {itemPerInit} employees per request
+        </HMAText>
+      </Pressable>
       <HMADivider space={'md'} />
       <HMAButton title="RESET" onPress={handleReset} />
+      <HMAModalOrganism
+        isVisible={isOpenEdit}
+        headingProps={{ children: 'Edit item count' }}
+      >
+        <HMATextInputMolecule
+          value={String(itemPerInit)}
+          onChangeText={val => setItemPerInit(+val)}
+        />
+        <HMADivider space={'sm'} />
+        <HMAButton title="Ok" onPress={() => setIsOpenEdit(false)} />
+      </HMAModalOrganism>
     </Container>
   );
 }

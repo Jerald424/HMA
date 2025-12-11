@@ -12,6 +12,8 @@ export const LandingContext = createContext({
   setLocalRecord: () => {},
   onMatch: (emp: any) => {},
   isLoadingMark: false,
+  itemPerInit: 0,
+  setItemPerInit: () => {},
 });
 
 export const useLandingContext = () => useContext(LandingContext);

@@ -5,6 +5,7 @@ import { Alert } from 'react-native';
 import FaceNet from 'src/native/FaceNet';
 import axiosInstance from 'src/services/axiosInstance';
 import { BASE_URL } from 'src/utils/variables';
+import useItemPerCount from './useItemPerCount';
 
 const fetchEmployee = async () => {
   const response = await axiosInstance.get('api/employee-list', {
@@ -19,22 +20,19 @@ const fetchEmployee = async () => {
   });
 };
 
-export const ITEM_PER_INIT = 5;
-
 export default function useEmployee() {
+  const { itemPerInit, setItemPerInit } = useItemPerCount();
   const [isInitProgress, setInitProgress] = useState(false);
   const { data, isPending, error } = useQuery({
     queryKey: ['fetch/employee'],
     queryFn: fetchEmployee,
   });
 
-  console.log('data: ', data);
-
   const onSync = async (arg: { start: number }) => {
     try {
       setInitProgress(true);
       console.log('INIT START');
-      const emp = data?.slice?.(arg?.start, arg?.start + ITEM_PER_INIT);
+      const emp = data?.slice?.(arg?.start, arg?.start + itemPerInit);
       console.log('emp: ', emp);
       await FaceNet.initializeEmployees(emp);
       console.log('INIT END');
@@ -53,5 +51,7 @@ export default function useEmployee() {
     isInitProgress,
     isPending,
     employee: data,
+    itemPerInit,
+    setItemPerInit,
   };
 }

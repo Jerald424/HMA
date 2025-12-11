@@ -11,16 +11,18 @@ import { createContext, useContext } from 'react';
 const AppContext = createContext({
   isConnected: false,
   isVerifyError: false,
+  verifyToken: () => {},
 });
 export const useAppContext = () => useContext(AppContext);
 
 const Stack = createStackNavigator();
 export default function App() {
   const { isLogin } = useAuth();
-  const { isLoadingInitial, isConnected, isVerifyError } = useInitial();
+  const { isLoadingInitial, isConnected, isVerifyError, verifyToken } =
+    useInitial();
   if (isLoadingInitial) return <HMAModalLoader isVisible />;
   return (
-    <AppContext value={{ isConnected, isVerifyError }}>
+    <AppContext value={{ isConnected, isVerifyError, verifyToken }}>
       <Stack.Navigator>
         {isLogin ? (
           <Stack.Screen

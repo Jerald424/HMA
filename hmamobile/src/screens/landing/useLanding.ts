@@ -1,10 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef, useState } from 'react';
-import { Alert } from 'react-native';
 import { PhotoFile } from 'react-native-vision-camera';
 import { useAppContext } from 'src/App';
 import { toastRefFn } from 'src/components/styled/atoms/toast';
 import { makeColonDate } from 'src/function/dateConversion';
+import useAttendanceMode from 'src/hooks/useAttendanceMode';
 import useEmployeeData from 'src/hooks/useEmployee';
 import useMarkAttendance from 'src/hooks/useMarkAttendance';
 import FaceNet from 'src/native/FaceNet';
@@ -14,14 +14,21 @@ import { LOCAL_ATTENDANCE_RECORD } from 'src/utils/variables';
 
 export default function useLanding() {
   const dispatch = useAppDispatch();
-  const [mode, setMode] = useState({ label: 'Check In', value: 'check-in' });
+  const { mode, setMode } = useAttendanceMode();
   const { isConnected } = useAppContext();
   const [topMatch, setTopMatch] = useState([]);
   const [localRecord, setLocalRecord] = useState([]);
   const toastRef = useRef<toastRefFn>(null);
   const [isMatching, setIsMatching] = useState(false);
 
-  const { isInitProgress, isPending, onSync, employee } = useEmployeeData();
+  const {
+    isInitProgress,
+    isPending,
+    onSync,
+    employee,
+    itemPerInit,
+    setItemPerInit,
+  } = useEmployeeData();
   const { isLoadingMark, onMarkAttendance } = useMarkAttendance();
 
   const showToast = (message: string) => {
@@ -130,6 +137,8 @@ export default function useLanding() {
     setLocalRecord,
     onMatch,
     isLoadingMark,
+    itemPerInit,
+    setItemPerInit,
   };
 
   const loadLocalAttendance = async () => {

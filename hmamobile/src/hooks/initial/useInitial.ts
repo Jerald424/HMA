@@ -1,16 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from 'src/redux/hooks';
+import { updateAuthSlice } from 'src/redux/slices/auth/slice';
 import {
   assignBaseURlToAsyncStorage,
   assignBaseURlToAxios,
   assignTokenToAxios,
 } from 'src/screens/login/useLogin';
-import { BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
+import { BASE_URL, TOKEN } from 'src/utils/variables';
 import verifyApi from './verifyApi';
-import { useAppDispatch } from 'src/redux/hooks';
-import { updateAuthSlice } from 'src/redux/slices/auth/slice';
-import { useNetInfo } from '@react-native-community/netinfo';
 
 export default function useInitial() {
   const [isMount, setIsMount] = useState(false);
@@ -26,6 +26,10 @@ export default function useInitial() {
     mutationFn: verifyApi,
   });
 
+  const verifyToken = ({ token, url }: { token: string; url: string }) => {
+    verifyMutate({ token, url });
+  };
+
   const checkToken = async () => {
     const token = await AsyncStorage.getItem(TOKEN);
     const url = await AsyncStorage.getItem(BASE_URL);
@@ -35,23 +39,7 @@ export default function useInitial() {
       assignTokenToAxios(token);
       dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
       setIsMount(true);
-      if (isConnected)
-        verifyMutate(
-          { token, url },
-          {
-            onSuccess() {
-              // assignBaseURlToAsyncStorage(url);
-              // assignBaseURlToAxios(url);
-              // assignTokenToAxios(token);
-              // dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
-            },
-
-            onError(error) {
-              // console.log('ERROR: ', error);
-              // AsyncStorage.multiRemove([TOKEN, LOGIN_DATA]);
-            },
-          },
-        );
+      if (isConnected) verifyToken({ token, url });
     } else setIsMount(true);
   };
 
@@ -63,5 +51,6 @@ export default function useInitial() {
     isLoadingInitial: !isMount,
     isConnected,
     isVerifyError,
+    verifyToken,
   };
 }
