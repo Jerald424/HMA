@@ -75,7 +75,7 @@ export default function useLanding() {
   const onMatch = async (emp: any) => {
     setTopMatch([]);
     const payload = {
-      employee_id: emp?.employee_id ?? emp?.id,
+      employee_id: emp?.employee_id ? +emp?.employee_id : +emp?.id,
       type: emp?.type ?? mode?.value,
       date: emp?.date ?? makeColonDate(new Date()),
       name: emp?.name,
@@ -88,7 +88,7 @@ export default function useLanding() {
           removeLocalRecord(payload);
         },
         onError() {
-          onFailureLocalRecord(payload);
+          // onFailureLocalRecord(payload);
         },
       });
     else {

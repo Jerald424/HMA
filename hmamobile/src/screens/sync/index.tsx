@@ -19,13 +19,15 @@ export default function SyncAttendance() {
   const { isConnected } = useAppContext();
 
   const syncData = async () => {
-    const emp = localRecord?.[0];
-    onMatch(emp);
+    for (let emp of localRecord) {
+      onMatch(emp);
+    }
   };
 
   useEffect(() => {
-    if (localRecord?.length > 0 && isConnected) syncData();
-  }, [isConnected, localRecord]);
+    if (isConnected) syncData();
+  }, [isConnected]);
+
   if (isEmpty(localRecord))
     return (
       <Container>
