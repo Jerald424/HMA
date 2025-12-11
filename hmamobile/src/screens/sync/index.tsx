@@ -64,6 +64,7 @@ export default function SyncAttendance() {
                 />
               </View>
             </View>
+            <HMADivider />
           </>
         )}
       />

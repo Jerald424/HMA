@@ -20,7 +20,9 @@ export default function FixedAlert({
       }}
     >
       {typeof message == 'string' || typeof message == 'number' ? (
-        <HMAText color="textPrimary">{message}</HMAText>
+        <HMAText color="textPrimary" align="center">
+          {message}
+        </HMAText>
       ) : (
         message
       )}
