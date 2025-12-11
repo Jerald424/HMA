@@ -19,7 +19,7 @@ export default function Header({ title }: { title: string }) {
         onChange={setMode}
         data={[
           { label: 'Check In', value: 'check-in' },
-          { label: 'Check Out', value: 'Check Out' },
+          { label: 'Check Out', value: 'check-out' },
         ]}
       />
     </View>

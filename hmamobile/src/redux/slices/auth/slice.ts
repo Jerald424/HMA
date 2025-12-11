@@ -9,6 +9,8 @@ export const initialState = {
   },
   dummy_office: {},
   isSessionExpire: false,
+  token: '',
+  baseurl: '',
 };
 
 const authSlice = createSlice({

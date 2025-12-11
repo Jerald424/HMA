@@ -12,15 +12,15 @@ import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMALoader from 'src/components/styled/atoms/loader';
 import HMAText from 'src/components/styled/atoms/text';
+import HMATextInputMolecule from 'src/components/styled/molecules/input';
+import HMAModalOrganism from 'src/components/styled/organism/modal';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 import { EMPLOYEE_REGISTER_COUNT } from 'src/utils/variables';
 import { useLandingContext } from '../landing/context';
-import HMAModalOrganism from 'src/components/styled/organism/modal';
-import HMATextInputMolecule from 'src/components/styled/molecules/input';
+import List from './list';
 
 export default function RegisterEmployee() {
-  const { colors, metrics } = useTheme();
   const {
     isInitProgress,
     isPending,
@@ -90,8 +90,18 @@ export default function RegisterEmployee() {
           You can initialize up to {itemPerInit} employees per request
         </HMAText>
       </Pressable>
-      <HMADivider space={'md'} />
-      <HMAButton title="RESET" onPress={handleReset} />
+      <HMADivider />
+      <HMAText
+        align="center"
+        onPress={handleReset}
+        color="error"
+        style={{ textDecorationLine: 'underline' }}
+      >
+        Click here to reset
+      </HMAText>
+      <HMADivider />
+
+      <List />
       <HMAModalOrganism
         isVisible={isOpenEdit}
         headingProps={{ children: 'Edit item count' }}

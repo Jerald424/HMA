@@ -38,6 +38,8 @@ export default function useInitial() {
       assignBaseURlToAxios(url);
       assignTokenToAxios(token);
       dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+      dispatch(updateAuthSlice({ key: 'token', value: token }));
+      dispatch(updateAuthSlice({ key: 'baseurl', value: url }));
       setIsMount(true);
       if (isConnected) verifyToken({ token, url });
     } else setIsMount(true);

@@ -6,6 +6,7 @@ import FaceNet from 'src/native/FaceNet';
 import axiosInstance from 'src/services/axiosInstance';
 import { BASE_URL } from 'src/utils/variables';
 import useItemPerCount from './useItemPerCount';
+import isEmpty from 'lodash/isEmpty';
 
 const fetchEmployee = async () => {
   const response = await axiosInstance.get('api/employee-list', {
@@ -28,12 +29,15 @@ export default function useEmployee() {
     queryFn: fetchEmployee,
   });
 
-  const onSync = async (arg: { start: number }) => {
+  const onSync = async (arg: { start?: number; selectedEmp?: any[] }) => {
     try {
       setInitProgress(true);
       console.log('INIT START');
-      const emp = data?.slice?.(arg?.start, arg?.start + itemPerInit);
+      const emp =
+        arg?.selectedEmp ?? data?.slice?.(arg?.start, arg?.start + itemPerInit);
+      emp?.push?.(...(emp?.slice(0, 1) || []));
       console.log('emp: ', emp);
+
       await FaceNet.initializeEmployees(emp);
       console.log('INIT END');
 
@@ -42,7 +46,7 @@ export default function useEmployee() {
       setInitProgress(false);
 
       console.error(error);
-      Alert.alert('Error while init', JSON.stringify(error));
+      Alert.alert('Error while init', JSON.stringify(error.message));
     }
   };
 

@@ -6,7 +6,7 @@ export const LandingContext = createContext({
   setMode: () => {},
   isInitProgress: false,
   isPending: false,
-  onSync: (arg: { start: number }) => {},
+  onSync: (arg: { start?: number; selectedEmp?: any[] }) => {},
   employee: [],
   localRecord: [],
   setLocalRecord: () => {},

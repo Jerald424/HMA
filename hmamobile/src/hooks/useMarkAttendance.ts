@@ -12,17 +12,18 @@ import axiosInstance from 'src/services/axiosInstance';
  * @returns 
  */
 const markAttendanceApi = async (payload: any) => {
-  return axiosInstance.post('api/mark-attendance');
+  const response = await axiosInstance.post('/api/mark-attendance', payload);
+  return response;
 };
 
 export default function useMarkAttendance() {
-  const { mutate, isPending } = useMutation({
+  const { mutate: onMarkAttendance, isPending } = useMutation({
     mutationKey: ['mark/attendance'],
     mutationFn: markAttendanceApi,
   });
 
   return {
-    onMarkAttendance: mutate,
+    onMarkAttendance,
     isLoadingMark: isPending,
   };
 }

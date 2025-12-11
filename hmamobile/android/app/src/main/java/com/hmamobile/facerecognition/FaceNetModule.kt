@@ -30,7 +30,7 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
         scope.launch {
             try {
                 // clear existing embeddings optionally
-                StorageManager.clearAllEmbeddings(reactContext)
+                //StorageManager.clearAllEmbeddings(reactContext)
 
                 for (i in 0 until employees.size()) {
                     val map = employees.getMap(i) ?: continue

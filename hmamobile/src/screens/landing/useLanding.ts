@@ -10,6 +10,8 @@ import useMarkAttendance from 'src/hooks/useMarkAttendance';
 import FaceNet from 'src/native/FaceNet';
 import { useAppDispatch } from 'src/redux/hooks';
 import { fetchUserInfo } from 'src/redux/slices/auth/thunk';
+import axiosInstance from 'src/services/axiosInstance';
+import { colors } from 'src/theme/colors';
 import { LOCAL_ATTENDANCE_RECORD } from 'src/utils/variables';
 
 export default function useLanding() {
@@ -31,8 +33,8 @@ export default function useLanding() {
   } = useEmployeeData();
   const { isLoadingMark, onMarkAttendance } = useMarkAttendance();
 
-  const showToast = (message: string) => {
-    toastRef?.current?.showToast?.(message);
+  const showToast = (message: string, type?: keyof typeof colors) => {
+    toastRef?.current?.showToast?.(message, type);
   };
 
   const removeLocalRecord = (emp: any) => {
@@ -81,13 +83,16 @@ export default function useLanding() {
       name: emp?.name,
       timestamp: emp?.timestamp ?? String(Date.now()),
     };
+    console.log('payload: ', payload);
     if (isConnected)
       onMarkAttendance(payload, {
-        onSuccess() {
-          showToast(`${emp?.name} ${mode?.label} successfully`);
+        onSuccess(data) {
+          console.log('$$$SUCCESS%%', data);
+          showToast(`${emp?.name} ${mode?.label} successfully`, 'success');
           removeLocalRecord(payload);
         },
-        onError() {
+        onError(error) {
+          showToast(`${emp?.name}: ${error?.message}`, 'error');
           // onFailureLocalRecord(payload);
         },
       });

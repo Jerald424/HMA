@@ -25,7 +25,7 @@ export default function Toast({ showMs = 4000, ...props }: ToastProps) {
   useImperativeHandle(props?.ref, () => ({
     showToast: (msg?: string, type?: colorKey) => {
       msg && setMessage(msg);
-      type && setColor(type);
+      setColor(type ?? 'info');
 
       setIsShowTimer(true);
     },
