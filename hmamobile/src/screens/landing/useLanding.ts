@@ -114,7 +114,8 @@ export default function useLanding() {
         console.log('MATCH COMPLETE');
         if (matches && matches?.length > 0) {
           if (matches?.[0]?.score >= 0.6) onMatch(matches?.[0]);
-          else setTopMatch(matches);
+          else if (matches?.[0]?.score >= 0.3) setTopMatch(matches);
+          else showToast('No match found');
         } else showToast('No match found');
       }
     } catch (error) {
@@ -139,6 +140,7 @@ export default function useLanding() {
     isLoadingMark,
     itemPerInit,
     setItemPerInit,
+    setTopMatch,
   };
 
   const loadLocalAttendance = async () => {

@@ -40,7 +40,7 @@ export default function KioskAttendanceMode() {
     <Container
       padding={0}
       backgroundColor="background"
-      safeAreaViewProps={{ edges: ['top', 'left', 'right'] }}
+      safeAreaViewProps={{ edges: ['left', 'right'] }}
     >
       <View
         style={[

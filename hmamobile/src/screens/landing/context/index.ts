@@ -14,6 +14,7 @@ export const LandingContext = createContext({
   isLoadingMark: false,
   itemPerInit: 0,
   setItemPerInit: () => {},
+  setTopMatch: () => {},
 });
 
 export const useLandingContext = () => useContext(LandingContext);

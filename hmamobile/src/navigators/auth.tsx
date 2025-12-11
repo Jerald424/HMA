@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppContext } from 'src/App';
 import HMAText from 'src/components/styled/atoms/text';
 import FixedAlert from 'src/components/styled/atoms/toast/fixedAlert';
@@ -18,9 +19,11 @@ export default function AuthNavigator() {
   const { colors, spacing } = useTheme();
   const { isConnected, isVerifyError } = useAppContext();
   const { onLogout, isLoadingLogout } = useLogin();
+  const { top } = useSafeAreaInsets();
 
   return (
     <>
+      <View style={{ height: top, backgroundColor: colors.background }} />
       <HMAModalLoader isVisible={isLoadingLogout} />
       {!isConnected && (
         <FixedAlert color="error" message="No internet connection!" />

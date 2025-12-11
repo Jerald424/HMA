@@ -5,6 +5,8 @@ import { SCREEN_HEIGHT } from 'src/utils/variables';
 import HMADivider from '../styled/atoms/divider';
 import { useTheme } from 'src/hooks/useTheme';
 import HMAText from '../styled/atoms/text';
+import HMAButton from '../styled/atoms/button';
+import { useLandingContext } from 'src/screens/landing/context';
 
 export default function TopMatchesEmployee({
   topMatch,
@@ -15,6 +17,7 @@ export default function TopMatchesEmployee({
 }) {
   const { spacing, colors } = useTheme();
   const isVisible = !isEmpty(topMatch);
+  const { setTopMatch } = useLandingContext();
   return (
     <>
       <HMAModalOrganism
@@ -42,6 +45,7 @@ export default function TopMatchesEmployee({
             </View>
           ))}
         </ScrollView>
+        <HMAButton title="Discard" onPress={() => setTopMatch([])}></HMAButton>
       </HMAModalOrganism>
     </>
   );
