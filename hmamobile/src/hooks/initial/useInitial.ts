@@ -26,8 +26,16 @@ export default function useInitial() {
     mutationFn: verifyApi,
   });
 
-  const verifyToken = ({ token, url }: { token: string; url: string }) => {
-    verifyMutate({ token, url });
+  const verifyToken = ({
+    token,
+    url,
+    onSuccess,
+  }: {
+    token: string;
+    url: string;
+    onSuccess: (data: any) => void;
+  }) => {
+    verifyMutate({ token, url }, { onSuccess });
   };
 
   const checkToken = async () => {

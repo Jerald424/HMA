@@ -152,14 +152,24 @@ export default function useLogin() {
           });
         },
         onSuccess(response) {
-          if (isRemember) assignAccountsToAS(data);
-          assignBaseURlToAsyncStorage(data?.url?.value);
-          assignBaseURlToAxios(data?.url?.value);
-          AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
-          assignTokenToAsyncStorage(response?.token);
-          assignTokenToAxios(response?.token);
-          verifyToken({ token: response?.token, url: data?.url?.value });
-          dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+          verifyToken({
+            token: response?.token,
+            url: data?.url?.value,
+            onSuccess(data) {
+              if (!data?.is_manager)
+                return alertRef?.current?.showAlert?.({
+                  message: 'Only managers are authorized to log in.',
+                });
+              if (isRemember) assignAccountsToAS(data);
+              assignBaseURlToAsyncStorage(data?.url?.value);
+              assignBaseURlToAxios(data?.url?.value);
+              AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
+              assignTokenToAsyncStorage(response?.token);
+              assignTokenToAxios(response?.token);
+
+              dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+            },
+          });
         },
       },
     );

@@ -11,7 +11,11 @@ import { createContext, useContext } from 'react';
 const AppContext = createContext({
   isConnected: false,
   isVerifyError: false,
-  verifyToken: () => {},
+  verifyToken: (arg: {
+    token: string;
+    url: string;
+    onSuccess: (data: any) => void;
+  }) => {},
 });
 export const useAppContext = () => useContext(AppContext);
 
