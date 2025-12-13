@@ -1,6 +1,7 @@
 // js/native/FaceNet.js
 import { NativeModules } from "react-native";
 const { FaceNetNative } = NativeModules;
+console.log('FaceNetNative: ', FaceNetNative);
 
 export default {
   // employees: [{id, name, image: base64}, ...]

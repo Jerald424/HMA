@@ -33,9 +33,8 @@ export default function Container({
       ]}
     >
       <SafeAreaView
-        edges={['bottom', 'right', 'left']}
         {...safeAreaViewProps}
-        style={[{ flex: 1 }, safeAreaViewProps?.style]}
+        style={[{ flex: 1 ,}, safeAreaViewProps?.style]}
       >
         {props?.children}
       </SafeAreaView>

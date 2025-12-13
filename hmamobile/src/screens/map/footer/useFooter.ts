@@ -65,6 +65,9 @@ export default function useFooter({
     no_geofence_restriction_default_project_id;
 
   const onPress = () => {
+    if (userInfo?.isFaceVerify) {
+      return;
+    }
     if (no_geofence_restriction || no_geofence_restriction_default_project_id)
       officesRef?.current?.open?.();
     else if (!!matchedOffice) setModalType(isIn ? 'in' : 'out');
