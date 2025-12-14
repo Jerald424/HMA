@@ -54,7 +54,7 @@ export default function Toast({ showMs = 4000, ...props }: ToastProps) {
           width: '100%',
         }}
       >
-        <HMAText align="center" size="small">
+        <HMAText color="background" align="center" size="small">
           {message}
         </HMAText>
       </View>

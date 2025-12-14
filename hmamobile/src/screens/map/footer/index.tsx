@@ -17,6 +17,7 @@ import InOutButton from './components/inOutButton';
 import OfficeList from './officeList';
 import Timer from './timer';
 import useFooter from './useFooter';
+import FaceVerify from 'src/components/layout/faceVerify';
 
 export default function FooterBtn({
   userLocation,
@@ -41,6 +42,8 @@ export default function FooterBtn({
     isIn,
     onPress,
     officesRef,
+    faceVerifyRef,
+    afterVerify,
   } = useFooter({ userLocation });
 
   const formatDt = useMemo(
@@ -136,6 +139,7 @@ export default function FooterBtn({
         isIn={isIn}
         onAttendance={onAttendance}
       />
+      <FaceVerify onVerified={afterVerify} ref={faceVerifyRef} />
     </>
   );
 }

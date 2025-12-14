@@ -1,4 +1,9 @@
-import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native';
+import {
+  TouchableOpacity,
+  TouchableOpacityProps,
+  View,
+  ViewProps,
+} from 'react-native';
 import HMAIcon, { HMAIconProps } from 'src/components/styled/atoms/icon';
 import { iconType } from 'src/components/styled/atoms/icon/icon';
 import HMALoader from 'src/components/styled/atoms/loader';
@@ -11,16 +16,17 @@ export default function Shutter({
   setCamera,
   isOn,
   setIsOn,
+  ...props
 }: {
   onShutter: () => void;
   isLoading: boolean;
   setCamera: any;
   isOn: boolean;
   setIsOn: any;
-}) {
+} & ViewProps) {
   const { colors, spacing } = useTheme();
   return (
-    <View style={[cStyle.rowAlign]}>
+    <View {...props} style={[cStyle.rowAlign, props?.style]}>
       <IconWithRound
         disabled={!isOn}
         icon="rotate"

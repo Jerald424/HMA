@@ -9,6 +9,8 @@ import useLastAttendanceRecord from '../hooks/useLastAttendanceRecord';
 import isEmpty from 'lodash/isEmpty';
 import useGeofenceRestriction from '../hooks/useGeofenceRestriction';
 import { useModal } from 'react-native-modalfy';
+import { faceVerifyRefProp } from 'src/components/layout/faceVerify';
+import { IS_ANDROID } from 'src/utils/variables';
 
 export default function useFooter({
   userLocation,
@@ -20,6 +22,7 @@ export default function useFooter({
   const alertRef = useRef<alertRefProp>(null);
   const officesRef = useRef(null);
   const { openModal, closeModal } = useModal();
+  const faceVerifyRef = useRef<faceVerifyRefProp>(null);
 
   const {
     data: lastAttendanceRecord,
@@ -64,13 +67,18 @@ export default function useFooter({
     no_geofence_restriction ||
     no_geofence_restriction_default_project_id;
 
-  const onPress = () => {
-    if (userInfo?.isFaceVerify) {
-      return;
-    }
+  const afterVerify = () => {
     if (no_geofence_restriction || no_geofence_restriction_default_project_id)
       officesRef?.current?.open?.();
     else if (!!matchedOffice) setModalType(isIn ? 'in' : 'out');
+  };
+
+  const onPress = () => {
+    if (userInfo?.isFaceVerify && IS_ANDROID) {
+      faceVerifyRef?.current?.onVerify?.();
+      return;
+    }
+    afterVerify();
   };
 
   const onAttendance = (arg?: { project_id: number }) => {
@@ -132,5 +140,7 @@ export default function useFooter({
     isIn,
     onPress,
     officesRef,
+    faceVerifyRef,
+    afterVerify,
   };
 }

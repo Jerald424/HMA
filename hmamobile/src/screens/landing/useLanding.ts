@@ -9,20 +9,22 @@ export default function useLanding() {
   const { baseurl } = useAuth();
 
   useEffect(() => {
-    dispatch(fetchUserInfo()).then(data => {
+    dispatch(fetchUserInfo()).then(async data => {
       try {
         if (IS_ANDROID) {
           const user = data?.payload;
-          FaceNet.initializeEmployees([
+          const payload = [
             {
               id: user?.Employee_ID,
               name: user?.Employee_Name,
               imageUrl: `${baseurl}${user?.Employee_Image_URL}`,
             },
-          ]);
+          ];
+          await FaceNet.initializeEmployees(payload);
+          console.log('INIT DONE');
         }
       } catch (error) {
-        console.log('ERROR: ', error);
+        console.log('ERROR: WHILE INIT', error);
       }
     });
   }, []);
