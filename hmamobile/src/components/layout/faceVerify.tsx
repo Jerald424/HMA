@@ -16,6 +16,7 @@ import HMAButton from '../styled/atoms/button';
 import HMADivider from '../styled/atoms/divider';
 import HMAText from '../styled/atoms/text';
 import { openSettings } from 'react-native-permissions';
+import { makeErrorVibration } from 'src/utils/vibration';
 
 export type faceVerifyRefProp = {
   onVerify: () => void;
@@ -57,11 +58,14 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
       ) {
         onVerified(response?.[0]);
         toastRef?.current?.showToast?.('Verified Successful', 'success');
+        setTimeout(() => setIsOpen(false), 1000);
       } else {
+        makeErrorVibration();
         toastRef?.current?.showToast?.('Face does not match', 'error');
       }
-      setIsOpen(false);
     } catch (error) {
+      makeErrorVibration();
+
       toastRef?.current?.showToast?.(error?.message, 'error');
 
       console.error(error);
@@ -126,7 +130,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
         <HMADivider />
         <HMAButton
           color="error"
-          onPress={() => setIsOn(false)}
+          onPress={() => setIsOpen(false)}
           title="Cancel"
         />
       </HMAModalOrganism>
