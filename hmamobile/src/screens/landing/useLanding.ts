@@ -17,7 +17,7 @@ import { LOCAL_ATTENDANCE_RECORD } from 'src/utils/variables';
 export default function useLanding() {
   const dispatch = useAppDispatch();
   const { mode, setMode } = useAttendanceMode();
-  const { isConnected } = useAppContext();
+  const { isConnected, isVerifyError } = useAppContext();
   const [topMatch, setTopMatch] = useState([]);
   const [localRecord, setLocalRecord] = useState([]);
   const toastRef = useRef<toastRefFn>(null);
@@ -65,11 +65,11 @@ export default function useLanding() {
       timestamp: emp?.timestamp ?? String(Date.now()),
     };
     console.log('payload: ', payload);
-    if (isConnected)
+    if (isConnected && !isVerifyError)
       onMarkAttendance(payload, {
         onSuccess(data) {
           console.log('$$$SUCCESS%%', data);
-          showToast(`${emp?.name} ${mode?.label} successfully`, 'success');
+          showToast(`${emp?.name}: ${data?.message}`, 'success');
           removeLocalRecord(payload);
         },
         onError(error) {

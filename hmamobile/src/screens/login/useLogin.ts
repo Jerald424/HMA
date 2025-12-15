@@ -155,12 +155,12 @@ export default function useLogin() {
           verifyToken({
             token: response?.token,
             url: data?.url?.value,
-            onSuccess(data) {
-              if (!data?.is_manager)
+            async onSuccess(verifyData) {
+              if (!verifyData?.is_manager)
                 return alertRef?.current?.showAlert?.({
                   message: 'Only managers are authorized to log in.',
                 });
-              if (isRemember) assignAccountsToAS(data);
+              if (isRemember) await assignAccountsToAS(data);
               assignBaseURlToAsyncStorage(data?.url?.value);
               assignBaseURlToAxios(data?.url?.value);
               AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
@@ -168,6 +168,12 @@ export default function useLogin() {
               assignTokenToAxios(response?.token);
 
               dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+              dispatch(
+                updateAuthSlice({ key: 'token', value: response?.token }),
+              );
+              dispatch(
+                updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
+              );
             },
           });
         },
