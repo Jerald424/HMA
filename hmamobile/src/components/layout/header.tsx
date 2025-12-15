@@ -14,14 +14,14 @@ export default function Header({ title }: { title: string }) {
       <HMAText style={{ flex: 1 }} size="large" color="textPrimary">
         {title}
       </HMAText>
-      <Toggle
+      {/* <Toggle
         selected={mode}
         onChange={setMode}
         data={[
           { label: 'Check In', value: 'check-in' },
           { label: 'Check Out', value: 'check-out' },
         ]}
-      />
+      /> */}
     </View>
   );
 }

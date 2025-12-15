@@ -29,7 +29,7 @@ export default function RegisterEmployee() {
     itemPerInit,
     setItemPerInit,
   } = useLandingContext();
-  const { isConnected } = useAppContext();
+  const { isConnected, isVerifyError } = useAppContext();
   const EMPLOYEE_LENGTH = employee?.length;
   const [isOpenEdit, setIsOpenEdit] = useState(false);
 
@@ -66,13 +66,17 @@ export default function RegisterEmployee() {
     load();
   }, []);
 
-  if (!isConnected)
+  if (!isConnected || isVerifyError)
     return (
       <Container>
         <NoData
-          message="No internet connection.."
+          message={
+            isVerifyError ? 'Login to continue..' : 'No internet connection..'
+          }
           avatarProps={{
-            source: require('src/assets/color-icons/wifi-slash.png'),
+            source: isVerifyError
+              ? require('src/assets/color-icons/error.png')
+              : require('src/assets/color-icons/wifi-slash.png'),
           }}
         />
       </Container>

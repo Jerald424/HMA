@@ -55,30 +55,11 @@ export default function useLanding() {
     }
   };
 
-  const onFailureLocalRecord = (emp: any) => {
-    try {
-      const updated = [...localRecord];
-      const index = updated?.findIndex(
-        rec =>
-          rec?.employee_id == emp?.employee_id &&
-          rec?.timestamp == emp?.timestamp,
-      );
-      if (index !== -1) {
-        const rem = updated.splice(index, 1);
-        updated?.push(...rem);
-        setLocalRecord(updated);
-        AsyncStorage.setItem(LOCAL_ATTENDANCE_RECORD, JSON.stringify(updated));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const onMatch = async (emp: any) => {
     setTopMatch([]);
     const payload = {
       employee_id: emp?.employee_id ? +emp?.employee_id : +emp?.id,
-      type: emp?.type ?? mode?.value,
+      // type: emp?.type ?? mode?.value,
       date: emp?.date ?? makeColonDate(new Date()),
       name: emp?.name,
       timestamp: emp?.timestamp ?? String(Date.now()),
