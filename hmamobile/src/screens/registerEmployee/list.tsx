@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { FlatList, RefreshControl, TouchableOpacity, View } from 'react-native';
 import { useLandingContext } from '../landing/context';
 import { cStyle } from 'src/utils/style';
 import HMAAvatar from 'src/components/styled/atoms/avatar';
@@ -13,7 +13,7 @@ import HMATextInputMolecule from 'src/components/styled/molecules/input';
 import { useTheme } from 'src/hooks/useTheme';
 
 export default function List() {
-  const { employee, onSync } = useLandingContext();
+  const { employee, onSync, refetchEmployee, isPending } = useLandingContext();
   const [selected, setSelected] = useState([]);
   const [search, setSearch] = useState('');
   const { colors } = useTheme();
@@ -48,6 +48,9 @@ export default function List() {
       />
       <HMADivider />
       <FlatList
+        refreshControl={
+          <RefreshControl onRefresh={refetchEmployee} refreshing={isPending} />
+        }
         showsVerticalScrollIndicator={false}
         data={filteredList}
         renderItem={({ item }) => (

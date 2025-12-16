@@ -30,6 +30,7 @@ export default function useLanding() {
     employee,
     itemPerInit,
     setItemPerInit,
+    refetchEmployee,
   } = useEmployeeData();
   const { isLoadingMark, onMarkAttendance } = useMarkAttendance();
 
@@ -127,6 +128,7 @@ export default function useLanding() {
     itemPerInit,
     setItemPerInit,
     setTopMatch,
+    refetchEmployee,
   };
 
   const loadLocalAttendance = async () => {

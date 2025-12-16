@@ -15,6 +15,8 @@ const fetchEmployee = async () => {
   const domain = await AsyncStorage.getItem(BASE_URL);
   return response?.map(res => {
     delete res['image'];
+    if (res?.url?.includes('?')) res['url'] += `&${Date.now()}`;
+    else res['url'] += `?${Date.now()}`;
     Object.assign(res, { imageUrl: `${domain}${res?.url}` });
     delete res['url'];
     return res;
@@ -24,7 +26,11 @@ const fetchEmployee = async () => {
 export default function useEmployee() {
   const { itemPerInit, setItemPerInit } = useItemPerCount();
   const [isInitProgress, setInitProgress] = useState(false);
-  const { data, isPending, error } = useQuery({
+  const {
+    data,
+    isPending,
+    refetch: refetchEmployee,
+  } = useQuery({
     queryKey: ['fetch/employee'],
     queryFn: fetchEmployee,
   });
@@ -57,5 +63,6 @@ export default function useEmployee() {
     employee: data,
     itemPerInit,
     setItemPerInit,
+    refetchEmployee,
   };
 }

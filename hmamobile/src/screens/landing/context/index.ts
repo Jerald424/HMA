@@ -15,6 +15,7 @@ export const LandingContext = createContext({
   itemPerInit: 0,
   setItemPerInit: () => {},
   setTopMatch: () => {},
+  refetchEmployee: () => {},
 });
 
 export const useLandingContext = () => useContext(LandingContext);

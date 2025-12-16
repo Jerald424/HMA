@@ -24,12 +24,12 @@ export default function KioskAttendanceMode() {
     const photo = await cameraRef?.current?.takePhoto?.();
     setIsTaking(false);
     onAttendance(photo);
-    try {
-      const response = await FaceNet.compareCapturedFace(photo?.path, 5);
-      console.log('RESPONSE', response);
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    //   const response = await FaceNet.compareCapturedFace(photo?.path, 5);
+    //   console.log('RESPONSE', response);
+    // } catch (error) {
+    //   console.error(error);
+    // }
   };
 
   useEffect(() => {
