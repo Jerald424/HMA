@@ -156,6 +156,9 @@ export default function useLogin() {
           assignTokenToAsyncStorage(response?.token);
           assignTokenToAxios(response?.token);
           dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+          dispatch(
+            updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
+          );
         },
       },
     );
