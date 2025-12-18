@@ -150,15 +150,15 @@ export default function useLogin() {
         },
         onSuccess(response) {
           if (isRemember) assignAccountsToAS(data);
+          dispatch(
+            updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
+          );
           assignBaseURlToAsyncStorage(data?.url?.value);
           assignBaseURlToAxios(data?.url?.value);
           AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
           assignTokenToAsyncStorage(response?.token);
           assignTokenToAxios(response?.token);
           dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
-          dispatch(
-            updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
-          );
         },
       },
     );

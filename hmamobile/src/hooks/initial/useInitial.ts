@@ -27,11 +27,11 @@ export default function useInitial() {
         { token, url },
         {
           onSuccess() {
+            dispatch(updateAuthSlice({ key: 'baseurl', value: url }));
             assignBaseURlToAsyncStorage(url);
             assignBaseURlToAxios(url);
             assignTokenToAxios(token);
             dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
-            dispatch(updateAuthSlice({ key: 'baseurl', value: url }));
           },
           onSettled() {
             setIsReady(true);
