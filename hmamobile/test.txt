@@ -1,0 +1,919 @@
+<RawModal
+
+        showModal={showBillingModal}
+
+        setShowModal={(value) => {
+
+          setShowBillingModal(false);
+
+        }}
+
+        onCloseCallback={handleClose}
+
+        onClickX={handleClose}
+
+        isShowCacelButton={true}
+
+        modalStyle={{
+
+          width: Size.width * 0.8,
+
+          height: Size.height * 0.85,
+
+          backgroundColor: "white",
+
+          padding: 20,
+
+        }}
+
+      >
+
+        {(
+
+          getfavoriteBillingsQuery?.isLoading ||
+
+          getBillingCodesQuery?.isLoading ||
+
+          getfavoriteBillingsQuery?.isFetching ||
+
+          getBillingCodesQuery?.isFetching ||
+
+          getPatientBillingsQuery?.isLoading ||
+
+          getPatientBillingsQuery?.isFetching ||
+
+          getFollowUpsQuery?.isLoading ||
+
+          getFollowUpsQuery?.isFetching
+
+        ) && (
+
+            <View
+
+              pointerEvents="auto"
+
+              style={{
+
+                position: "absolute",
+
+                top: 0,
+
+                left: 0,
+
+                right: 0,
+
+                bottom: 0,
+
+                backgroundColor: "rgba(255,255,255,0.6)",
+
+                justifyContent: "center",
+
+                alignItems: "center",
+
+                zIndex: 9999,
+
+              }}
+
+            >
+
+              <ActivityIndicator size="large" color={Colors.secondaryColor} />
+
+            </View>
+
+          )}
+
+        <ErrorBoundary fallbackMsg="Unexpected error occured in billing">
+
+          <View style={{ flex: 1, position: "relative" }}>
+
+
+
+            <Row
+
+              flex={1}
+
+              style={{
+
+                borderBottomWidth: 1,
+
+                borderBottomColor: "#ccc",
+
+                paddingVertical: 10,
+
+              }}
+
+            >
+
+              <Row>
+
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+
+                  <Text style={{ ...Fonts.subHead01, marginLeft: 10 }}>
+
+                    Billing
+
+                  </Text>
+
+                  {billCount > 0 && (
+
+                    <Animated.View
+
+                      entering={FadeIn.duration(300)}
+
+                      style={{
+
+                        width: 23,
+
+                        height: 23,
+
+                        borderRadius: 12,
+
+                        backgroundColor: Colors.secondaryColor,
+
+                        alignItems: "center",
+
+                        justifyContent: "center",
+
+                        marginLeft: 5,
+
+                      }}
+
+                    >
+
+                      <Text style={{ color: "white" }}>{billCount}</Text>
+
+                    </Animated.View>
+
+                  )}
+
+                </View>
+
+                <View
+
+                  style={{
+
+                    width: "80%",
+
+                    height: 50,
+
+                    backgroundColor: "whitesmoke",
+
+                    borderRadius: 10,
+
+                    flexDirection: "row",
+
+                    justifyContent: "space-between",
+
+                    paddingHorizontal: 10,
+
+                    alignItems: "center",
+
+                  }}
+
+                >
+
+                  <Feather name="search" color={"grey"} size={20} />
+
+                  <TextInput
+
+                    placeholder="Search. . ."
+
+                    value={search}
+
+                    style={{ flex: 1, paddingLeft: 10 }}
+
+                    onChangeText={(e) => {
+
+                      setSearch(e);
+
+                    }}
+
+                  />
+
+                  <TouchableOpacity
+
+                    onPress={() => {
+
+                      setSearch("");
+
+                    }}
+
+                    style={{
+
+                      height: "100%",
+
+                      width: 30,
+
+                      marginLeft: 10,
+
+                      alignItems: "center",
+
+                      justifyContent: "center",
+
+                    }}
+
+                  >
+
+                    <MaterialIcons name="cancel" size={15} color="grey" />
+
+                  </TouchableOpacity>
+
+                </View>
+
+              </Row>
+
+              <Row>
+
+                <TouchableOpacity
+
+                  style={[styles.actionButtonLight]}
+
+                  onPress={() => {
+
+                    setBillledData(previousBilledData);
+
+                  }}
+
+                >
+
+                  <Text style={{ color: Colors.secondaryColor }}>Clear</Text>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity
+
+                  style={[styles.actionButtonLight]}
+
+                  onPress={() => {
+
+                    setBillledData({});
+
+                    setBillCount(0);
+
+                  }}
+
+                >
+
+                  <Text style={{ color: Colors.secondaryColor }}>Reset</Text>
+
+                </TouchableOpacity>
+
+                <TouchableOpacity
+
+                  style={[styles.actionButtonDark]}
+
+                  onPress={() => {
+
+                    handleSubmit();
+
+                  }}
+
+                >
+
+                  <Text style={{ color: "white" }}>Submit</Text>
+
+                </TouchableOpacity>
+
+              </Row>
+
+            </Row>
+
+            <LockingProgressModal
+
+              loadingObj={lockingProgressOBJ}
+
+              setLoadingObj={setLockingProgressOBJ}
+
+            />
+
+            <>
+
+              <View
+
+                style={{
+
+                  width: "100%",
+
+                  // marginTop: 20,
+
+                  borderTopColor: "rgba(0,0,0,0.2)",
+
+                  borderTopWidth: StyleSheet.hairlineWidth,
+
+                }}
+
+              >
+
+                <Text style={[styles.billingHeadText, { marginLeft: 0 }]}>
+
+                  Notes
+
+                </Text>
+
+                <TextInput
+
+                  placeholder="..."
+
+                  placeholderTextColor={"grey"}
+
+                  enablesReturnKeyAutomatically={true}
+
+                  multiline={true}
+
+                  style={[styles.notecon]}
+
+                  inputMode={"email"}
+
+                  value={notes}
+
+                  onChangeText={(e) => {
+
+                    // if (!isLocal) {
+
+                    setNotes(e);
+
+                    // }
+
+                  }}
+
+                />
+
+              </View>
+
+              <Row flex={1}>
+
+                <View
+
+                  style={{
+
+                    marginTop: 30,
+
+                    flexDirection: "row",
+
+                    alignItems: "center",
+
+                  }}
+
+                >
+
+                  <Switch
+
+                    value={isSurgery}
+
+                    onChange={() => {
+
+                      // if (!isLocal) {
+
+                      //   setIsSurgery(!isSurgery);
+
+                      // }
+
+                      setIsSurgery((prev) => !prev);
+
+                    }}
+
+                  />
+
+                  <Pressable
+
+                    style={{ marginLeft: 10 }}
+
+                    onPress={() => {
+
+                      setIsSurgery((prev) => !prev);
+
+                    }}
+
+                  >
+
+                    <Text style={{ ...Fonts.lable02 }}>
+
+                      Patient Requires Surgery
+
+                    </Text>
+
+                  </Pressable>
+
+                </View>
+
+
+
+                <InputDropDown
+
+                  title={"Follow Up"}
+
+                  DDData={getFollowUpsQuery?.data || []}
+
+                  onChangeCallback={(e, i) => {
+
+                    setFollowUp(e);
+
+                  }}
+
+                  initialVlaue={followUp}
+
+                  ObjKey={"value"}
+
+                  // containerStyle={{width: '100%', height: '20%'}}
+
+                  placeholderText={""}
+
+                  showTitle={true}
+
+                  // disabled={isLocal}
+
+                  inputContainerStyle={{ width: "100%" }}
+
+                />
+
+              </Row>
+
+              <KeyboardAvoidingView
+
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+
+                style={styles.keyboardAvoidingView}
+
+              >
+
+                {Object.keys(billedData)?.length && (
+
+                  <>
+
+                    <Animated.View entering={FadeIn} exiting={FadeOut}>
+
+                      <Text style={[styles.billingHeadText, { marginLeft: 0 }]}>
+
+                        Selected Bills
+
+                      </Text>
+
+                    </Animated.View>
+
+                    <ScrollView
+
+                      style={{ width: "100%", maxHeight: 100, minHeight: 100 }}
+
+                    >
+
+                      <View
+
+                        style={[
+
+                          styles.selectedCon,
+
+                          {
+
+                            flexWrap: "wrap",
+
+                            flexDirection: "row",
+
+                            minHeight: 50,
+
+                            backgroundColor: Colors.secondaryColor05,
+
+                            padding: 5,
+
+                            borderRadius: 10,
+
+                            overflow: "hidden",
+
+                          },
+
+                        ]}
+
+                      >
+
+                        {/* {(Object.keys(billedData).length !== 0) ? setShowSelectedCon(true) : setShowSelectedCon(true)} */}
+
+                        {Object.keys(billedData)?.map((e, i) => {
+
+                          const billDataValue = billedData[e];
+
+                          // const qConfig = JSON.parse(
+
+                          //   getConstant('billingCodeUnitsLayout', '[{"active":false}]'),
+
+                          // )[0];
+
+
+
+                          return (
+
+                            <View
+
+                              key={`Billing ${i}`}
+
+                              style={{
+
+                                width: "48%",
+
+                                height: 38,
+
+                                margin: 5,
+
+                                flexDirection: "row",
+
+                              }}
+
+                            >
+
+                              <BillingTag
+
+                                title={billDataValue["Billing Item"]}
+
+                                code={billDataValue["Billing Code"]}
+
+                              />
+
+                              {/* {qConfig?.active && ( */}
+
+                              <View
+
+                                style={{
+
+                                  width: 50,
+
+                                  height: 30,
+
+                                  backgroundColor: Colors.greyColor05,
+
+                                  borderRadius: 10,
+
+                                  alignItems: "center",
+
+                                  justifyContent: "center",
+
+                                }}
+
+                              >
+
+                                <Text
+
+                                  style={{
+
+                                    ...Fonts.lable01,
+
+                                    textAlign: "center",
+
+                                  }}
+
+                                >
+
+                                  {billDataValue["quantity"]}
+
+                                </Text>
+
+                              </View>
+
+                              {/* )} */}
+
+                            </View>
+
+                          );
+
+                        })}
+
+                      </View>
+
+                    </ScrollView>
+
+                  </>
+
+                )}
+
+
+
+                <ScrollView style={{ flex: 1 }} snapToEnd={true} ref={Scrollref}>
+
+                  <TouchableOpacity
+
+                    activeOpacity={1}
+
+                    onPress={() => {
+
+                      // setShowFavoriteContainer((prev) => !prev)
+
+                    }}
+
+                    style={[
+
+                      styles.billingSubCons,
+
+                      {
+
+                        borderColor: "lightgrey",
+
+                        borderWidth: StyleSheet.hairlineWidth,
+
+                        borderBottomColor: "transparent",
+
+                      },
+
+                    ]}
+
+                  >
+
+                    <View
+
+                      style={{
+
+                        borderBottomColor: "lightgrey",
+
+                        borderBottomWidth: StyleSheet.hairlineWidth,
+
+                        backgroundColor: "rgba(100,100,100,.02)",
+
+                        flexDirection: "row",
+
+                        alignItems: "center",
+
+                        justifyContent: "space-between",
+
+                        paddingRight: 40,
+
+                      }}
+
+                    >
+
+                      <Text style={[styles.billingHeadText]}>Favorites</Text>
+
+                      {!showFavoriteContainer ? (
+
+                        <Entypo
+
+                          name="chevron-thin-down"
+
+                          color={"black"}
+
+                          size={15}
+
+                        />
+
+                      ) : (
+
+                        <Entypo
+
+                          name="chevron-thin-up"
+
+                          color={"black"}
+
+                          size={15}
+
+                        />
+
+                      )}
+
+                    </View>
+
+                    {showFavoriteContainer && (
+
+                      <View>
+
+                        {favoriteItems?.map((ce, ci) => {
+
+                          return (
+
+                            <BillItemRow
+
+                              key={ci}
+
+                              isHideBottomBorder={false}
+
+                              setBillCount={setBillCount}
+
+                              billobjs={ce[2]}
+
+                              itemName={ce[1]}
+
+                              itemNo={ce[0]}
+
+                              billedData={billedData}
+
+                              setBillledData={setBillledData}
+
+                              patientData={patientData}
+
+                              // add billled Arr Data
+
+                              setSearchStr={setSearchStr}
+
+                              searchstr={searchstr}
+
+                              isFavClickedCallback={isFavClickedCallback}
+
+                              setFavoriteItems={setFavoriteItems}
+
+                              favoriteItems={favoriteItems}
+
+                              isFavoriteContainer={true}
+
+                              isLocked={isLocked}
+
+                            />
+
+                          );
+
+                        })}
+
+                      </View>
+
+                    )}
+
+                  </TouchableOpacity>
+
+
+
+                  {getBillingCodesQuery?.data?.["Unique Categories"]
+
+                    ?.filter((category) => {
+
+                      const itemsInCategory = getBillingCodesQuery?.data?.[
+
+                        "Select Data"
+
+                      ]?.filter((ce) => ce[2]?.["Billing Category"] === category);
+
+                      return itemsInCategory?.some(
+
+                        (ce) =>
+
+                          ce[1].toLowerCase().includes(search.toLowerCase()) ||
+
+                          ce[0].toLowerCase().includes(search.toLowerCase())
+
+                      );
+
+                    })
+
+                    ?.map((item, index) => {
+
+                      return (
+
+                        <TouchableOpacity
+
+                          activeOpacity={1}
+
+                          onPress={() => { }}
+
+                          style={[
+
+                            styles.billingSubCons,
+
+                            {
+
+                              borderColor: "lightgrey",
+
+                              borderWidth: StyleSheet.hairlineWidth,
+
+                              borderBottomColor: "transparent",
+
+                            },
+
+                          ]}
+
+                        >
+
+                          <View
+
+                            style={{
+
+                              borderBottomColor: "lightgrey",
+
+                              borderBottomWidth: StyleSheet.hairlineWidth,
+
+                              backgroundColor: "rgba(100,100,100,.02)",
+
+                              flexDirection: "row",
+
+                              alignItems: "center",
+
+                              justifyContent: "space-between",
+
+                              paddingRight: 40,
+
+                            }}
+
+                          >
+
+                            <Text style={[styles.billingHeadText]}>{item}</Text>
+
+                            {!showFavoriteContainer ? (
+
+                              <Entypo
+
+                                name="chevron-thin-down"
+
+                                color={"black"}
+
+                                size={15}
+
+                              />
+
+                            ) : (
+
+                              <Entypo
+
+                                name="chevron-thin-up"
+
+                                color={"black"}
+
+                                size={15}
+
+                              />
+
+                            )}
+
+                          </View>
+
+                          {showFavoriteContainer && (
+
+                            <View>
+
+                              {getBillingCodesQuery?.data?.["Select Data"]
+
+                                ?.filter(
+
+                                  (ce) =>
+
+                                    ce[2]?.["Billing Category"] === item &&
+
+                                    (ce[1]
+
+                                      .toLowerCase()
+
+                                      .includes(search.toLowerCase()) ||
+
+                                      ce[0]
+
+                                        .toLowerCase()
+
+                                        .includes(search.toLowerCase()))
+
+                                )
+
+                                ?.map((ce, ci) => {
+
+                                  return (
+
+                                    <BillItemRow
+
+                                      key={ci}
+
+                                      isHideBottomBorder={false}
+
+                                      setBillCount={setBillCount}
+
+                                      billobjs={ce[2]}
+
+                                      itemName={ce[1]}
+
+                                      itemNo={ce[0]}
+
+                                      billedData={billedData}
+
+                                      setBillledData={setBillledData}
+
+                                      patientData={patientData}
+
+                                      setSearchStr={setSearchStr}
+
+                                      searchstr={searchstr}
+
+                                      isFavClickedCallback={isFavClickedCallback}
+
+                                      setFavoriteItems={setFavoriteItems}
+
+                                      favoriteItems={favoriteItems}
+
+                                      isFavoriteContainer={false}
+
+                                      isLocked={isLocked}
+
+                                    />
+
+                                  );
+
+                                })}
+
+                            </View>
+
+                          )}
+
+                        </TouchableOpacity>
+
+                      );
+
+                    })}
+
+                </ScrollView>
+
+              </KeyboardAvoidingView>
+
+            </>
+
+          </View>
+
+        </ErrorBoundary>
+
+      </RawModal>
