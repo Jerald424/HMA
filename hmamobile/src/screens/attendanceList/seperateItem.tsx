@@ -47,21 +47,25 @@ export default function SeparateItem({ item }: { item: any }) {
         <HMAText color="textSecondary" size="small">
           Project: {item?.project?.name}
         </HMAText>
-        {/* <HMADivider /> */}
-        {/* <View style={cStyle.row}>
-          <HMABadge
-            size="sm"
-            color="info"
-            label={`Worked Hour: ${item?.['worked_hours'] || '-'}`}
-          />
-          <HMADivider variant="vertical" />
+        <HMADivider />
+        {item?.overtime_status == 'approved' ||
+          (true && (
+            <HMABadge
+              size="sm"
+              color="primary"
+              label={`Overtime: ${item?.['overtime'] || '-'}`}
+            />
+          ))}
 
-          <HMABadge
-            size="sm"
-            color="primary"
-            label={`Overtime: ${item?.['overtime'] || '-'}`}
-          />
-        </View> */}
+        {!!item?.auto_checkout_note && (
+          <>
+            <HMADivider thickness={1} />
+            <HMAText size="small" variant="large">
+              Auto Checkout Note:
+            </HMAText>
+            <HMAText>{item?.auto_checkout_note}</HMAText>
+          </>
+        )}
       </HMACard>
       <HMADivider />
     </>
