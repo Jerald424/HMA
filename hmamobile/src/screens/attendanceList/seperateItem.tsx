@@ -48,14 +48,13 @@ export default function SeparateItem({ item }: { item: any }) {
           Project: {item?.project?.name}
         </HMAText>
         <HMADivider />
-        {item?.overtime_status == 'approved' ||
-          (true && (
-            <HMABadge
-              size="sm"
-              color="primary"
-              label={`Overtime: ${item?.['overtime'] || '-'}`}
-            />
-          ))}
+        {item?.overtime_status == 'approved' && (
+          <HMABadge
+            size="sm"
+            color="primary"
+            label={`Overtime: ${item?.['overtime'] || '-'}`}
+          />
+        )}
 
         {!!item?.auto_checkout_note && (
           <>
