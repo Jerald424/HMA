@@ -4,24 +4,19 @@ import HMABadge from 'src/components/styled/atoms/badge';
 import HMACard from 'src/components/styled/atoms/card';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
-import { convertUserTimeZone } from 'src/function/dateConversion';
+import { convertUserTimeZone, formateDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
 import { useUserInfo } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
 
 export default function SeparateItem({ item }: { item: any }) {
+  console.log('item: ', item);
   const { spacing } = useTheme();
   const { data } = useUserInfo();
   const dtHr = useMemo(
     () => ({
-      in: convertUserTimeZone({
-        date: item?.check_in,
-        timeZone: data?.Timezone,
-      }),
-      out: convertUserTimeZone({
-        date: item?.check_out,
-        timeZone: data?.Timezone,
-      }),
+      in: formateDate(item?.check_in),
+      out: formateDate(item?.check_out),
     }),
     [item],
   );
