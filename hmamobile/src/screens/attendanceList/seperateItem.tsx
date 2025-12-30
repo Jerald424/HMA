@@ -4,7 +4,7 @@ import HMABadge from 'src/components/styled/atoms/badge';
 import HMACard from 'src/components/styled/atoms/card';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
-import { convertUserTimeZone, formateDate } from 'src/function/dateConversion';
+import {  formateDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
 import { useUserInfo } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';

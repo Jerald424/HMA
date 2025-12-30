@@ -8,7 +8,7 @@ import HMAText from 'src/components/styled/atoms/text';
 import HMAModalTemplate from 'src/components/styled/template/modal';
 import HMAAlert from 'src/components/styled/template/modal/alert';
 import { blendWithWhite } from 'src/function/colorCorrection';
-import { convertUserTimeZone } from 'src/function/dateConversion';
+import { formateDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
 import { useUserInfo } from 'src/redux/hooks';
 import { spacing } from 'src/theme/spacing';
@@ -47,11 +47,7 @@ export default function FooterBtn({
   } = useFooter({ userLocation });
 
   const formatDt = useMemo(
-    () =>
-      convertUserTimeZone({
-        date: lastAttendanceRecord?.check_in,
-        timeZone: userInfo?.Timezone,
-      }),
+    () => formateDate(lastAttendanceRecord?.check_in),
     [lastAttendanceRecord],
   );
 
