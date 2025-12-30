@@ -35,6 +35,15 @@
 <array>
   <string>location</string>
 </array>
+	<key>NSCameraUsageDescription</key>
+	<string>Attendo uses your camera to capture photos for attendance verification.</string>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photos to upload images for attendance records.</string>
+
+	<key>NSFaceIDUsageDescription</key>
+	<string>Attendo uses your Face ID is used to securely verify user identity during attendance.</string>
+
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Attendo uses your location to detect entry and exit from geofenced zones, even when the app is not actively open, to provide seamless location-based services. Continued use of GPS in the background may reduce battery life.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
