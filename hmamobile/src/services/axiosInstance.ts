@@ -1,5 +1,6 @@
 import axios from 'axios';
 import sessionExpires from 'src/function/sessionExpires';
+import { IS_ANDROID } from 'src/utils/variables';
 
 const axiosInstance = axios.create({
   timeout: 60000,
@@ -7,6 +8,8 @@ const axiosInstance = axios.create({
   headers: {
     ['Content-Type']: 'application/json',
     Accept: 'application/json',
+    version: 1.2,
+    source: IS_ANDROID ? 'android' : 'ios',
   },
   responseType: 'json',
 });
