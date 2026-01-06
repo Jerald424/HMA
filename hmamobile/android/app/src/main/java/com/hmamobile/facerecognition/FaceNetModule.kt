@@ -5,6 +5,10 @@ import android.graphics.Bitmap
 import kotlinx.coroutines.*
 import java.lang.Exception
 import android.graphics.BitmapFactory
+import androidx.exifinterface.media.ExifInterface
+import android.graphics.Matrix
+
+
 
 
 class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
@@ -61,6 +65,28 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
         }
     }
 
+    fun fixBitmapOrientation(path: String, bitmap: Bitmap): Bitmap {
+    val exif = ExifInterface(path)
+    val rotation = when (
+        exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_NORMAL
+        )
+    ) {
+        ExifInterface.ORIENTATION_ROTATE_90 -> 90
+        ExifInterface.ORIENTATION_ROTATE_180 -> 180
+        ExifInterface.ORIENTATION_ROTATE_270 -> 270
+        else -> 0
+    }
+
+    if (rotation == 0) return bitmap
+
+    val matrix = Matrix().apply { postRotate(rotation.toFloat()) }
+    return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+}
+
+
+
     /**
      * compareCapturedFace(base64, topN)
      * - base64: image string of captured face
@@ -74,7 +100,9 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
             try {
                 //val bmp = Utils.base64ToBitmap(base64)
                   //  ?: return@launch promise.reject("INVALID_IMAGE", "Cannot decode base64")
-                val bmp = BitmapFactory.decodeFile(filePath) ?: return@launch promise.reject("INVALID_IMAGE", "Cannot get image")
+                val rawBmp = BitmapFactory.decodeFile(filePath) ?: return@launch promise.reject("INVALID_IMAGE", "Cannot get image")
+                val bmp = fixBitmapOrientation(filePath, rawBmp)
+
 
                 val liveEmb = manager.detectAndGetEmbedding(bmp)
                     ?: return@launch promise.reject("NO_FACE", "No face detected in image")
