@@ -34,7 +34,7 @@ export default function Shutter({
           setCamera((prev: string) => (prev == 'back' ? 'front' : 'back'))
         }
       />
-      <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <TouchableOpacity
           disabled={isLoading || !isOn}
           onPress={onShutter}

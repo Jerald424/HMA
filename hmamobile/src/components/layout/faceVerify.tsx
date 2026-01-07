@@ -38,6 +38,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { requestPermission, hasPermission } = useCameraPermission();
   const back = useCameraDevice('back');
   const front = useCameraDevice('front');
+  const isFront = camera == 'front';
 
   const [isOpen, setIsOpen] = useState(false);
   const device = camera == 'back' ? back : front;
@@ -84,7 +85,9 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     <>
       <HMAModalOrganism
         isVisible={isOpen}
-        headingProps={{ children: 'Verify Face' }}
+        headingProps={{
+          children: isFront ? 'Rotate phone and capture' : 'Verify Face',
+        }}
       >
         <View style={{ height: SCREEN_HEIGHT / 2 }}>
           <Toast ref={toastRef} />
@@ -99,11 +102,22 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
                 isActive={isOn}
               />
               <Shutter
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  padding: spacing.sm,
-                }}
+                style={[
+                  {
+                    position: 'absolute',
+
+                    padding: spacing.sm,
+                  },
+                  isFront
+                    ? {
+                        left: 0,
+                        flexDirection: 'column',
+                        gap: spacing.md,
+                        height: SCREEN_HEIGHT / 2,
+                        paddingVertical: spacing.lg,
+                      }
+                    : { bottom: 0 },
+                ]}
                 setCamera={setCamera}
                 onShutter={onShutter}
                 isLoading={false}
