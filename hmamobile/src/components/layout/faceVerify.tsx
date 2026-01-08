@@ -50,7 +50,9 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const onShutter = async () => {
     try {
       toastRef?.current?.showToast?.('Loading', 'info');
-      const photo = await cameraRef?.current?.takePhoto?.();
+      const photo = await cameraRef?.current?.takePhoto?.({
+        enableShutterSound: true,
+      });
       const response = await FaceNet.compareCapturedFace(
         photo?.path,
         1,
