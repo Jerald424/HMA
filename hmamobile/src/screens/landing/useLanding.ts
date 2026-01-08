@@ -17,7 +17,7 @@ export default function useLanding() {
             {
               id: user?.Employee_ID,
               name: user?.Employee_Name,
-              imageUrl: `${baseurl}${user?.Employee_Image_URL}`,
+              imageUrl: `${baseurl}${user?.Employee_Image_URL}&${Date.now()}`,
             },
           ];
           await FaceNet.initializeEmployees(payload);

@@ -85,6 +85,25 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
     return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 }
 
+    private fun rotateBitmapByDegrees(bitmap: Bitmap, rotation: Int): Bitmap {
+        if (rotation == 0) return bitmap
+
+        val matrix = Matrix().apply {
+            postRotate(rotation.toFloat())
+        }
+
+        return Bitmap.createBitmap(
+            bitmap,
+            0,
+            0,
+            bitmap.width,
+            bitmap.height,
+            matrix,
+            true
+        )
+    }
+
+
 
 
     /**
@@ -95,14 +114,17 @@ class FaceNetModule(private val reactContext: ReactApplicationContext) : ReactCo
      * Returns: Promise resolved with Array of maps [{id, name, score}]
      */
     @ReactMethod
-    fun compareCapturedFace(filePath: String, topN: Int, promise: Promise) {
+    fun compareCapturedFace(filePath: String, topN: Int,rotation: Int, promise: Promise) {
         scope.launch {
             try {
                 //val bmp = Utils.base64ToBitmap(base64)
                   //  ?: return@launch promise.reject("INVALID_IMAGE", "Cannot decode base64")
                 val rawBmp = BitmapFactory.decodeFile(filePath) ?: return@launch promise.reject("INVALID_IMAGE", "Cannot get image")
-                val bmp = fixBitmapOrientation(filePath, rawBmp)
 
+                val rotatedBmp = rotateBitmapByDegrees(rawBmp, rotation)
+
+
+                val bmp = fixBitmapOrientation(filePath, rotatedBmp)
 
                 val liveEmb = manager.detectAndGetEmbedding(bmp)
                     ?: return@launch promise.reject("NO_FACE", "No face detected in image")

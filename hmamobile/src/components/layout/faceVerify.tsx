@@ -51,7 +51,11 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     try {
       toastRef?.current?.showToast?.('Loading', 'info');
       const photo = await cameraRef?.current?.takePhoto?.();
-      const response = await FaceNet.compareCapturedFace(photo?.path, 1);
+      const response = await FaceNet.compareCapturedFace(
+        photo?.path,
+        1,
+        isFront ? 270 : 0,
+      );
       if (
         response &&
         response?.[0]?.score >= 0.6 &&
@@ -107,16 +111,8 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
                     position: 'absolute',
 
                     padding: spacing.sm,
+                    bottom: 0,
                   },
-                  isFront
-                    ? {
-                        left: 0,
-                        flexDirection: 'column',
-                        gap: spacing.md,
-                        height: SCREEN_HEIGHT / 2,
-                        paddingVertical: spacing.lg,
-                      }
-                    : { bottom: 0 },
                 ]}
                 setCamera={setCamera}
                 onShutter={onShutter}

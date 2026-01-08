@@ -9,6 +9,6 @@ export default {
 
   // base64: captured image string
   // topN: optional number of results
-  compareCapturedFace: (base64, topN = 10) =>
-    FaceNetNative.compareCapturedFace(base64, topN),
+  compareCapturedFace: (base64, topN = 10,rotation) =>
+    FaceNetNative.compareCapturedFace(base64, topN, rotation),
 };
