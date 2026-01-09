@@ -92,7 +92,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
       <HMAModalOrganism
         isVisible={isOpen}
         headingProps={{
-          children: isFront ? 'Rotate phone and capture' : 'Verify Face',
+          children: 'Verify Face',
         }}
       >
         <View style={{ height: SCREEN_HEIGHT / 2 }}>
