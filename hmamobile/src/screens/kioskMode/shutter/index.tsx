@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   TouchableOpacity,
   TouchableOpacityProps,
@@ -7,8 +8,10 @@ import {
 import HMAIcon, { HMAIconProps } from 'src/components/styled/atoms/icon';
 import { iconType } from 'src/components/styled/atoms/icon/icon';
 import HMALoader from 'src/components/styled/atoms/loader';
+import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
+import { makeErrorVibration } from 'src/utils/vibration';
 
 export default function Shutter({
   onShutter,
@@ -25,6 +28,33 @@ export default function Shutter({
   setIsOn: any;
 } & ViewProps) {
   const { colors, spacing } = useTheme();
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [count, setCount] = useState(0);
+
+  const startCountdown = () => {
+    // prevent multiple timers
+    makeErrorVibration();
+    if (timerRef.current) return;
+
+    setCount(8);
+
+    timerRef.current = setInterval(() => {
+      setCount(prev => {
+        if (prev <= 1) {
+          clearInterval(timerRef.current!);
+          timerRef.current = null;
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
+  useEffect(() => {
+    if (count == 1) onShutter();
+  }, [count]);
+
   return (
     <View {...props} style={[cStyle.rowAlign, props?.style]}>
       <IconWithRound
@@ -37,6 +67,8 @@ export default function Shutter({
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <TouchableOpacity
           disabled={isLoading || !isOn}
+          onLongPress={startCountdown}
+          delayLongPress={1000}
           onPress={onShutter}
           style={{
             padding: 2,
@@ -54,9 +86,14 @@ export default function Shutter({
                 overflow: 'hidden',
                 borderRadius: 50,
               },
+              count !== 0 && cStyle.rowJustify,
             ]}
           >
-            {isLoading ? (
+            {count !== 0 ? (
+              <HMAText color="background" size="title">
+                {count}
+              </HMAText>
+            ) : isLoading ? (
               <HMALoader size={'large'} style={{ margin: 'auto' }} />
             ) : (
               <View style={{ backgroundColor: colors.primary, flex: 1 }} />
