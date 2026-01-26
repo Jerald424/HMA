@@ -74,7 +74,7 @@ export default function useFooter({
   };
 
   const onPress = () => {
-    if (userInfo?.isFaceVerify && IS_ANDROID) {
+    if (userInfo?.isFaceVerify) {
       faceVerifyRef?.current?.onVerify?.();
       return;
     }

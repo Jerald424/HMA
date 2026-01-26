@@ -6,12 +6,12 @@ import {
   useCameraDevice,
   useCameraPermission,
 } from 'react-native-vision-camera';
-import { View } from 'react-native';
-import { SCREEN_HEIGHT } from 'src/utils/variables';
+import { NativeModules, View } from 'react-native';
+import { IS_ANDROID, SCREEN_HEIGHT } from 'src/utils/variables';
 import Shutter from 'src/screens/kioskMode/shutter';
 import { useTheme } from 'src/hooks/useTheme';
 import FaceNet from 'src/native/FaceNet';
-import { useUserInfo } from 'src/redux/hooks';
+import { useAuth, useUserInfo } from 'src/redux/hooks';
 import Toast, { toastRefFn } from '../styled/atoms/toast';
 import HMAButton from '../styled/atoms/button';
 import HMADivider from '../styled/atoms/divider';
@@ -21,13 +21,15 @@ import { makeErrorVibration } from 'src/utils/vibration';
 import { blendWithWhite } from 'src/function/colorCorrection';
 import { colors } from 'src/theme/colors';
 
+const { FaceRecognition } = NativeModules;
+
 export type faceVerifyRefProp = {
   onVerify: () => void;
 };
 
 interface FaceVerifyProps {
   ref: React.Ref<faceVerifyRefProp>;
-  onVerified: (emp: any) => void;
+  onVerified: (emp?: any) => void;
 }
 const rotation = [0, 90, 180, 270];
 const getImageResult = async (photo?: PhotoFile) => {
@@ -56,6 +58,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const [isOn, setIsOn] = useState(true);
   const { data: userInfo } = useUserInfo();
   const toastRef = useRef<toastRefFn>(null);
+  const { baseurl } = useAuth();
 
   const { requestPermission, hasPermission } = useCameraPermission();
   const back = useCameraDevice('back');
@@ -69,6 +72,42 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     setIsOpen(true);
   };
 
+  const onVerifySuccess = () => {
+    onVerified();
+    toastRef?.current?.showToast?.('Verified Successful', 'success');
+    setTimeout(() => setIsOpen(false), 1000);
+  };
+
+  const onVerifyError = () => {
+    makeErrorVibration();
+    toastRef?.current?.showToast?.('Face does not match', 'error');
+  };
+
+  const androidVerify = async ({ photo }: { photo: any }) => {
+    const response = isFront
+      ? await getImageResult(photo)
+      : await FaceNet.compareCapturedFace(photo?.path, 1, 0);
+    if (
+      response &&
+      response?.[0]?.score >= 0.6 &&
+      response?.[0]?.id == userInfo?.Employee_ID
+    ) {
+      onVerifySuccess();
+    } else {
+      onVerifyError();
+    }
+  };
+
+  const iosVerify = async ({ photo }: { photo: any }) => {
+    const result = await FaceRecognition.compare(
+      photo?.path,
+      `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
+    );
+    if (+result?.score > 0.5) {
+      onVerifySuccess();
+    } else onVerifyError();
+  };
+
   const onShutter = async () => {
     try {
       toastRef?.current?.showToast?.('Loading', 'info');
@@ -77,21 +116,8 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
       });
 
       console.log('photo:', photo?.orientation, photo?.metadata);
-      const response = isFront
-        ? await getImageResult(photo)
-        : await FaceNet.compareCapturedFace(photo?.path, 1, 0);
-      if (
-        response &&
-        response?.[0]?.score >= 0.6 &&
-        response?.[0]?.id == userInfo?.Employee_ID
-      ) {
-        onVerified(response?.[0]);
-        toastRef?.current?.showToast?.('Verified Successful', 'success');
-        setTimeout(() => setIsOpen(false), 1000);
-      } else {
-        makeErrorVibration();
-        toastRef?.current?.showToast?.('Face does not match', 'error');
-      }
+      if (IS_ANDROID) await androidVerify({ photo });
+      else await iosVerify({ photo });
     } catch (error) {
       makeErrorVibration();
 
