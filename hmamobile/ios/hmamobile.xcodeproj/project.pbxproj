@@ -15,8 +15,15 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		883155CD43CD4D64AED2672B /* SpotifyMix-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA10CD0E7B814327B97D4D03 /* SpotifyMix-Thin.ttf */; };
 		A368233D2BAA407888FA0375 /* SpotifyMix-Ultra.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EF93AFC103E4A5792F8E229 /* SpotifyMix-Ultra.ttf */; };
+		EE29C3EB2F2679A700DD43F4 /* facenet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = EE29C3EA2F2679A700DD43F4 /* facenet.tflite */; };
+		EE29C3ED2F2679D400DD43F4 /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29C3EC2F2679D200DD43F4 /* FaceDetector.swift */; };
+		EE29C3F12F267A9B00DD43F4 /* FaceEmbeddingExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29C3F02F267A9900DD43F4 /* FaceEmbeddingExtractor.swift */; };
 		EE93BE6D2F2533BB00A17816 /* FaceSimilarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BE6C2F2533B700A17816 /* FaceSimilarity.swift */; };
 		EE93BE6F2F2533D700A17816 /* FaceSimilarityBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = EE93BE6E2F2533D300A17816 /* FaceSimilarityBridge.m */; };
+		EEDA09D92F272F0F002D1622 /* FaceRecognitionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDA09D82F272F0D002D1622 /* FaceRecognitionModule.swift */; };
+		EEDA09DB2F2734AA002D1622 /* FaceRecognitionBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = EEDA09DA2F2734A7002D1622 /* FaceRecognitionBridge.m */; };
+		EEDA09DD2F274576002D1622 /* UIImage+FaceNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDA09DC2F274574002D1622 /* UIImage+FaceNet.swift */; };
+		EEF9C5FF2F27CD8A006D215B /* UIImage+VisionCrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF9C5FE2F27CD88006D215B /* UIImage+VisionCrop.swift */; };
 		EF924C47C3614AAF9A4174AF /* SpotifyMix-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 924DCA5AE04F4890BC83CC1C /* SpotifyMix-Bold.ttf */; };
 		F2790F4FA79546249261B6EF /* SpotifyMix-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FB7FD421F91E4DE59EEB1B56 /* SpotifyMix-Black.ttf */; };
 		F39D5BEA06647BBB7D247993 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
@@ -38,10 +45,17 @@
 		B66A6F945D81490385D8F1FB /* SpotifyMix-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SpotifyMix-Regular.ttf"; path = "../assets/fonts/SpotifyMix-Regular.ttf"; sourceTree = "<group>"; };
 		EA10CD0E7B814327B97D4D03 /* SpotifyMix-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SpotifyMix-Thin.ttf"; path = "../assets/fonts/SpotifyMix-Thin.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EE29C3EA2F2679A700DD43F4 /* facenet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = facenet.tflite; sourceTree = "<group>"; };
+		EE29C3EC2F2679D200DD43F4 /* FaceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
+		EE29C3F02F267A9900DD43F4 /* FaceEmbeddingExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceEmbeddingExtractor.swift; sourceTree = "<group>"; };
 		EE93BE6C2F2533B700A17816 /* FaceSimilarity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceSimilarity.swift; sourceTree = "<group>"; };
 		EE93BE6E2F2533D300A17816 /* FaceSimilarityBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceSimilarityBridge.m; sourceTree = "<group>"; };
 		EE93BE702F2533D900A17816 /* hmamobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hmamobile-Bridging-Header.h"; sourceTree = "<group>"; };
 		EE93BE712F2535DD00A17816 /* hmamobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hmamobile-Bridging-Header.h"; sourceTree = "<group>"; };
+		EEDA09D82F272F0D002D1622 /* FaceRecognitionModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognitionModule.swift; sourceTree = "<group>"; };
+		EEDA09DA2F2734A7002D1622 /* FaceRecognitionBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceRecognitionBridge.m; sourceTree = "<group>"; };
+		EEDA09DC2F274574002D1622 /* UIImage+FaceNet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+FaceNet.swift"; sourceTree = "<group>"; };
+		EEF9C5FE2F27CD88006D215B /* UIImage+VisionCrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+VisionCrop.swift"; sourceTree = "<group>"; };
 		FB7FD421F91E4DE59EEB1B56 /* SpotifyMix-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SpotifyMix-Black.ttf"; path = "../assets/fonts/SpotifyMix-Black.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +74,8 @@
 		13B07FAE1A68108700A75B9A /* hmamobile */ = {
 			isa = PBXGroup;
 			children = (
+				EE29C3E72F26786800DD43F4 /* Models */,
+				EE29C3E62F26784600DD43F4 /* FaceRecognition */,
 				EE93BE712F2535DD00A17816 /* hmamobile-Bridging-Header.h */,
 				EE93BE6B2F2533AD00A17816 /* FaceSimilarity */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -132,6 +148,27 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		EE29C3E62F26784600DD43F4 /* FaceRecognition */ = {
+			isa = PBXGroup;
+			children = (
+				EEF9C5FE2F27CD88006D215B /* UIImage+VisionCrop.swift */,
+				EEDA09DC2F274574002D1622 /* UIImage+FaceNet.swift */,
+				EEDA09DA2F2734A7002D1622 /* FaceRecognitionBridge.m */,
+				EEDA09D82F272F0D002D1622 /* FaceRecognitionModule.swift */,
+				EE29C3F02F267A9900DD43F4 /* FaceEmbeddingExtractor.swift */,
+				EE29C3EC2F2679D200DD43F4 /* FaceDetector.swift */,
+			);
+			path = FaceRecognition;
+			sourceTree = "<group>";
+		};
+		EE29C3E72F26786800DD43F4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EE29C3EA2F2679A700DD43F4 /* facenet.tflite */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		EE93BE6B2F2533AD00A17816 /* FaceSimilarity */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +239,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE29C3EB2F2679A700DD43F4 /* facenet.tflite in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				F2790F4FA79546249261B6EF /* SpotifyMix-Black.ttf in Resources */,
@@ -305,7 +343,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
+				EE29C3F12F267A9B00DD43F4 /* FaceEmbeddingExtractor.swift in Sources */,
 				EE93BE6F2F2533D700A17816 /* FaceSimilarityBridge.m in Sources */,
+				EEDA09DB2F2734AA002D1622 /* FaceRecognitionBridge.m in Sources */,
+				EEDA09DD2F274576002D1622 /* UIImage+FaceNet.swift in Sources */,
+				EEDA09D92F272F0F002D1622 /* FaceRecognitionModule.swift in Sources */,
+				EEF9C5FF2F27CD8A006D215B /* UIImage+VisionCrop.swift in Sources */,
+				EE29C3ED2F2679D400DD43F4 /* FaceDetector.swift in Sources */,
 				EE93BE6D2F2533BB00A17816 /* FaceSimilarity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,7 +363,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = P3KF5RKH6X;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = hmamobile/Info.plist;
@@ -330,7 +374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.12;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -354,7 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = P3KF5RKH6X;
 				INFOPLIST_FILE = hmamobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Attendo;
@@ -364,7 +408,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.12;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
