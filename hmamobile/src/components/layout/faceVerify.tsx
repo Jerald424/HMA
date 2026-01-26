@@ -2,6 +2,7 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import HMAModalOrganism from '../styled/organism/modal';
 import {
   Camera,
+  PhotoFile,
   useCameraDevice,
   useCameraPermission,
 } from 'react-native-vision-camera';
@@ -17,6 +18,8 @@ import HMADivider from '../styled/atoms/divider';
 import HMAText from '../styled/atoms/text';
 import { openSettings } from 'react-native-permissions';
 import { makeErrorVibration } from 'src/utils/vibration';
+import { blendWithWhite } from 'src/function/colorCorrection';
+import { colors } from 'src/theme/colors';
 
 export type faceVerifyRefProp = {
   onVerify: () => void;
@@ -26,6 +29,25 @@ interface FaceVerifyProps {
   ref: React.Ref<faceVerifyRefProp>;
   onVerified: (emp: any) => void;
 }
+const rotation = [0, 90, 180, 270];
+const getImageResult = async (photo?: PhotoFile) => {
+  for (let x = 0; x < 4; x++) {
+    try {
+      const response = await FaceNet.compareCapturedFace(
+        photo?.path,
+        1,
+        rotation?.[x],
+      );
+      console.log('response: ', rotation[x], response);
+      if (response && response?.[0]?.score >= 0.6) {
+        return response;
+      }
+    } catch (error) {
+      console.log('ERROR', rotation[x]);
+      continue;
+    }
+  }
+};
 
 export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { spacing } = useTheme();
@@ -38,6 +60,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { requestPermission, hasPermission } = useCameraPermission();
   const back = useCameraDevice('back');
   const front = useCameraDevice('front');
+  const isFront = camera == 'front';
 
   const [isOpen, setIsOpen] = useState(false);
   const device = camera == 'back' ? back : front;
@@ -49,8 +72,14 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const onShutter = async () => {
     try {
       toastRef?.current?.showToast?.('Loading', 'info');
-      const photo = await cameraRef?.current?.takePhoto?.();
-      const response = await FaceNet.compareCapturedFace(photo?.path, 1);
+      const photo = await cameraRef?.current?.takePhoto?.({
+        enableShutterSound: true,
+      });
+
+      console.log('photo:', photo?.orientation, photo?.metadata);
+      const response = isFront
+        ? await getImageResult(photo)
+        : await FaceNet.compareCapturedFace(photo?.path, 1, 0);
       if (
         response &&
         response?.[0]?.score >= 0.6 &&
@@ -84,7 +113,9 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     <>
       <HMAModalOrganism
         isVisible={isOpen}
-        headingProps={{ children: 'Verify Face' }}
+        headingProps={{
+          children: 'Verify Face',
+        }}
       >
         <View style={{ height: SCREEN_HEIGHT / 2 }}>
           <Toast ref={toastRef} />
@@ -99,11 +130,14 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
                 isActive={isOn}
               />
               <Shutter
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  padding: spacing.sm,
-                }}
+                style={[
+                  {
+                    position: 'absolute',
+
+                    padding: spacing.sm,
+                    bottom: 0,
+                  },
+                ]}
                 setCamera={setCamera}
                 onShutter={onShutter}
                 isLoading={false}
@@ -128,6 +162,17 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
           )}
         </View>
         <HMADivider />
+        <View
+          style={{
+            backgroundColor: blendWithWhite(colors.info, 0.8),
+            padding: spacing.xs,
+          }}
+        >
+          <HMAText align="center" size="small" color="info" variant="large">
+            Tap and hold the shutter to start the timer
+          </HMAText>
+        </View>
+
         <HMAButton
           color="error"
           onPress={() => setIsOpen(false)}
