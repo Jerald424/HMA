@@ -12,10 +12,11 @@ class FaceRecognition: NSObject {
     false
   }
 
-  @objc(compare:with:resolver:rejecter:)
+  @objc(compare:with:rotation:resolver:rejecter:)
   func compare(
     _ first: String,
     with second: String,
+    rotation: NSNumber,
     resolver: @escaping RCTPromiseResolveBlock,
     rejecter: @escaping RCTPromiseRejectBlock
   ) {
@@ -34,7 +35,7 @@ class FaceRecognition: NSObject {
           case .success(let img2):
             DispatchQueue.global(qos: .userInitiated).async {
               do {
-                let score = try self.extractor.compare(img1, img2)
+                let score = try self.extractor.compare(img1, img2, rotation: rotation.intValue)
                 resolver(["score": score])
               } catch {
                 rejecter("FACE_ERROR", error.localizedDescription, error)
@@ -45,6 +46,7 @@ class FaceRecognition: NSObject {
       }
     }
   }
+
 
   // MARK: - SAFE IMAGE LOADER
   private func loadImage(
