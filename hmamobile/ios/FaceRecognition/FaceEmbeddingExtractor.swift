@@ -50,7 +50,7 @@ final class FaceEmbeddingExtractor {
       let correctedImg2 = img2.rotated(byDegrees: rotation)
 
         let emb1 = try embedding(from: img1)
-        let emb2 = try embedding(from: img2)
+        let emb2 = try embedding(from: correctedImg2)
 
         return cosineSimilarity(emb1, emb2)
     }
