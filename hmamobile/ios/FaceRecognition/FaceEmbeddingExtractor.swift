@@ -45,7 +45,9 @@ final class FaceEmbeddingExtractor {
 
 
     /// Compare two face images and return cosine similarity
-    func compare(_ img1: UIImage, _ img2: UIImage) throws -> Float {
+    func compare(_ img1: UIImage, _ img2: UIImage,rotation: Int) throws -> Float {
+      
+      let correctedImg2 = img2.rotated(byDegrees: rotation)
 
         let emb1 = try embedding(from: img1)
         let emb2 = try embedding(from: img2)
