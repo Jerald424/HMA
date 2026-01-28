@@ -32,24 +32,6 @@ interface FaceVerifyProps {
   onVerified: (emp?: any) => void;
 }
 const rotation = [0, 90, 180, 270];
-const getImageResult = async (photo?: PhotoFile) => {
-  for (let x = 0; x < 4; x++) {
-    try {
-      const response = await FaceNet.compareCapturedFace(
-        photo?.path,
-        1,
-        rotation?.[x],
-      );
-      console.log('response: ', rotation[x], response);
-      if (response && response?.[0]?.score >= 0.6) {
-        return response;
-      }
-    } catch (error) {
-      console.log('ERROR', rotation[x]);
-      continue;
-    }
-  }
-};
 
 export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { spacing } = useTheme();
@@ -78,6 +60,36 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     setTimeout(() => setIsOpen(false), 1000);
   };
 
+  const getImageResult = async (photo?: PhotoFile) => {
+    for (let x = 0; x < 4; x++) {
+      try {
+        if (!IS_ANDROID) {
+          const result = await FaceRecognition.compare(
+            `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
+            photo?.path,
+            rotation?.[x],
+          );
+          if (+result?.score > 0.5) {
+            return result;
+          }
+        } else {
+          const response = await FaceNet.compareCapturedFace(
+            photo?.path,
+            1,
+            rotation?.[x],
+          );
+          console.log('response: ', rotation[x], response);
+          if (response && response?.[0]?.score >= 0.6) {
+            return response;
+          }
+        }
+      } catch (error) {
+        console.log('ERROR', rotation[x]);
+        continue;
+      }
+    }
+  };
+
   const onVerifyError = () => {
     makeErrorVibration();
     toastRef?.current?.showToast?.('Face does not match', 'error');
@@ -99,10 +111,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   };
 
   const iosVerify = async ({ photo }: { photo: any }) => {
-    const result = await FaceRecognition.compare(
-      photo?.path,
-      `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
-    );
+    const result = await getImageResult(photo);
     if (+result?.score > 0.5) {
       onVerifySuccess();
     } else onVerifyError();
