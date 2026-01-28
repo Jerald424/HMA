@@ -18,6 +18,7 @@
 		EE29C3EB2F2679A700DD43F4 /* facenet.tflite in Resources */ = {isa = PBXBuildFile; fileRef = EE29C3EA2F2679A700DD43F4 /* facenet.tflite */; };
 		EE29C3ED2F2679D400DD43F4 /* FaceDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29C3EC2F2679D200DD43F4 /* FaceDetector.swift */; };
 		EE29C3F12F267A9B00DD43F4 /* FaceEmbeddingExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE29C3F02F267A9900DD43F4 /* FaceEmbeddingExtractor.swift */; };
+		EE5863512F2A619000F9B73F /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5863502F2A618A00F9B73F /* UIImage+Rotation.swift */; };
 		EE93BE6D2F2533BB00A17816 /* FaceSimilarity.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE93BE6C2F2533B700A17816 /* FaceSimilarity.swift */; };
 		EE93BE6F2F2533D700A17816 /* FaceSimilarityBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = EE93BE6E2F2533D300A17816 /* FaceSimilarityBridge.m */; };
 		EEDA09D92F272F0F002D1622 /* FaceRecognitionModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEDA09D82F272F0D002D1622 /* FaceRecognitionModule.swift */; };
@@ -48,6 +49,7 @@
 		EE29C3EA2F2679A700DD43F4 /* facenet.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = facenet.tflite; sourceTree = "<group>"; };
 		EE29C3EC2F2679D200DD43F4 /* FaceDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceDetector.swift; sourceTree = "<group>"; };
 		EE29C3F02F267A9900DD43F4 /* FaceEmbeddingExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceEmbeddingExtractor.swift; sourceTree = "<group>"; };
+		EE5863502F2A618A00F9B73F /* UIImage+Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Rotation.swift"; sourceTree = "<group>"; };
 		EE93BE6C2F2533B700A17816 /* FaceSimilarity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceSimilarity.swift; sourceTree = "<group>"; };
 		EE93BE6E2F2533D300A17816 /* FaceSimilarityBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FaceSimilarityBridge.m; sourceTree = "<group>"; };
 		EE93BE702F2533D900A17816 /* hmamobile-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hmamobile-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 		EE29C3E62F26784600DD43F4 /* FaceRecognition */ = {
 			isa = PBXGroup;
 			children = (
+				EE5863502F2A618A00F9B73F /* UIImage+Rotation.swift */,
 				EEF9C5FE2F27CD88006D215B /* UIImage+VisionCrop.swift */,
 				EEDA09DC2F274574002D1622 /* UIImage+FaceNet.swift */,
 				EEDA09DA2F2734A7002D1622 /* FaceRecognitionBridge.m */,
@@ -345,6 +348,7 @@
 				761780ED2CA45674006654EE /* AppDelegate.swift in Sources */,
 				EE29C3F12F267A9B00DD43F4 /* FaceEmbeddingExtractor.swift in Sources */,
 				EE93BE6F2F2533D700A17816 /* FaceSimilarityBridge.m in Sources */,
+				EE5863512F2A619000F9B73F /* UIImage+Rotation.swift in Sources */,
 				EEDA09DB2F2734AA002D1622 /* FaceRecognitionBridge.m in Sources */,
 				EEDA09DD2F274576002D1622 /* UIImage+FaceNet.swift in Sources */,
 				EEDA09D92F272F0F002D1622 /* FaceRecognitionModule.swift in Sources */,
@@ -363,7 +367,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = P3KF5RKH6X;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = hmamobile/Info.plist;
@@ -374,7 +378,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12;
+				MARKETING_VERSION = 1.13;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -398,7 +402,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = P3KF5RKH6X;
 				INFOPLIST_FILE = hmamobile/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Attendo;
@@ -408,7 +412,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.12;
+				MARKETING_VERSION = 1.13;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
