@@ -32,6 +32,7 @@ interface FaceVerifyProps {
   onVerified: (emp?: any) => void;
 }
 const rotation = [0, 90, 180, 270];
+const orientation = [1, 2, 3, 4];
 
 export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { spacing } = useTheme();
@@ -67,7 +68,7 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
           const result = await FaceRecognition.compare(
             `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
             photo?.path,
-            rotation?.[x],
+            orientation?.[x],
           );
           if (+result?.score > 0.5) {
             return result;
