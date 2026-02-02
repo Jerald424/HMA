@@ -1,21 +1,29 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import HMAModalOrganism from '../styled/organism/modal';
+import React, {
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
+import { View, NativeModules, Dimensions } from 'react-native';
 import {
   Camera,
   PhotoFile,
   useCameraDevice,
   useCameraPermission,
 } from 'react-native-vision-camera';
-import { NativeModules, View } from 'react-native';
-import { IS_ANDROID, SCREEN_HEIGHT } from 'src/utils/variables';
+
+import HMAModalOrganism from '../styled/organism/modal';
 import Shutter from 'src/screens/kioskMode/shutter';
 import { useTheme } from 'src/hooks/useTheme';
-import FaceNet from 'src/native/FaceNet';
 import { useAuth, useUserInfo } from 'src/redux/hooks';
+import { IS_ANDROID, SCREEN_HEIGHT } from 'src/utils/variables';
+import FaceNet from 'src/native/FaceNet';
+
 import Toast, { toastRefFn } from '../styled/atoms/toast';
 import HMAButton from '../styled/atoms/button';
 import HMADivider from '../styled/atoms/divider';
 import HMAText from '../styled/atoms/text';
+
 import { openSettings } from 'react-native-permissions';
 import { makeErrorVibration } from 'src/utils/vibration';
 import { blendWithWhite } from 'src/function/colorCorrection';
@@ -31,79 +39,84 @@ interface FaceVerifyProps {
   ref: React.Ref<faceVerifyRefProp>;
   onVerified: (emp?: any) => void;
 }
-const rotation = [0, 90, 180, 270];
-const orientation = [1, 2, 3, 4];
+
+/**
+ * ✅ iOS orientation mapping
+ * 1 = portrait
+ * 3 = landscape-left
+ */
+const getDeviceOrientation = () => {
+  const { width, height } = Dimensions.get('window');
+  return height >= width ? 1 : 3;
+};
 
 export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { spacing } = useTheme();
   const cameraRef = useRef<Camera>(null);
-  const [camera, setCamera] = useState('front');
-  const [isOn, setIsOn] = useState(true);
-  const { data: userInfo } = useUserInfo();
   const toastRef = useRef<toastRefFn>(null);
+
+  const [camera, setCamera] = useState<'front' | 'back'>('front');
+  const [isOn, setIsOn] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { data: userInfo } = useUserInfo();
   const { baseurl } = useAuth();
 
   const { requestPermission, hasPermission } = useCameraPermission();
   const back = useCameraDevice('back');
   const front = useCameraDevice('front');
-  const isFront = camera == 'front';
+  const device = camera === 'back' ? back : front;
+  const isFront = camera === 'front';
 
-  const [isOpen, setIsOpen] = useState(false);
-  const device = camera == 'back' ? back : front;
-
-  const onToggleCamera = () => {
-    setIsOpen(true);
-  };
+  // -------------------------
+  // UI handlers
+  // -------------------------
+  const onToggleCamera = () => setIsOpen(true);
 
   const onVerifySuccess = () => {
     onVerified();
-    toastRef?.current?.showToast?.('Verified Successful', 'success');
+    toastRef.current?.showToast?.('Verified Successful', 'success');
     setTimeout(() => setIsOpen(false), 1000);
-  };
-
-  const getImageResult = async (photo?: PhotoFile) => {
-    for (let x = 0; x < 4; x++) {
-      try {
-        if (!IS_ANDROID) {
-          const result = await FaceRecognition.compare(
-            `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
-            photo?.path,
-            orientation?.[x],
-          );
-          if (+result?.score > 0.5) {
-            return result;
-          }
-        } else {
-          const response = await FaceNet.compareCapturedFace(
-            photo?.path,
-            1,
-            rotation?.[x],
-          );
-          console.log('response: ', rotation[x], response);
-          if (response && response?.[0]?.score >= 0.6) {
-            return response;
-          }
-        }
-      } catch (error) {
-        console.log('ERROR', rotation[x]);
-        continue;
-      }
-    }
   };
 
   const onVerifyError = () => {
     makeErrorVibration();
-    toastRef?.current?.showToast?.('Face does not match', 'error');
+    toastRef.current?.showToast?.('Face does not match', 'error');
   };
 
-  const androidVerify = async ({ photo }: { photo: any }) => {
+  // -------------------------
+  // iOS Face Verify (FIXED)
+  // -------------------------
+  const getImageResult = async (photo?: PhotoFile) => {
+    if (!photo?.path) return null;
+
+    try {
+      if (!IS_ANDROID) {
+        const result = await FaceRecognition.compare(
+          `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
+          photo.path,
+          getDeviceOrientation()
+        );
+        return result;
+      }
+
+      // Android (unchanged)
+      return await FaceNet.compareCapturedFace(photo.path, 1, 0);
+    } catch (error) {
+      console.log('Face compare error:', error);
+      return null;
+    }
+  };
+
+  const androidVerify = async ({ photo }: { photo: PhotoFile }) => {
     const response = isFront
       ? await getImageResult(photo)
-      : await FaceNet.compareCapturedFace(photo?.path, 1, 0);
+      : await FaceNet.compareCapturedFace(photo.path, 1, 0);
+
     if (
       response &&
       response?.[0]?.score >= 0.6 &&
-      response?.[0]?.id == userInfo?.Employee_ID
+      response?.[0]?.id === userInfo?.Employee_ID
     ) {
       onVerifySuccess();
     } else {
@@ -111,32 +124,43 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     }
   };
 
-  const iosVerify = async ({ photo }: { photo: any }) => {
+  const iosVerify = async ({ photo }: { photo: PhotoFile }) => {
     const result = await getImageResult(photo);
     if (+result?.score > 0.5) {
       onVerifySuccess();
-    } else onVerifyError();
+    } else {
+      onVerifyError();
+    }
   };
 
+  // -------------------------
+  // Capture
+  // -------------------------
   const onShutter = async () => {
     try {
-      toastRef?.current?.showToast?.('Loading', 'info');
-      const photo = await cameraRef?.current?.takePhoto?.({
+      toastRef.current?.showToast?.('Loading', 'info');
+
+      const photo = await cameraRef.current?.takePhoto({
         enableShutterSound: true,
       });
 
-      console.log('photo:', photo?.orientation, photo?.metadata);
-      if (IS_ANDROID) await androidVerify({ photo });
-      else await iosVerify({ photo });
-    } catch (error) {
+      if (!photo) return;
+
+      if (IS_ANDROID) {
+        await androidVerify({ photo });
+      } else {
+        await iosVerify({ photo });
+      }
+    } catch (error: any) {
       makeErrorVibration();
-
-      toastRef?.current?.showToast?.(error?.message, 'error');
-
+      toastRef.current?.showToast?.(error?.message ?? 'Error', 'error');
       console.error(error);
     }
   };
 
+  // -------------------------
+  // Ref exposure
+  // -------------------------
   useImperativeHandle(ref, () => ({
     onVerify: onToggleCamera,
   }));
@@ -145,13 +169,14 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     requestPermission();
   }, []);
 
+  // -------------------------
+  // UI
+  // -------------------------
   return (
     <>
       <HMAModalOrganism
         isVisible={isOpen}
-        headingProps={{
-          children: 'Verify Face',
-        }}
+        headingProps={{ children: 'Verify Face' }}
       >
         <View style={{ height: SCREEN_HEIGHT / 2 }}>
           <Toast ref={toastRef} />
@@ -165,15 +190,13 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
                 device={device}
                 isActive={isOn}
               />
-              <Shutter
-                style={[
-                  {
-                    position: 'absolute',
 
-                    padding: spacing.sm,
-                    bottom: 0,
-                  },
-                ]}
+              <Shutter
+                style={{
+                  position: 'absolute',
+                  padding: spacing.sm,
+                  bottom: 0,
+                }}
                 setCamera={setCamera}
                 onShutter={onShutter}
                 isLoading={false}
@@ -183,7 +206,9 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
             </>
           ) : (
             <View style={{ justifyContent: 'center', flex: 1 }}>
-              <HMAText align="center">Please enable camera permission</HMAText>
+              <HMAText align="center">
+                Please enable camera permission
+              </HMAText>
               <HMADivider />
               <HMAText
                 onPress={() => openSettings()}
@@ -197,7 +222,9 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
             </View>
           )}
         </View>
+
         <HMADivider />
+
         <View
           style={{
             backgroundColor: blendWithWhite(colors.info, 0.8),

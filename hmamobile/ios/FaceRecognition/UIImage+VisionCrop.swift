@@ -13,10 +13,11 @@ extension UIImage {
             height: face.boundingBox.height * size.height
         )
 
-        guard let cgImage = self.cgImage?.cropping(to: rect) else {
+        guard let croppedCG = self.cgImage?.cropping(to: rect) else {
             return self
         }
 
-        return UIImage(cgImage: cgImage, scale: scale, orientation: imageOrientation)
+        // 🔥 IMPORTANT: normalize orientation to .up
+        return UIImage(cgImage: croppedCG, scale: 1, orientation: .up)
     }
 }
