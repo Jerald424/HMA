@@ -9,13 +9,24 @@ enum FaceDetectorError: Error {
 
 class FaceDetector {
 
-    static func detectSingleFace(in image: UIImage) throws -> VNFaceObservation {
+    static func detectSingleFace(
+      in image: UIImage,
+      orientation: CGImagePropertyOrientation
+    ) throws -> VNFaceObservation {
+
         guard let cgImage = image.cgImage else {
             throw FaceDetectorError.noFace
         }
 
         let request = VNDetectFaceRectanglesRequest()
-        let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+
+        // 🔴 THIS LINE FIXES PORTRAIT
+        let handler = VNImageRequestHandler(
+            cgImage: cgImage,
+            orientation: orientation,
+            options: [:]
+        )
+
         try handler.perform([request])
 
         guard let faces = request.results as? [VNFaceObservation] else {
@@ -33,3 +44,4 @@ class FaceDetector {
         return face
     }
 }
+

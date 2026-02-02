@@ -12,40 +12,49 @@ class FaceRecognition: NSObject {
     false
   }
 
-  @objc(compare:with:rotation:resolver:rejecter:)
-  func compare(
-    _ first: String,
-    with second: String,
-    rotation: NSNumber,
-    resolver: @escaping RCTPromiseResolveBlock,
-    rejecter: @escaping RCTPromiseRejectBlock
-  ) {
+  @objc(compare:with:deviceOrientation:resolver:rejecter:)
+   func compare(
+     _ first: String,
+     with second: String,
+     deviceOrientation: NSNumber,   // 🔴 WAS rotation
+     resolver: @escaping RCTPromiseResolveBlock,
+     rejecter: @escaping RCTPromiseRejectBlock
+   ) {
 
-    loadImage(from: first) { img1Result in
-      switch img1Result {
-      case .failure(let error):
-        rejecter("FACE_ERROR", error.localizedDescription, error)
+     loadImage(from: first) { img1Result in
+       switch img1Result {
+       case .failure(let error):
+         rejecter("FACE_ERROR", error.localizedDescription, error)
 
-      case .success(let img1):
-        self.loadImage(from: second) { img2Result in
-          switch img2Result {
-          case .failure(let error):
-            rejecter("FACE_ERROR", error.localizedDescription, error)
+       case .success(let img1):
+         self.loadImage(from: second) { img2Result in
+           switch img2Result {
+           case .failure(let error):
+             rejecter("FACE_ERROR", error.localizedDescription, error)
 
-          case .success(let img2):
-            DispatchQueue.global(qos: .userInitiated).async {
-              do {
-                let score = try self.extractor.compare(img1, img2, rotation: rotation.intValue)
-                resolver(["score": score])
-              } catch {
-                rejecter("FACE_ERROR", error.localizedDescription, error)
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+           case .success(let img2):
+
+             // 🔴 MAP ORIENTATION
+             let uiOrientation = UIDeviceOrientation(rawValue: deviceOrientation.intValue) ?? .portrait
+             let visionOrientation = VisionOrientationMapper.from(uiOrientation)
+
+             DispatchQueue.global(qos: .userInitiated).async {
+               do {
+                 let score = try self.extractor.compare(
+                   img1,
+                   img2,
+                   orientation: visionOrientation   // 🔴 NEW
+                 )
+                 resolver(["score": score])
+               } catch {
+                 rejecter("FACE_ERROR", error.localizedDescription, error)
+               }
+             }
+           }
+         }
+       }
+     }
+   }
 
 
   // MARK: - SAFE IMAGE LOADER

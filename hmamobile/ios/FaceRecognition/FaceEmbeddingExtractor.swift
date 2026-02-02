@@ -13,27 +13,26 @@ final class FaceEmbeddingExtractor {
 
     // MARK: - Public API
     /// Generate FaceNet embedding (128-d)
-  func embedding(from image: UIImage) throws -> [Float] {
+  func embedding(
+    from image: UIImage,
+    orientation: CGImagePropertyOrientation
+  ) throws -> [Float] {
 
       try loadInterpreterIfNeeded()
 
-      guard let interpreter = interpreter else {
-          throw NSError(domain: "FaceNet", code: -2)
-      }
+      let faceObservation = try FaceDetector.detectSingleFace(
+          in: image,
+          orientation: orientation   // 🔴 PASS ORIENTATION
+      )
 
-      // 🔥 FACE DETECTION (MANDATORY)
-      let faceObservation = try FaceDetector.detectSingleFace(in: image)
-
-      // 🔥 FACE CROP (MANDATORY)
       let faceImage = image.crop(using: faceObservation)
 
-      // 🔥 PREPROCESS FACE ONLY
       let inputData = try preprocess(image: faceImage)
 
-      try interpreter.copy(inputData, toInputAt: 0)
-      try interpreter.invoke()
+      try interpreter!.copy(inputData, toInputAt: 0)
+      try interpreter!.invoke()
 
-      let output = try interpreter.output(at: 0)
+      let output = try interpreter!.output(at: 0)
 
       return output.data.withUnsafeBytes {
           Array(UnsafeBufferPointer<Float>(
@@ -44,16 +43,21 @@ final class FaceEmbeddingExtractor {
   }
 
 
+
     /// Compare two face images and return cosine similarity
-    func compare(_ img1: UIImage, _ img2: UIImage,rotation: Int) throws -> Float {
-      
-      let correctedImg2 = img2.rotated(byDegrees: rotation)
+  /// Compare two face images and return cosine similarity
+  func compare(
+    _ img1: UIImage,
+    _ img2: UIImage,
+    orientation: CGImagePropertyOrientation   // 🔴 NEW
+  ) throws -> Float {
 
-        let emb1 = try embedding(from: img1)
-        let emb2 = try embedding(from: correctedImg2)
+      let emb1 = try embedding(from: img1, orientation: orientation)
+      let emb2 = try embedding(from: img2, orientation: orientation)
 
-        return cosineSimilarity(emb1, emb2)
-    }
+      return cosineSimilarity(emb1, emb2)
+  }
+
 
     // MARK: - Interpreter Loader
     private func loadInterpreterIfNeeded() throws {
