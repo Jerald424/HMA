@@ -13,15 +13,15 @@ const queryClient = new QueryClient();
 export default function MainWrapper() {
   return (
     <GestureHandlerRootView>
-      <ModalfyProvider>
-        <NavigationContainer>
-          <Provider store={store}>
-            <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <ModalfyProvider>
               <App />
-            </QueryClientProvider>
-          </Provider>
-        </NavigationContainer>
-      </ModalfyProvider>
+            </ModalfyProvider>
+          </QueryClientProvider>
+        </Provider>
+      </NavigationContainer>
     </GestureHandlerRootView>
   );
 }
