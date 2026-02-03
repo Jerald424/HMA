@@ -1,8 +1,9 @@
 import { ReactNode } from 'react';
 import { createModalStack, ModalProvider } from 'react-native-modalfy';
+import { VerifyFaceModalFy } from 'src/components/layout/faceVerify';
 import Loader from './loader';
 
-const modalConfig = { Loader };
+const modalConfig = { Loader, FaceVerify: VerifyFaceModalFy };
 const defaultOptions = { backdropOpacity: 0.6 };
 
 const stack = createModalStack(modalConfig, defaultOptions);
