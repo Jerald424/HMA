@@ -7,7 +7,7 @@ import {
   useCameraPermission,
 } from 'react-native-vision-camera';
 import { NativeModules, View } from 'react-native';
-import { IS_ANDROID, SCREEN_HEIGHT } from 'src/utils/variables';
+import { IS_ANDROID, SCREEN_HEIGHT, SCREEN_WIDTH } from 'src/utils/variables';
 import Shutter from 'src/screens/kioskMode/shutter';
 import { useTheme } from 'src/hooks/useTheme';
 import FaceNet from 'src/native/FaceNet';
@@ -20,6 +20,8 @@ import { openSettings } from 'react-native-permissions';
 import { makeErrorVibration } from 'src/utils/vibration';
 import { blendWithWhite } from 'src/function/colorCorrection';
 import { colors } from 'src/theme/colors';
+import { useModal } from 'react-native-modalfy';
+import ImageEditor from '@react-native-community/image-editor';
 
 const { FaceRecognition } = NativeModules;
 
@@ -34,7 +36,7 @@ interface FaceVerifyProps {
 const rotation = [0, 90, 180, 270];
 const orientation = [1, 2, 3, 4];
 
-export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
+export const VerifyFaceModalFy = ({ modal: { getParam } }) => {
   const { spacing } = useTheme();
   const cameraRef = useRef<Camera>(null);
   const [camera, setCamera] = useState('front');
@@ -47,18 +49,15 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const back = useCameraDevice('back');
   const front = useCameraDevice('front');
   const isFront = camera == 'front';
+  const { closeModals } = useModal();
 
-  const [isOpen, setIsOpen] = useState(false);
   const device = camera == 'back' ? back : front;
-
-  const onToggleCamera = () => {
-    setIsOpen(true);
-  };
+  const onVerified = getParam('onVerified');
 
   const onVerifySuccess = () => {
-    onVerified();
+    onVerified(); //###
     toastRef?.current?.showToast?.('Verified Successful', 'success');
-    setTimeout(() => setIsOpen(false), 1000);
+    setTimeout(() => closeModals('FaceVerify'), 1000);
   };
 
   const getImageResult = async (photo?: PhotoFile) => {
@@ -121,12 +120,29 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const onShutter = async () => {
     try {
       toastRef?.current?.showToast?.('Loading', 'info');
-      const photo = await cameraRef?.current?.takePhoto?.({
+
+      let photo = await cameraRef?.current?.takePhoto?.({
         enableShutterSound: true,
       });
 
+      let normalizedUri;
+
+      if (!IS_ANDROID) {
+        if (!photo) throw new Error('Photo capture failed');
+        normalizedUri = await ImageEditor.cropImage('file://' + photo.path, {
+          offset: { x: 0, y: 0 },
+          size: { width: photo.width, height: photo.height },
+          displaySize: {
+            width: photo.width,
+            height: photo.height,
+          },
+          resizeMode: 'contain',
+        });
+      }
+
       console.log('photo:', photo?.orientation, photo?.metadata);
-      if (IS_ANDROID) await androidVerify({ photo });
+      if (IS_ANDROID)
+        await androidVerify({ photo: { path: normalizedUri?.uri } });
       else await iosVerify({ photo });
     } catch (error) {
       makeErrorVibration();
@@ -137,84 +153,91 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
     }
   };
 
+  return (
+    <View
+      style={{
+        width: SCREEN_WIDTH - spacing.lg,
+        padding: spacing.md,
+        backgroundColor: colors.background,
+      }}
+    >
+      <View style={{ height: SCREEN_HEIGHT / 2 }}>
+        <Toast ref={toastRef} />
+
+        {device && hasPermission ? (
+          <>
+            <Camera
+              ref={cameraRef}
+              photo
+              style={{ flex: 1 }}
+              device={device}
+              isActive={isOn}
+            />
+            <Shutter
+              style={[
+                {
+                  position: 'absolute',
+
+                  padding: spacing.sm,
+                  bottom: 0,
+                },
+              ]}
+              setCamera={setCamera}
+              onShutter={onShutter}
+              isLoading={false}
+              isOn={isOn}
+              setIsOn={setIsOn}
+            />
+          </>
+        ) : (
+          <View style={{ justifyContent: 'center', flex: 1 }}>
+            <HMAText align="center">Please enable camera permission</HMAText>
+            <HMADivider />
+            <HMAText
+              onPress={() => openSettings()}
+              variant="title"
+              color="textSecondary"
+              style={{ textDecorationLine: 'underline' }}
+              align="center"
+            >
+              Open Settings
+            </HMAText>
+          </View>
+        )}
+      </View>
+      <HMADivider />
+      <View
+        style={{
+          backgroundColor: blendWithWhite(colors.info, 0.8),
+          padding: spacing.xs,
+        }}
+      >
+        <HMAText align="center" size="small" color="info" variant="large">
+          Tap and hold the shutter to start the timer
+        </HMAText>
+      </View>
+
+      <HMAButton
+        color="error"
+        onPress={() => closeModals('FaceVerify')}
+        title="Cancel"
+      />
+    </View>
+  );
+};
+
+export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
+  const { openModal } = useModal();
+
+  const { requestPermission } = useCameraPermission();
+
   useImperativeHandle(ref, () => ({
-    onVerify: onToggleCamera,
+    onVerify: () => openModal('FaceVerify', { onVerified }),
   }));
 
   useEffect(() => {
     requestPermission();
   }, []);
 
-  return (
-    <>
-      <HMAModalOrganism
-        isVisible={isOpen}
-        headingProps={{
-          children: 'Verify Face',
-        }}
-      >
-        <View style={{ height: SCREEN_HEIGHT / 2 }}>
-          <Toast ref={toastRef} />
-
-          {device && hasPermission ? (
-            <>
-              <Camera
-                ref={cameraRef}
-                photo
-                style={{ flex: 1 }}
-                device={device}
-                isActive={isOn}
-              />
-              <Shutter
-                style={[
-                  {
-                    position: 'absolute',
-
-                    padding: spacing.sm,
-                    bottom: 0,
-                  },
-                ]}
-                setCamera={setCamera}
-                onShutter={onShutter}
-                isLoading={false}
-                isOn={isOn}
-                setIsOn={setIsOn}
-              />
-            </>
-          ) : (
-            <View style={{ justifyContent: 'center', flex: 1 }}>
-              <HMAText align="center">Please enable camera permission</HMAText>
-              <HMADivider />
-              <HMAText
-                onPress={() => openSettings()}
-                variant="title"
-                color="textSecondary"
-                style={{ textDecorationLine: 'underline' }}
-                align="center"
-              >
-                Open Settings
-              </HMAText>
-            </View>
-          )}
-        </View>
-        <HMADivider />
-        <View
-          style={{
-            backgroundColor: blendWithWhite(colors.info, 0.8),
-            padding: spacing.xs,
-          }}
-        >
-          <HMAText align="center" size="small" color="info" variant="large">
-            Tap and hold the shutter to start the timer
-          </HMAText>
-        </View>
-
-        <HMAButton
-          color="error"
-          onPress={() => setIsOpen(false)}
-          title="Cancel"
-        />
-      </HMAModalOrganism>
-    </>
-  );
+  return <></>;
 }
