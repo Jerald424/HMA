@@ -35,8 +35,8 @@ class FaceRecognition: NSObject {
            case .success(let img2):
 
              // 🔴 MAP ORIENTATION
-             let uiOrientation = UIDeviceOrientation(rawValue: deviceOrientation.intValue) ?? .portrait
-             let visionOrientation = VisionOrientationMapper.from(uiOrientation)
+             let visionOrientation =
+               VisionOrientationMapper.fromJS(deviceOrientation.intValue)
 
              DispatchQueue.global(qos: .userInitiated).async {
                do {
