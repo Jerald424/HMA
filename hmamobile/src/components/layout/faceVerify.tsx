@@ -20,6 +20,7 @@ import { openSettings } from 'react-native-permissions';
 import { makeErrorVibration } from 'src/utils/vibration';
 import { blendWithWhite } from 'src/function/colorCorrection';
 import { colors } from 'src/theme/colors';
+import ImageEditor from '@react-native-community/image-editor';
 
 const { FaceRecognition } = NativeModules;
 
@@ -124,10 +125,25 @@ export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
       const photo = await cameraRef?.current?.takePhoto?.({
         enableShutterSound: true,
       });
+      if (!photo) throw new Error('Photo capture failed');
+      const normalizedUri = await ImageEditor.cropImage(
+        'file://' + photo.path,
+        {
+          offset: { x: 0, y: 0 },
+          size: { width: photo.width, height: photo.height },
+          displaySize: {
+            width: photo.width,
+            height: photo.height,
+          },
+          resizeMode: 'contain',
+        }
+      );
 
-      console.log('photo:', photo?.orientation, photo?.metadata);
-      if (IS_ANDROID) await androidVerify({ photo });
-      else await iosVerify({ photo });
+      const photoUri = normalizedUri.uri;
+
+      console.log('photo:', photoUri?.orientation, photoUri?.metadata);
+      if (IS_ANDROID) await androidVerify({ photo: photoUri });
+      else await iosVerify({ photo: { path: photoUri } });
     } catch (error) {
       makeErrorVibration();
 
