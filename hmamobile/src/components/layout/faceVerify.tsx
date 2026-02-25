@@ -22,6 +22,7 @@ import { blendWithWhite } from 'src/function/colorCorrection';
 import { colors } from 'src/theme/colors';
 import { useModal } from 'react-native-modalfy';
 import ImageEditor from '@react-native-community/image-editor';
+import useIOSCameraVerify from 'src/function/IOSCameraVerify';
 
 const { FaceRecognition } = NativeModules;
 
@@ -228,11 +229,13 @@ export const VerifyFaceModalFy = ({ modal: { getParam } }) => {
 
 export default function FaceVerify({ ref, onVerified }: FaceVerifyProps) {
   const { openModal } = useModal();
+  const { onCamera } = useIOSCameraVerify({ onVerified });
 
   const { requestPermission } = useCameraPermission();
 
   useImperativeHandle(ref, () => ({
-    onVerify: () => openModal('FaceVerify', { onVerified }),
+    onVerify: () =>
+      IS_ANDROID ? openModal('FaceVerify', { onVerified }) : onCamera(),
   }));
 
   useEffect(() => {
