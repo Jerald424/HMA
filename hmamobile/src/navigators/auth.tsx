@@ -4,6 +4,7 @@ import AttendanceList from 'src/screens/attendanceList';
 import Dashboard from 'src/screens/dashboard';
 import Landing from 'src/screens/landing';
 import Map from 'src/screens/map';
+import TestScreen from 'src/screens/TestScreen';
 import fonts from 'src/utils/fonts';
 
 const Stack = createStackNavigator();
@@ -40,6 +41,12 @@ export default function AuthNavigator() {
         name="AttendanceList"
         component={AttendanceList}
         options={{ title: 'Attendance List' }}
+      />
+
+      <Stack.Screen
+        name="TestScreen"
+        component={TestScreen}
+        options={{ title: 'TestScreen' }}
       />
     </Stack.Navigator>
   );
