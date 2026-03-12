@@ -59,7 +59,7 @@ export default function useFooter({
           userLocation?.longitude,
         ),
       );
-    } catch (error) {}
+    } catch (error) { }
   }, [userLocation, userInfo]);
 
   const isGeofenceEnabled =
@@ -74,7 +74,7 @@ export default function useFooter({
   };
 
   const onPress = () => {
-    if (userInfo?.isFaceVerify) {
+    if (IS_ANDROID ? userInfo?.isFaceVerify : userInfo?.is_ios_face_verify) {
       faceVerifyRef?.current?.onVerify?.();
       return;
     }

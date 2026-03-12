@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { Alert, NativeModules } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import { useAuth, useUserInfo } from 'src/redux/hooks';
 
@@ -18,6 +18,7 @@ export default function useIOSCameraVerify({
       height: 400,
       cropping: true,
     }).then(async image => {
+      let verified = false;
       for (let x = 1; x <= 4; x++) {
         const result = await FaceRecognition.compare(
           `${baseurl}${userInfo?.Employee_Image_URL}&${Date.now()}`,
@@ -25,9 +26,11 @@ export default function useIOSCameraVerify({
           x,
         );
         if (+result?.score > 0.5) {
-          onVerified?.(result);
+          verified = result;
         }
       }
+      if (!!verified) onVerified?.(verified);
+      else Alert.alert('Face does not match');
     });
   };
 
@@ -35,3 +38,4 @@ export default function useIOSCameraVerify({
     onCamera,
   };
 }
+
