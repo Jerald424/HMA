@@ -1,0 +1,603 @@
+================================================================================
+  HR EMPLOYEE SELF-SERVICE APP — API REFERENCE
+  Integrated with Odoo HR / Payroll / Attendance / Documents / Approvals
+================================================================================
+  Total Endpoints: 33 | Modules: 10
+  Base URL: https://api.acme.com (replace with actual base URL)
+  Auth: Bearer Token (JWT) required on all endpoints except /auth/login
+================================================================================
+
+
+================================================================================
+MODULE: AUTH
+================================================================================
+
+1. POST /api/auth/login
+   Label: Employee login
+   Desc : Authenticates employee with username/password. Returns JWT access
+   Notes:
+     - NDA gate enforced on login
+     - Screenshot restriction flag included
+
+   REQUEST PAYLOAD:
+   {
+     "username": "john.doe@acme.com",
+     "password": "••••••••",
+    
+   }
+
+   MOCK RESPONSE:
+   {
+     "token": "eyJhbGciOiJIUzI1NiIs...",
+     "employee": {
+       "id": "EMP-1042",
+       "name": "John Doe",
+       "department": "Engineering",
+       "role": "employee",
+       "must_sign_nda": true,
+       "profile_complete": false
+     }
+   }
+
+--------------------------------------------------------------------------------
+
+
+2. POST /api/auth/verify
+    Label: Verify token
+    Desc : Verify the token and returns user basic details
+
+
+   REQUEST PAYLOAD:
+   {
+     "token": "******",
+    
+   }
+
+   MOCK RESPONSE:
+   {
+     "status": "XXXX",
+     "employee": {
+       "id": "EMP-1042",
+       "name": "John Doe",       
+       "role": "employee",
+     }
+   }
+
+--------------------------------------------------------------------------------
+
+4. POST /api/auth/logout
+   Label: Logout
+   Desc : Invalidates the current session 
+
+   REQUEST PAYLOAD:
+   {
+     "token": "*****"
+   }
+
+   MOCK RESPONSE:
+   {
+     "status": "logged_out",
+     "message": "Session terminated."
+   }
+
+
+================================================================================
+MODULE: PROFILE
+================================================================================
+
+5. GET /api/employees/{id}/profile
+   Label: Get employee profile
+   Desc : Returns full employee profile. Personal data editable; contract/company data is read-only.
+   Notes:
+     - Contract & company data read-only
+     - Bank details employee-editable
+
+   REQUEST PAYLOAD:
+   // No body — GET request
+
+   MOCK RESPONSE:
+   {
+     "id": "EMP-1042",
+     "name": "John Doe",
+     "email": "john.doe@acme.com",
+     "phone": "+971501234567",
+      ...rest fields
+   }
+
+--------------------------------------------------------------------------------
+
+6. PATCH /api/employees/{id}/profile
+   Label: Update personal data
+   Desc : Allows employee to update editable personal fields only (phone, personal email, driving license, etc.).
+   Notes:
+     - Only whitelisted fields accepted
+     - Company/contract fields rejected with 403
+
+   REQUEST PAYLOAD:
+   {
+     "phone": "+971509999999",
+     "personal_email": "john.new@gmail.com",
+     "driving_license": "DL-UAE-2031"
+   }
+
+   MOCK RESPONSE:
+   {
+     "status": "updated",
+     "updated_fields": ["phone", "personal_email", "driving_license"],
+     "message": "Profile updated successfully."
+   }
+
+--------------------------------------------------------------------------------
+
+7. PUT /api/employees/{id}/bank-details
+   Label: Update bank details
+   Desc : Employee submits bank/IBAN details. Triggers HR review if changes are made.
+   Notes:
+     - HR review required before activation
+
+   REQUEST PAYLOAD:
+   {
+     "bank_name": "ADCB",
+     "account_number": "0012345678",
+     "iban": "AE460030012345678901234"
+   }
+
+   MOCK RESPONSE:
+   {
+     "status": "pending_review",
+     "message": "Bank details submitted. HR will verify within 2 business days."
+   }
+
+
+================================================================================
+MODULE: DASHBOARD
+================================================================================
+
+8. GET /api/employees/{id}/dashboard
+   Label: Get dashboard summary
+   Desc : Returns all dashboard widgets: balances, payslip info, attendance, pending items, air ticket balance.
+
+   REQUEST PAYLOAD:
+   // No body — GET request
+
+   MOCK RESPONSE:
+   {
+     "leave_balances": {
+       "annual": 12,
+       "sick": 5,
+       "unpaid": 0
+     },
+     "air_ticket_balance": 2,
+     "last_payslip": {
+       "month": "June 2024",
+       "amount": 15000,
+       "currency": "AED",
+       "next_payslip_date": "2024-07-31"
+     },
+     "attendance_today": {
+       "status": "checked_in",
+       "check_in": "08:57",
+       "check_out": null
+     },
+     "pending_requests": 3,
+     "notifications_unread": 5,
+     "announcements": [
+       { "id": "ANN-09", "title": "Office closed July 18", "date": "2024-07-10" }
+     ]
+   }
+
+
+================================================================================
+MODULE: LEAVES
+================================================================================
+
+9. GET /api/employees/{id}/leave-balance
+   Label: Get leave balances
+   Desc : Returns all leave type balances for the employee.
+
+   REQUEST PAYLOAD:
+   // No body — GET request
+
+   MOCK RESPONSE:
+   {
+     "balances": [
+       { "type": "Annual Leave", "entitled": 30, "taken": 18, "remaining": 12 },
+       { "type": "Sick Leave",   "entitled": 10, "taken": 5,  "remaining": 5  },
+       { "type": "Unpaid Leave", "entitled": null, "taken": 0, "remaining": null }
+     ]
+   }
+
+--------------------------------------------------------------------------------
+
+10. POST /api/leaves/request
+    Label: Submit leave request
+    Desc : Creates a leave request. Validates balance, overlaps, and company policy before submission.
+    Notes:
+      - Balance check enforced
+      - Overlap check enforced
+      - Policy min-notice validated
+
+    REQUEST PAYLOAD:
+    {
+      "employee_id": "EMP-1042",
+      "leave_type": "annual",
+      "start_date": "2024-08-01",
+      "end_date": "2024-08-05",
+      "half_day": false,
+      "reason": "Family vacation",
+      "attachment":BASE64 
+    }
+
+    MOCK RESPONSE:
+    {
+      "request_id": "LV-20240715-003",
+      "status": "pending_approval",
+      "submitted_at": "2024-07-15T10:45:00Z",
+      "approver": "Jane Smith",
+      "message": "Leave request submitted. Awaiting manager approval."
+    }
+
+--------------------------------------------------------------------------------
+
+11. GET /api/leaves/history/{employee_id}
+    Label: Get leave history
+    Desc : Returns paginated leave request history for the employee.
+
+    REQUEST PAYLOAD:
+    // Query params: ?page=1&limit=10&status=all
+
+    MOCK RESPONSE:
+    {
+      "total": 8,
+      "page": 1,
+      "data": [
+        {
+          "id": "LV-20240715-003",
+          "type": "Annual Leave",
+          "dates": "Aug 1–5, 2024",
+          "days": 5,
+          "status": "pending_approval",
+          "approver": "Jane Smith"
+        },
+        {
+          "id": "LV-20240601-001",
+          "type": "Sick Leave",
+          "dates": "Jun 3, 2024",
+          "days": 1,
+          "status": "approved",
+          "approver": "Jane Smith"
+        }
+      ]
+    }
+
+--------------------------------------------------------------------------------
+
+12. PUT /api/leaves/{id}/cancel
+    Label: Cancel leave request
+    Desc : Cancels a pending or approved leave request (subject to policy).
+    Notes:
+      - Only cancellable if pending or within cancel window
+
+    REQUEST PAYLOAD:
+    {
+      "reason": "Plans changed"
+    }
+
+    MOCK RESPONSE:
+    {
+      "status": "cancelled",
+      "message": "Leave request LV-20240715-003 has been cancelled."
+    }
+
+
+
+================================================================================
+MODULE: PAYROLL
+================================================================================
+
+17. GET /api/payslips/{employee_id}
+    Label: Get payslip list
+    Desc : Returns list of all payslips available to the employee.
+    Notes:
+      - Strictly per-employee access
+      - No cross-employee data
+
+    REQUEST PAYLOAD:
+    // Query params: ?year=2024
+
+    MOCK RESPONSE:
+    {
+      "payslips": [
+        { "id": "PS-2024-06", "month": "June 2024", "amount": 15000, "currency": "AED", "status": "published" },
+        { "id": "PS-2024-05", "month": "May 2024",  "amount": 15000, "currency": "AED", "status": "published" }
+      ]
+    }
+
+--------------------------------------------------------------------------------
+
+18. GET /api/payslips/{id}/detail
+    Label: Get payslip breakdown
+    Desc : Returns full salary component breakdown for a specific payslip.
+
+    REQUEST PAYLOAD:
+    // No body — GET request
+
+    MOCK RESPONSE:
+    {
+      "id": "PS-2024-06",
+      "month": "June 2024",
+      "basic_salary": 10000,
+      "allowances": [
+        { "name": "Housing Allowance",   "amount": 3000 },
+        { "name": "Transport Allowance", "amount": 1000 }
+      ],
+      "deductions": [
+        { "name": "GOSI / Social Security", "amount": 750 },
+        { "name": "Absence Deduction",      "amount": 0   }
+      ],
+      "net_salary": 15000,
+      "currency": "AED"
+    }
+
+--------------------------------------------------------------------------------
+
+19. GET /api/payslips/{id}/access
+    Label: “Request salary certificate”
+    Desc : After request flow should be discuss. 
+    Notes:
+      - Time-limited signed URL
+
+    REQUEST PAYLOAD:
+    // No body — GET request
+
+    MOCK RESPONSE:
+    {
+      "status":"XXX"
+    }
+
+
+================================================================================
+MODULE: DOCUMENTS
+================================================================================
+
+21. GET /api/documents/{employee_id}
+    Label: Get document list
+    Desc : Returns all documents available to the employee (contracts, letters, policies).
+    Notes:
+      - Policy/handbook: view only, no download
+      - Screenshot restricted
+
+    REQUEST PAYLOAD:
+    // Query params: ?category=all
+
+    MOCK RESPONSE:
+    {
+      "documents": [
+        { "id": "DOC-001", "title": "Employment Contract", "category": "contract", "viewable": true,  "downloadable": false, "date": "2022-03-01" },
+        { "id": "DOC-012", "title": "Company Handbook",    "category": "policy",   "viewable": true,  "downloadable": false, "date": "2023-01-01" },
+        { "id": "DOC-034", "title": "Salary Certificate",  "category": "letter",   "viewable": true,  "downloadable": true,  "date": "2024-06-01" }
+      ]
+    }
+
+--------------------------------------------------------------------------------
+
+22. GET /api/documents/{doc_id}/view
+    Label: View document
+    Desc : Returns a signed view URL to render the document in-app.
+    Notes:
+      - View-only mode enforced
+
+    REQUEST PAYLOAD:
+    // No body — GET request
+
+    MOCK RESPONSE:
+    {
+      "view_url": "https://cdn.acme.com/docs/secure-view/DOC-001?token=abc&mode=view_only",
+      "expires_at": "2024-07-15T12:00:00Z",
+      "download_allowed": false
+    }
+
+
+================================================================================
+MODULE: REQUESTS (HR General Requests)
+================================================================================
+
+23. GET /api/requests/types
+    Label: Get request types
+    Desc : Returns all available HR request types and their form schemas.
+
+    REQUEST PAYLOAD:
+    // No body — GET request
+
+    MOCK RESPONSE:
+    {
+      "types": [
+        { "id": "RT-01", "name": "Salary Certificate", "fields": ["purpose"],                                    "approval_chain": ["HR"]                    },
+        { "id": "RT-02", "name": "NOC Letter",          "fields": ["purpose", "addressed_to"],                   "approval_chain": ["HR"]                    },
+        { "id": "RT-03", "name": "Experience Letter",   "fields": ["purpose"],                                    "approval_chain": ["HR"]                    },
+        { "id": "RT-04", "name": "Loan / Advance",      "fields": ["amount", "reason", "repayment_months"],      "approval_chain": ["Manager","HR","Finance"] },
+        { "id": "RT-05", "name": "Business Trip",       "fields": ["destination","dates","purpose"],              "approval_chain": ["Manager","HR"]           },
+        { "id": "RT-06", "name": "Asset Request",       "fields": ["asset_type","reason"],                        "approval_chain": ["Manager","IT"]           },
+        { "id": "RT-07", "name": "Resignation",         "fields": ["last_working_day","reason"],                  "approval_chain": ["Manager","HR"]           },
+        { "id": "RT-08", "name": "HR Complaint",        "fields": ["category","description"],                     "approval_chain": ["HR"]                    }
+      ]
+    }
+
+--------------------------------------------------------------------------------
+
+24. POST /api/requests/submit
+    Label: Submit HR request
+    Desc : Submits a general HR request. Routes to the appropriate approval chain based on request type.
+    Notes:
+      - Multi-level approval routing
+      - Creates record in Odoo Approvals
+      - Payload may various depends upon table fields
+
+    REQUEST PAYLOAD:
+    {
+      "employee_id": "EMP-1042",
+      "request_type_id": "RT-04",
+      "form_data": {
+        "amount": 5000,
+        "reason": "Medical emergency",
+        "repayment_months": 5
+      },
+      "attachments": BASE64
+    }
+
+    MOCK RESPONSE:
+    {
+      "request_id": "REQ-20240715-011",
+      "status": "pending_manager",
+      "approval_chain": ["Manager → HR → Finance"],
+      "current_step": "Manager",
+      "approver": "Jane Smith",
+      "message": "Request submitted. Awaiting manager approval."
+    }
+
+--------------------------------------------------------------------------------
+
+25. GET /api/requests/history/{employee_id}
+    Label: Get request history
+    Desc : Returns all HR request submissions and their current statuses.
+
+    REQUEST PAYLOAD:
+    // Query params: ?status=pending&page=1
+
+    MOCK RESPONSE:
+    {
+      "total": 5,
+      "data": [
+        { "id": "REQ-20240715-011", "type": "Loan / Advance",    "status": "pending_manager", "submitted": "2024-07-15", "current_step": "Jane Smith" },
+        { "id": "REQ-20240610-008", "type": "Salary Certificate","status": "completed",       "submitted": "2024-06-10", "completed": "2024-06-11"    }
+      ]
+    }
+
+
+================================================================================
+MODULE: APPROVALS (Manager / HR Officer)
+================================================================================
+
+26. GET /api/approvals/pending/{manager_id}
+    Label: Get pending approvals
+    Desc : Returns all requests pending action from this manager or HR officer.
+    Notes:
+      - Scoped to manager's team/department
+
+    REQUEST PAYLOAD:
+    // No body — GET request
+
+    MOCK RESPONSE:
+    {
+      "pending": [
+        { "id": "LV-20240715-003",  "type": "Leave Request",  "employee": "John Doe", "submitted": "2024-07-15", "urgency": "normal" },
+        { "id": "REQ-20240715-011", "type": "Loan / Advance", "employee": "John Doe", "submitted": "2024-07-15", "urgency": "high"   }
+      ],
+      "total": 2
+    }
+
+--------------------------------------------------------------------------------
+
+27. POST /api/approvals/{request_id}/action
+    Label: Approve or reject request
+    Desc : Manager/HR takes action on a pending request with optional comments.
+    Notes:
+      - Multi-step chain continues automatically
+      - Employee notified via push
+
+    REQUEST PAYLOAD:
+    {
+      "action": "approve",
+      "comments": "Approved. Please ensure repayment starts next month.",
+      "actioned_by": "MGR-0055"
+    }
+
+    MOCK RESPONSE:
+    {
+      "request_id": "REQ-20240715-011",
+      "status": "approved",
+      "next_step": "HR",
+      "message": "Approved and forwarded to HR for final sign-off."
+    }
+
+
+================================================================================
+MODULE: NOTIFICATIONS
+================================================================================
+
+28. GET /api/notifications/{employee_id}
+    Label: Get notifications
+    Desc : Returns all in-app notifications for the employee.
+    Notes:
+      - Firebase push + in-app
+
+    REQUEST PAYLOAD:
+    // Query params: ?unread=true&page=1
+
+    MOCK RESPONSE:
+    {
+      "unread_count": 5,
+      "notifications": [
+        { "id": "NTF-091", "type": "leave_approved",    "title": "Leave Approved",      "body": "Your leave Aug 1–5 has been approved.", "read": false, "time": "2024-07-15T11:00:00Z" },
+        { "id": "NTF-090", "type": "payslip_published", "title": "June Payslip Ready",  "body": "Your June 2024 payslip is available.",  "read": false, "time": "2024-07-01T09:00:00Z" },
+        { "id": "NTF-089", "type": "document_uploaded", "title": "New Document Added",  "body": "Experience Letter is now available.",   "read": true,  "time": "2024-06-20T14:00:00Z" }
+      ]
+    }
+
+--------------------------------------------------------------------------------
+
+29. PUT /api/notifications/{id}/read
+    Label: Mark notification read
+    Desc : Marks a specific notification as read.
+
+    REQUEST PAYLOAD:
+    { "read": true }
+
+    MOCK RESPONSE:
+    { "status": "updated", "notification_id": "NTF-091" }
+
+
+
+
+================================================================================
+APPENDIX — ERROR RESPONSE FORMAT (Standard)
+================================================================================
+
+All endpoints return errors in the following format:
+
+{
+  "error": {
+    "code": "LEAVE_BALANCE_INSUFFICIENT",
+    "message": "You do not have enough annual leave balance.",
+    "http_status": 422
+  }
+}
+
+Common HTTP status codes used:
+  200  — Success
+  201  — Created
+  400  — Bad request / validation error
+  401  — Unauthorized (token expired or missing)
+  403  — Forbidden (access to another employee's data, or read-only field edit)
+  404  — Resource not found
+  422  — Unprocessable entity (business rule violation)
+  500  — Internal server error
+
+
+================================================================================
+APPENDIX — SECURITY NOTES
+================================================================================
+
+  1. All tokens are JWT (RS256). Validate signature on every request.
+  2. NDA must be signed before any other API call returns data (enforced at gateway).
+  3. Screenshot restriction flag is returned at login; enforce at client SDK level.
+  4. Payslip and document view URLs are signed & time-limited (10 min expiry).
+  5. Employee can only access their own records. Cross-employee access returns 403.
+  6. Bank detail changes trigger HR review workflow — not applied immediately.
+  7. Force entry and payroll dispute requests are audit-logged with timestamps.
+  8. Policy/handbook documents: downloadable=false must be enforced client-side AND server-side.
+
+
+================================================================================
+END OF DOCUMENT
+================================================================================

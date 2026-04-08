@@ -12,7 +12,12 @@ export default function Header() {
   const navigation = useNavigation();
 
   return (
-    <View style={[{ flex: 1, padding: metrics.radius.lg }, cStyle.rowJustify]}>
+    <View
+      style={[
+        { flex: 1, paddingHorizontal: metrics.radius.lg },
+        cStyle.rowJustify,
+      ]}
+    >
       <View style={{ flex: 1 }}>
         <HMAText color="background">Welcome</HMAText>
         <HMAText color="background" size="title">

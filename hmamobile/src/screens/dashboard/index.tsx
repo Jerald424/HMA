@@ -1,4 +1,4 @@
-import { FlatList, Image, StatusBar, View } from 'react-native';
+import { FlatList, Image, ScrollView, StatusBar, View } from 'react-native';
 import HMAAvatar from 'src/components/styled/atoms/avatar';
 import HMACard from 'src/components/styled/atoms/card';
 import Container from 'src/components/styled/atoms/container';
@@ -27,10 +27,80 @@ export default function Dashboard({ navigation }) {
           backgroundColor: colors?.lightBackground,
           borderTopEndRadius: metrics?.radius?.lg,
           borderTopStartRadius: metrics?.radius?.lg,
-          padding: spacing.lg,
+          // padding: spacing.lg,
         }}
       >
-        <FlatList
+        <View style={{ paddingHorizontal: spacing.md }}>
+          <HMADivider />
+
+          <HMAText>Leave Balances</HMAText>
+          <HMADivider />
+          <ScrollView
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={{ flexGrow: 0 }}
+          >
+            {[
+              { label: 'Annual', value: 10 },
+              { label: 'Sick', value: 10 },
+              { label: 'Paid', value: 10 },
+            ].map(item => (
+              <View
+                key={item?.label}
+                style={{
+                  padding: spacing.lg,
+                  backgroundColor: colors?.background,
+                  marginRight: spacing.lg,
+                  width: 100,
+                  borderRadius: metrics?.radius?.lg,
+                }}
+              >
+                <HMAText size="regular">{item?.label}</HMAText>
+                <HMAText size="title">{item?.value}</HMAText>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+        <HMADivider space={'sm'} />
+
+        <View
+          style={{
+            backgroundColor: colors?.textPrimaryLight,
+            padding: spacing?.md,
+          }}
+        >
+          <HMAText>Today Attendance Status</HMAText>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <HMAText size="title" style={{ flex: 1 }}>
+              Checkout
+            </HMAText>
+            <View style={{ flexDirection: 'row' }}>
+              <HMAText>in: 8:20 {'  '}</HMAText>
+              <HMAText>out: 8:20</HMAText>
+            </View>
+          </View>
+        </View>
+        <HMADivider space={'sm'} />
+        <View
+          style={{
+            paddingHorizontal: spacing.md,
+          }}
+        >
+          <HMACard
+            style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}
+          >
+            <HMAText>Last Month Payslip - Jun</HMAText>
+            <HMADivider thickness={1} />
+            <HMAText size="title">$1600</HMAText>
+          </HMACard>
+        </View>
+      </View>
+    </Container>
+  );
+}
+
+/*
+ <FlatList
           numColumns={2}
           columnWrapperStyle={{ gap: spacing.lg }}
           data={[
@@ -69,7 +139,4 @@ export default function Dashboard({ navigation }) {
             </HMACard>
           )}
         />
-      </View>
-    </Container>
-  );
-}
+*/
