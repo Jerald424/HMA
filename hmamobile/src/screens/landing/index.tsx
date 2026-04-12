@@ -8,6 +8,9 @@ import Dashboard from '../dashboard';
 import Profile from '../profile';
 import useLanding from './useLanding';
 import AddGeofence from '../dummy';
+import { View } from 'react-native';
+import HMAText from 'src/components/styled/atoms/text';
+import LeaveList from '../leave/list';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,9 +25,10 @@ export default function Landing() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          paddingTop: 6,
+          // paddingTop: 6,
           backgroundColor: colors?.background,
         },
+        tabBarActiveTintColor: colors.textPrimary,
       }}
     >
       <Tab.Screen
@@ -32,12 +36,16 @@ export default function Landing() {
         component={Dashboard}
         options={{
           headerShown: false,
-          title: '',
+          title: 'Dashboard',
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon name={focused ? 'home_fill' : 'home_outline'} />
+            <View>
+              <TabBarIcon name={focused ? 'home_fill' : 'home_outline'} />
+              {/* <HMAText>Dashboard</HMAText> */}
+            </View>
           ),
         }}
       />
+
       <Tab.Screen
         name="Profile"
         component={Profile}

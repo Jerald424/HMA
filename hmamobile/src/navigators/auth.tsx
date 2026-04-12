@@ -3,6 +3,8 @@ import { useTheme } from 'src/hooks/useTheme';
 import AttendanceList from 'src/screens/attendanceList';
 import Dashboard from 'src/screens/dashboard';
 import Landing from 'src/screens/landing';
+import LeaveCreate from 'src/screens/leave/create';
+import LeaveList from 'src/screens/leave/list';
 import Map from 'src/screens/map';
 import TestScreen from 'src/screens/TestScreen';
 import fonts from 'src/utils/fonts';
@@ -47,6 +49,16 @@ export default function AuthNavigator() {
         name="TestScreen"
         component={TestScreen}
         options={{ title: 'TestScreen' }}
+      />
+      <Stack.Screen
+        name="Leave"
+        component={LeaveList}
+        options={{ title: 'Leave' }}
+      />
+      <Stack.Screen
+        name="Leave Detail"
+        component={LeaveCreate}
+        options={{ title: 'Leave Detail' }}
       />
     </Stack.Navigator>
   );

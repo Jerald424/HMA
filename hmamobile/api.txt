@@ -1,3 +1,17 @@
+ {
+  
+      "leave_type": "CL" | "EL" | "LOP",
+      "start_date": "2024-08-01",
+      "end_date": "2024-08-05",
+      "start_session": "morning",
+      "end_session": "evening",
+      "reason": "Family vacation",
+    }
+
+
+
+here is my final api payload
+
 ================================================================================
   HR EMPLOYEE SELF-SERVICE APP — API REFERENCE
   Integrated with Odoo HR / Payroll / Attendance / Documents / Approvals
@@ -225,7 +239,7 @@ MODULE: LEAVES
       "end_date": "2024-08-05",
       "half_day": false,
       "reason": "Family vacation",
-      "attachment":BASE64 
+      "attachment": BASE64 
     }
 
     MOCK RESPONSE:
