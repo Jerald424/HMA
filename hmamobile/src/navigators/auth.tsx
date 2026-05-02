@@ -6,6 +6,8 @@ import Landing from 'src/screens/landing';
 import LeaveCreate from 'src/screens/leave/create';
 import LeaveList from 'src/screens/leave/list';
 import Map from 'src/screens/map';
+import PayslipList from 'src/screens/payslip';
+import PayslipDetail from 'src/screens/payslip/detail';
 import TestScreen from 'src/screens/TestScreen';
 import fonts from 'src/utils/fonts';
 
@@ -54,6 +56,16 @@ export default function AuthNavigator() {
         name="Leave"
         component={LeaveList}
         options={{ title: 'Leave' }}
+      />
+      <Stack.Screen
+        name="Payslip"
+        component={PayslipList}
+        options={{ title: 'Payslip' }}
+      />
+      <Stack.Screen
+        name="Payslip Detail"
+        component={PayslipDetail}
+        options={{ title: 'Payslip Detail' }}
       />
       <Stack.Screen
         name="Leave Detail"

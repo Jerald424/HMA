@@ -16,6 +16,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   response => {
+    if (response?.data?.result?.status == 'error')
+      return Promise.reject(response?.data);
     return response?.data;
   },
   error => {

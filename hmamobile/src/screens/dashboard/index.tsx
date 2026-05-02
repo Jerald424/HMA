@@ -15,6 +15,9 @@ import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 import Header from './header';
+import { iconType } from 'src/components/styled/atoms/icon/icon';
+import LeaveInfo from './leave';
+import PaySlip from './payslip';
 
 export default function Dashboard({ navigation }) {
   const { colors, spacing, metrics } = useTheme();
@@ -22,7 +25,7 @@ export default function Dashboard({ navigation }) {
   return (
     <Container
       padding={0}
-      backgroundColor="primary"
+      // backgroundColor="primary"
       safeAreaViewProps={{
         edges: ['left', 'right'],
       }}
@@ -38,41 +41,7 @@ export default function Dashboard({ navigation }) {
         }}
       >
         <ScrollView style={{ paddingHorizontal: spacing.md }}>
-          <View>
-            <HMADivider />
-
-            <HMAText>Leave Balances</HMAText>
-            <HMADivider />
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              horizontal
-              style={{ flexGrow: 0 }}
-            >
-              {[
-                { label: 'Annual', value: 10 },
-                { label: 'Sick', value: 10 },
-                { label: 'Paid', value: 10 },
-              ].map(item => (
-                <View
-                  key={item?.label}
-                  style={{
-                    padding: spacing.lg,
-                    backgroundColor: colors?.background,
-                    marginRight: spacing.lg,
-                    width: 100,
-                    borderRadius: metrics?.radius?.lg,
-                  }}
-                >
-                  <HMAText color="textSecondary" size="regular" align="center">
-                    {item?.label}
-                  </HMAText>
-                  <HMAText size="title" align="center">
-                    {item?.value}
-                  </HMAText>
-                </View>
-              ))}
-            </ScrollView>
-          </View>
+          <LeaveInfo />
           <HMADivider space={'sm'} />
 
           <HMACard
@@ -92,14 +61,7 @@ export default function Dashboard({ navigation }) {
             </View>
           </HMACard>
           <HMADivider space={'sm'} />
-
-          <HMACard
-            style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}
-          >
-            <HMAText color="textSecondary">Last Month Payslip - Jun</HMAText>
-            <HMADivider thickness={1} />
-            <HMAText size="title">$1600</HMAText>
-          </HMACard>
+          <PaySlip />
           <HMADivider space={'sm'} />
 
           <HMAText>Requests</HMAText>
@@ -110,20 +72,23 @@ export default function Dashboard({ navigation }) {
               {
                 label: 'Leave',
                 key: 'leave',
-                colors: { bg: '#FFE2E2', text: '#C11007' },
+                colors: { bg: '#daedff' },
                 link: 'Leave',
+                icon: 'leave' as iconType,
               },
               {
                 label: 'Payslip',
                 key: 'Payslip',
-                colors: { bg: '#EDE9FE', text: '#7008E7' },
+                colors: { bg: '#d7ffdf' },
                 link: 'Leave',
+                icon: 'payslip' as iconType,
               },
               {
                 label: 'Documents',
                 key: 'Document Center',
-                colors: { bg: '#D0FAE5', text: '#1F7A55' },
+                colors: { bg: '#fdfdde' },
                 link: 'Leave',
+                icon: 'documents' as iconType,
               },
               // { label: 'dummy1', key: 'dummy1' },
             ].map(item => (
@@ -146,8 +111,9 @@ export default function Dashboard({ navigation }) {
                 >
                   <HMAIcon
                     size="md"
-                    name="eye"
-                    style={{ tintColor: item?.colors?.text }}
+                    variant="transparent"
+                    name={item?.icon}
+                    // style={{ tintColor: item?.colors?.text }}
                   />
                 </View>
                 <HMADivider space={'xs'} />

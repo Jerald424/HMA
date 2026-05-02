@@ -12,7 +12,8 @@ import { ACCOUNTS, BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import axiosInstance from 'src/services/axiosInstance';
 
 export const assignTokenToAxios = (token: string) => {
-  axiosInstance.defaults.headers[TOKEN] = token;
+  // axiosInstance.defaults.headers[TOKEN] = token;
+  axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 };
 
 const assignTokenToAsyncStorage = (token: string) => {
@@ -36,7 +37,7 @@ export const assignBaseURlToAsyncStorage = (url: string) => {
 };
 
 export default function useLogin() {
-  const [accounts, setAccounts] = useState({ url: [], login: [] });
+  const [accounts, setAccounts] = useState({ url: [], email: [] });
   const [isRemember, setIsRemember] = useState(true);
   const dispatch = useAppDispatch();
   const alertRef = useRef<alertRefProp>(null);
@@ -74,25 +75,25 @@ export default function useLogin() {
     },
     {
       inputType: 'drop-down',
-      name: 'login',
+      name: 'email',
       dropdownProps: {
-        placeholder: 'Enter username',
+        placeholder: 'Enter email',
         searchTextInputProps: {
           autoCapitalize: 'none',
-          placeholder: 'Enter username',
+          placeholder: 'Enter email',
         },
         options: accounts?.login,
       },
       rules: {
         required: {
           value: true,
-          message: 'Username is required',
+          message: 'Email is required',
         },
       },
     },
     {
       inputType: 'input-box',
-      name: 'password',
+      name: 'pin',
       textInputProps: {
         placeholder: 'Enter password',
         secureTextEntry: true,
@@ -112,8 +113,8 @@ export default function useLogin() {
       let acVal = accounts;
       if (!acVal?.url?.some(ac => ac?.value == data?.url?.value))
         acVal?.url.push(data?.url);
-      if (!acVal?.login?.some(ac => ac?.value == data?.login?.value))
-        acVal?.login.push(data?.login);
+      if (!acVal?.email?.some(ac => ac?.value == data?.email?.value))
+        acVal?.email.push(data?.email);
       await AsyncStorage.setItem(ACCOUNTS, JSON.stringify(acVal));
     } catch (error) {
       console.error(error);
@@ -125,9 +126,10 @@ export default function useLogin() {
       let acVal = await AsyncStorage.getItem(ACCOUNTS);
       if (!!acVal) {
         acVal = JSON.parse(acVal);
+        console.log('acVal: ', acVal);
         reset({
           url: acVal?.url?.pop?.(),
-          login: acVal?.login?.pop?.(),
+          email: acVal?.email?.pop?.(),
         });
         setAccounts(acVal);
       }
@@ -139,16 +141,22 @@ export default function useLogin() {
   const onLogin = (data: any) => {
     mutate(
       {
-        data: { login: data?.login?.value, password: data?.password },
+        data: { email: data?.email?.value, pin: data?.pin },
         baseURL: data?.url?.value,
       },
       {
         onError(error) {
+          console.log('error: ', error);
           alertRef?.current?.showAlert?.({
             message: error?.Message ?? 'Something went wrong',
           });
         },
         onSuccess(response) {
+          if (response?.result?.status != 'success')
+            return alertRef?.current?.showAlert?.({
+              message: response?.result?.message ?? 'Something went wrong',
+            });
+          console.log('#########################', response);
           if (isRemember) assignAccountsToAS(data);
           dispatch(
             updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
@@ -156,8 +164,8 @@ export default function useLogin() {
           assignBaseURlToAsyncStorage(data?.url?.value);
           assignBaseURlToAxios(data?.url?.value);
           AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
-          assignTokenToAsyncStorage(response?.token);
-          assignTokenToAxios(response?.token);
+          assignTokenToAsyncStorage(response?.result?.token);
+          assignTokenToAxios(response?.result?.token);
           dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
         },
       },

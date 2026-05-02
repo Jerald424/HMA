@@ -26,7 +26,8 @@ export default function useInitial() {
       verifyMutate(
         { token, url },
         {
-          onSuccess() {
+          onSuccess(response) {
+            console.log('response: ', response);
             dispatch(updateAuthSlice({ key: 'baseurl', value: url }));
             assignBaseURlToAsyncStorage(url);
             assignBaseURlToAxios(url);

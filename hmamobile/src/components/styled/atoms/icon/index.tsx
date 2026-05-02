@@ -11,7 +11,7 @@ export interface HMAIconProps extends ImageProps {
   /**
    * @default primary
    */
-  variant?: keyof typeof colors;
+  variant?: 'transparent' | keyof typeof colors;
 }
 
 export default function HMAIcon({
@@ -51,8 +51,8 @@ export default function HMAIcon({
         {
           height: sizeMap.height,
           width: sizeMap.width,
-          tintColor: colors?.[variant],
         },
+        variant !== 'transparent' && { tintColor: colors?.[variant] },
         props?.style,
       ]}
     />

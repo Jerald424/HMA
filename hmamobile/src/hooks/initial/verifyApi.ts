@@ -8,10 +8,16 @@ export default async function verifyApi({
   token: string;
   url: string;
 }) {
-  const response = await axiosInstance.get(`${url}/verify`, {
-    headers: {
-      [TOKEN]: token,
+  const response = await axiosInstance.post(
+    `${url}/api/employee/verify-token`,
+    {
+      params: {},
     },
-  });
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
   return response;
 }

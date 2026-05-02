@@ -20,8 +20,12 @@ export const icons = {
   rotate: require('src/assets/icons/rotate-reverse.png'),
   power: require('src/assets/icons/power.png'),
   bolt: require('src/assets/icons/bolt.png'),
+  bell: require('src/assets/icons/bell.png'),
   bolt_slash: require('src/assets/icons/bolt-slash.png'),
   search: require('src/assets/icons/search.png'),
+  leave: require('src/assets/color-icons/leave.png'),
+  payslip: require('src/assets/color-icons/payslip.png'),
+  documents: require('src/assets/color-icons/documentation.png'),
 };
 
 export type iconType = keyof typeof icons;

@@ -7,5 +7,7 @@ export default async function loginApi({
   data: { login: string; password: string };
   baseURL: string;
 }) {
-  return await axiosInstance.post(`${baseURL}/login`, data);
+  return await axiosInstance.post(`${baseURL}/api/employee/login`, {
+    params: data,
+  });
 }

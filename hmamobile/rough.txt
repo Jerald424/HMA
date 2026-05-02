@@ -1,0 +1,3 @@
+api/employee/info
+    - today attendance status
+    

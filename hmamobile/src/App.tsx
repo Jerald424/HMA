@@ -15,7 +15,7 @@ export default function App() {
   return (
     <>
       <Stack.Navigator>
-        {true ? (
+        {isLogin ? (
           <Stack.Screen
             name="auth"
             component={AuthNavigator}
