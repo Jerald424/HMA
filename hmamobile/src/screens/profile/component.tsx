@@ -22,6 +22,8 @@ export default function ProfileCard({
     >
       <HMADivider space={'sm'} />
       <HMAText color="textSecondary">{title}</HMAText>
+      <HMADivider space={'xs'} thickness={1} />
+
       {children}
     </View>
   );

@@ -7,6 +7,10 @@ export const initialState = {
     isLoading: false,
     data: null,
   },
+  dashboard: {
+    isLoading: false,
+    data: null,
+  },
   dummy_office: {},
   isSessionExpire: false,
   token: '',

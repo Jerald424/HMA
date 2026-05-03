@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import useUserId from 'src/hooks/useUserId';
 import { useUserInfo } from 'src/redux/hooks';
 import axiosInstance from 'src/services/axiosInstance';
 
@@ -7,14 +8,11 @@ const getProfile = async ({ id }: { id: number }) => {
 };
 
 export default function useProfile() {
-  const { data } = useUserInfo();
-  const id = data?.result?.data?.basic_info?.id;
+  const id = useUserId();
   const { data: profileData, isPending } = useQuery({
-    queryKey: ['get/profile', data],
+    queryKey: ['get/profile', id],
     queryFn: () => id && getProfile({ id }),
   });
-
-  console.log('profileData: ', profileData);
 
   return {
     profileData,

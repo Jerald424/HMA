@@ -18,6 +18,7 @@ import Header from './header';
 import { iconType } from 'src/components/styled/atoms/icon/icon';
 import LeaveInfo from './leave';
 import PaySlip from './payslip';
+import TodayAttendanceStatus from './todayAttendanceStatus';
 
 export default function Dashboard({ navigation }) {
   const { colors, spacing, metrics } = useTheme();
@@ -44,22 +45,7 @@ export default function Dashboard({ navigation }) {
           <LeaveInfo />
           <HMADivider space={'sm'} />
 
-          <HMACard
-            style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}
-          >
-            <HMAText color="textSecondary">Today Attendance Status</HMAText>
-            <HMADivider thickness={1} />
-
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <HMAText color="error" size="title" style={{ flex: 1 }}>
-                Checkout
-              </HMAText>
-              <View style={{ flexDirection: 'row' }}>
-                <HMAText>in: 8:20 {'  '}</HMAText>
-                <HMAText>out: 8:20</HMAText>
-              </View>
-            </View>
-          </HMACard>
+          <TodayAttendanceStatus />
           <HMADivider space={'sm'} />
           <PaySlip />
           <HMADivider space={'sm'} />
@@ -80,7 +66,7 @@ export default function Dashboard({ navigation }) {
                 label: 'Payslip',
                 key: 'Payslip',
                 colors: { bg: '#d7ffdf' },
-                link: 'Leave',
+                link: 'Payslip',
                 icon: 'payslip' as iconType,
               },
               {

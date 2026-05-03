@@ -84,6 +84,49 @@ export default function Profile() {
           ]}
         />
         <HMADivider />
+
+        <CardWithFields
+          title="Contract"
+          data={[
+            {
+              label: 'Name',
+              value: profileData?.profile?.contract?.data?.company_phone,
+            },
+            {
+              label: 'Date',
+              value: `${
+                profileData?.profile?.contract?.data?.date_start || '_'
+              } to ${profileData?.profile?.contract?.data?.date_end || '_'}`,
+            },
+            {
+              label: 'Job Position',
+              value: profileData?.profile?.contract?.data?.job_position,
+            },
+            {
+              label: 'Working Schedule',
+              value: profileData?.profile?.contract?.data?.working_schedule,
+            },
+          ]}
+        />
+        <HMADivider />
+        <CardWithFields
+          title="Job"
+          data={[
+            {
+              label: 'Department',
+              value: profileData?.profile?.job?.fields?.department,
+            },
+            {
+              label: 'Coach',
+              value: profileData?.profile?.job?.fields?.coach,
+            },
+            {
+              label: 'Manager',
+              value: profileData?.profile?.job?.fields?.manager,
+            },
+          ]}
+        />
+        <HMADivider />
         <Bank bank={profileData?.profile?.bank} />
         {/* <Personal /> */}
         <HMADivider />

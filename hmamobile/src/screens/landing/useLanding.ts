@@ -1,16 +1,17 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import FaceNet from 'src/native/FaceNet';
 import { useAppDispatch, useAuth } from 'src/redux/hooks';
-import { fetchUserInfo } from 'src/redux/slices/auth/thunk';
+import { fetchDashboard, fetchUserInfo } from 'src/redux/slices/auth/thunk';
 import { IS_ANDROID } from 'src/utils/variables';
 
 export default function useLanding() {
   const dispatch = useAppDispatch();
-  const { baseurl, userInfo } = useAuth();
-  console.log('userInfo: ', userInfo);
 
   useEffect(() => {
     dispatch(fetchUserInfo()).then(async data => {
+      dispatch(
+        fetchDashboard({ id: data?.payload?.result?.data?.basic_info?.id }),
+      );
       // try {
       //   // if (IS_ANDROID) {
       //   //   const user = data?.payload;
