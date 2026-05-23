@@ -96,6 +96,14 @@ export function jsDateToDDMMYYYY(date: Date) {
     console.error(error);
   }
 }
+export function jsDateToYYYYMMDD(date: Date) {
+  try {
+    return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 type Period = 'this-week' | 'last-week' | 'current-month' | 'last-month';
 
 type Range = {

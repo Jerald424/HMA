@@ -6,6 +6,10 @@ const fetchLeaveBalance = async ({ id }: { id: number }) => {
   return await axiosInstance.get(`api/employee/${id}/leave-balance`);
 };
 
+const fetchLeaveHistory = async ({ id }: { id: number }) => {
+  return await axiosInstance.get(`/api/leaves/history/${id}`);
+};
+
 export default function useLeaveList() {
   const id = useUserId();
 
@@ -13,9 +17,21 @@ export default function useLeaveList() {
     queryKey: ['fetch/leave-balance', id],
     queryFn: () => id && fetchLeaveBalance({ id }),
   });
-  console.log('leaveBalance: ', leaveBalance);
+
+  const {
+    data: leaveHistory,
+    isLoading: isLoadingHistory,
+    refetch,
+  } = useQuery({
+    queryKey: ['fetch/leave-history', id],
+    queryFn: () => id && fetchLeaveHistory({ id }),
+  });
+
   return {
     leaveBalance,
     isLoading,
+    leaveHistory,
+    isLoadingHistory,
+    refetch,
   };
 }

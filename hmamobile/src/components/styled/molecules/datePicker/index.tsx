@@ -5,6 +5,7 @@ import { useTheme } from 'src/hooks/useTheme';
 import HMADatePicker, { HMADatePickerProps } from '../../atoms/datePicker';
 import HMAIcon from '../../atoms/icon';
 import HMATextInput from '../../atoms/input';
+import { blendWithWhite } from 'src/function/colorCorrection';
 
 export interface HMADatePickerMoleculeProps extends HMADatePickerProps {
   label?: string;
@@ -41,6 +42,9 @@ export default function HMADatePickerMolecule({
               paddingTop: spacing.md,
               paddingBottom: spacing.md,
               borderRadius: metrics.radius.md,
+              color: props?.date
+                ? colors.textSecondary
+                : blendWithWhite(colors.textSecondary, 0.5),
               // pointerEvents: 'none',
             },
           ]}
