@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "android:releaseBuild":"npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && assembleRelease"
+    "android:releaseBuild": "npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android && assembleRelease"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.24.0",
@@ -38,6 +38,7 @@
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.13.1",
     "react-native-vision-camera": "^4.7.3",
+    "react-native-webview": "^13.16.1",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {

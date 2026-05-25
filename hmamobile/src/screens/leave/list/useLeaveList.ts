@@ -10,13 +10,23 @@ const fetchLeaveHistory = async ({ id }: { id: number }) => {
   return await axiosInstance.get(`/api/leaves/history/${id}`);
 };
 
-export default function useLeaveList() {
+export const useFetchLeaveBalance = () => {
   const id = useUserId();
 
   const { data: leaveBalance, isLoading } = useQuery({
     queryKey: ['fetch/leave-balance', id],
     queryFn: () => id && fetchLeaveBalance({ id }),
   });
+
+  return {
+    leaveBalance,
+    isLoading,
+  };
+};
+
+export default function useLeaveList() {
+  const id = useUserId();
+  const { isLoading, leaveBalance } = useFetchLeaveBalance();
 
   const {
     data: leaveHistory,

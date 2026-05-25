@@ -1,11 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toastRefFn } from 'src/components/styled/atoms/toast';
 import { formDataProps } from 'src/components/styled/organism/form';
 import { jsDateToYYYYMMDD } from 'src/function/dateConversion';
 import useUserId from 'src/hooks/useUserId';
 import axiosInstance from 'src/services/axiosInstance';
+import { useFetchLeaveBalance } from '../list/useLeaveList';
 
 const leave_types = [
   { label: 'Unpaid', value: 'Unpaid' },
@@ -30,6 +31,18 @@ const leaveRequest = async data => {
 };
 
 export default function useCreate() {
+  const { isLoading, leaveBalance } = useFetchLeaveBalance();
+  const leave_types = useMemo(() => {
+    try {
+      return leaveBalance?.balances?.map(leave => ({
+        label: leave?.type,
+        value: leave?.type,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  }, [leaveBalance]);
+
   const id = useUserId();
   const { control, handleSubmit, reset, watch } = useForm();
   const toastRef = useRef<toastRefFn>(null);

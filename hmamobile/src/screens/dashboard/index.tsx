@@ -73,7 +73,7 @@ export default function Dashboard({ navigation }) {
                 label: 'Documents',
                 key: 'Document Center',
                 colors: { bg: '#fdfdde' },
-                link: 'Leave',
+                link: 'Documents',
                 icon: 'documents' as iconType,
               },
               // { label: 'dummy1', key: 'dummy1' },

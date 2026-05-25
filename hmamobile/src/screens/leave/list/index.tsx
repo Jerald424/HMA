@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { FlatList, Image, RefreshControl, View } from 'react-native';
 import NoData from 'src/components/layout/noData';
 import HMABadge from 'src/components/styled/atoms/badge';
@@ -14,6 +14,7 @@ import BalanceCards from './BalanceCards';
 import useLeaveList from './useLeaveList';
 import LeaveCancel from './LeaveCancel';
 import Toast, { toastRefFn } from 'src/components/styled/atoms/toast';
+import { makeColonDate, YYYYMMDDToJsDate } from 'src/function/dateConversion';
 
 const leaveStatusMap = {
   pending_approval: 'Pending Approval',
@@ -69,7 +70,7 @@ export default function LeaveList({ navigation }) {
             leave={item}
           />
         )}
-        ListEmptyComponent={() => <NoData />}
+        ListEmptyComponent={() => (isLoadingHistory ? <></> : <NoData />)}
       />
       <HMAButton
         style={{ margin: spacing.md }}
@@ -98,9 +99,20 @@ const SepLeaveCard = ({
 }) => {
   const { colors, spacing } = useTheme();
 
+  const isShowCancel = useMemo(() => {
+    if (leave?.status?.toLowerCase() == 'approved') {
+      const sDate = YYYYMMDDToJsDate(leave?.start_date);
+      const today = new Date();
+      sDate.setHours(0, 0, 0, 0);
+      today.setHours(0, 0, 0, 0);
+      return sDate > today;
+    }
+    return ['pending_approval', 'draft'].includes(leave?.status);
+  }, [leave]);
+
   return (
     <>
-      <HMACard style={{ padding: spacing?.md }}>
+      <HMACard cmpType="View" style={{ padding: spacing?.md }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <HMAText>
             {leave?.start_date} ➡️ {leave?.end_date}
@@ -126,7 +138,7 @@ const SepLeaveCard = ({
           <HMADivider variant="vertical" />
           <HMABadge label={leave?.approver} color="info" />
         </View>
-        {leave?.status == 'pending_approval' && (
+        {isShowCancel && (
           <>
             <HMADivider />
             <HMAButton

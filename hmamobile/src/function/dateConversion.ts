@@ -104,6 +104,21 @@ export function jsDateToYYYYMMDD(date: Date) {
   }
 }
 
+/**
+ *
+ * @param dateStr 2026-05-04
+ * @returns
+ */
+export function YYYYMMDDToJsDate(dateStr: string) {
+  try {
+    const [year, month, date] = dateStr?.split('-');
+    return new Date(+year, +month - 1, +date);
+  } catch (error) {
+    console.error(error);
+    return new Date();
+  }
+}
+
 type Period = 'this-week' | 'last-week' | 'current-month' | 'last-month';
 
 type Range = {

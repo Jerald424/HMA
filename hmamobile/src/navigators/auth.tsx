@@ -2,6 +2,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from 'src/hooks/useTheme';
 import AttendanceList from 'src/screens/attendanceList';
 import Dashboard from 'src/screens/dashboard';
+import DocumentsDetail from 'src/screens/documents/details';
+import DocumentsList from 'src/screens/documents/list';
 import Landing from 'src/screens/landing';
 import LeaveCreate from 'src/screens/leave/create';
 import LeaveList from 'src/screens/leave/list';
@@ -71,6 +73,16 @@ export default function AuthNavigator() {
         name="Leave Detail"
         component={LeaveCreate}
         options={{ title: 'Leave Detail' }}
+      />
+      <Stack.Screen
+        name="Documents"
+        component={DocumentsList}
+        options={{ title: 'Documents' }}
+      />
+      <Stack.Screen
+        name="Documents Detail"
+        component={DocumentsDetail}
+        options={{ title: 'Documents Detail' }}
       />
     </Stack.Navigator>
   );
