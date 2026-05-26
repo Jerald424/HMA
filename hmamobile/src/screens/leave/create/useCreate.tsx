@@ -7,6 +7,7 @@ import { jsDateToYYYYMMDD } from 'src/function/dateConversion';
 import useUserId from 'src/hooks/useUserId';
 import axiosInstance from 'src/services/axiosInstance';
 import { useFetchLeaveBalance } from '../list/useLeaveList';
+import { useNavigation } from '@react-navigation/native';
 
 const leave_types = [
   { label: 'Unpaid', value: 'Unpaid' },
@@ -31,6 +32,7 @@ const leaveRequest = async data => {
 };
 
 export default function useCreate() {
+  const navigation = useNavigation();
   const { isLoading, leaveBalance } = useFetchLeaveBalance();
   const leave_types = useMemo(() => {
     try {
@@ -178,6 +180,7 @@ export default function useCreate() {
             'success',
           );
           console.log('data: ', data);
+          navigation?.goBack();
         },
         onError(error) {
           toastRef?.current?.showToast?.(

@@ -11,30 +11,14 @@ import NoData from 'src/components/layout/noData';
 export default function DocumentsList({ navigation }) {
   const { spacing } = useTheme();
   const { data, isPending, refetch } = useList();
-  const docs = [
-    {
-      id: 'DOC-015',
-      title: 'Abigail_Offer_Letter.docx',
-      category: 'other',
-      viewable: true,
-      downloadable: false,
-      date: '2026-05-06',
-      doc_id: 15,
-      screenshot_restricted: false,
-      folder: 'Internal',
-      tags: [],
-      mimetype:
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      file_size: 15937,
-    },
-  ];
+
   return (
     <Container>
       <FlatList
         refreshControl={
           <RefreshControl onRefresh={refetch} refreshing={isPending} />
         }
-        data={docs}
+        data={data}
         ListEmptyComponent={isPending ? <></> : <NoData />}
         renderItem={({ item }) => (
           <HMACard style={{ padding: spacing?.md }}>

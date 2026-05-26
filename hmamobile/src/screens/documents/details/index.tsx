@@ -1,18 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
-import { Linking } from 'react-native';
+import { useEffect, useMemo } from 'react';
+import { Dimensions, Linking } from 'react-native';
 import WebView from 'react-native-webview';
 import HMAButton from 'src/components/styled/atoms/button';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import axiosInstance from 'src/services/axiosInstance';
+import Pdf from 'react-native-pdf';
 
 const fetchDetailDoc = async ({ doc_id }: { doc_id: number }) => {
   return await axiosInstance.get(`/api/documents/${doc_id}/view`);
 };
 
-export default function DocumentsDetail({ route }: any) {
+export default function DocumentsDetail({ route, navigation }: any) {
   const data = useMemo(() => {
     try {
       return JSON.parse(route?.params?.data);
@@ -21,36 +22,39 @@ export default function DocumentsDetail({ route }: any) {
     }
   }, []);
 
-  const { data: detailDoc, isPending } = useQuery({
+  const { data: dData, isPending } = useQuery({
     queryKey: ['fetch/detail-doc'],
     queryFn: () => fetchDetailDoc({ doc_id: data?.doc_id }),
   });
 
-  const dData = {
-    view_url:
-      'https://brktz.odoo.com/api/payslips/render?token=HEiHNq5gSjRcZmt3Y__zGKmuIDfSRogF.20260525170700.12.374bdfeda444322c&mode=view_only',
-    expires_at: '2026-05-06T06:20:46Z',
-    download_allowed: false,
-    doc_id: 15,
-    doc_ref: 'DOC-015',
-    title: 'Abigail_Offer_Letter.docx',
-    category: 'other',
-    mimetype:
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    mode: 'view_only',
-    ttl_minutes: 60,
-  };
+  useEffect(() => {
+    navigation?.setOptions({
+      title: dData?.title,
+    });
+  }, []);
 
   return (
     <Container>
       <HMAModalLoader isVisible={isPending} />
-      <WebView
-        style={{ flex: 1 }}
-        source={{
-          uri: dData?.view_url,
+      <Pdf
+        trustAllCerts={false}
+        source={{ uri: dData?.view_url }}
+        style={{
+          flex: 1,
+          // width: Dimensions.get('window').width,
+          // height: Dimensions.get('window').height,
         }}
-        originWhitelist={['*']}
+        onPageChanged={(page, numberOfPages) => {
+          console.log(`Page ${page} of ${numberOfPages}`);
+        }}
+        onError={error => {
+          console.log('PDF Error:', error);
+        }}
+        onPressLink={uri => {
+          console.log('Link pressed:', uri);
+        }}
       />
+
       {dData?.download_allowed && (
         <>
           <HMADivider />

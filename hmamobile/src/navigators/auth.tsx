@@ -10,6 +10,8 @@ import LeaveList from 'src/screens/leave/list';
 import Map from 'src/screens/map';
 import PayslipList from 'src/screens/payslip';
 import PayslipDetail from 'src/screens/payslip/detail';
+import RequestCreate from 'src/screens/request/create';
+import RequestList from 'src/screens/request/list';
 import TestScreen from 'src/screens/TestScreen';
 import fonts from 'src/utils/fonts';
 
@@ -83,6 +85,16 @@ export default function AuthNavigator() {
         name="Documents Detail"
         component={DocumentsDetail}
         options={{ title: 'Documents Detail' }}
+      />
+      <Stack.Screen
+        name="Requests"
+        component={RequestList}
+        options={{ title: 'Requests' }}
+      />
+      <Stack.Screen
+        name="Request Create"
+        component={RequestCreate}
+        options={{ title: 'Request Create' }}
       />
     </Stack.Navigator>
   );

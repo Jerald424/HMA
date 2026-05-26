@@ -19,6 +19,7 @@ import { iconType } from 'src/components/styled/atoms/icon/icon';
 import LeaveInfo from './leave';
 import PaySlip from './payslip';
 import TodayAttendanceStatus from './todayAttendanceStatus';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Dashboard({ navigation }) {
   const { colors, spacing, metrics } = useTheme();
@@ -76,38 +77,27 @@ export default function Dashboard({ navigation }) {
                 link: 'Documents',
                 icon: 'documents' as iconType,
               },
+
               // { label: 'dummy1', key: 'dummy1' },
             ].map(item => (
-              <TouchableOpacity
-                onPress={() => navigation?.navigate(item?.link)}
-                style={{ flex: 1, alignItems: 'center' }}
-                key={item?.key}
-              >
-                <View
-                  style={[
-                    {
-                      backgroundColor: item?.colors?.bg,
-                      padding: spacing.md,
-                      borderRadius: metrics.radius.lg,
-                      height: 70,
-                      width: 70,
-                    },
-                    cStyle.rowJustify,
-                  ]}
-                >
-                  <HMAIcon
-                    size="md"
-                    variant="transparent"
-                    name={item?.icon}
-                    // style={{ tintColor: item?.colors?.text }}
-                  />
-                </View>
-                <HMADivider space={'xs'} />
+              <EachRequest key={item?.key} item={item} />
+            ))}
+          </View>
+          <HMADivider space={'sm'} />
 
-                <HMAText variant="small" align="center" size="small">
-                  {item?.label}
-                </HMAText>
-              </TouchableOpacity>
+          <View style={[cStyle.row, { gap: 30 }]}>
+            {[
+              {
+                label: 'Requests',
+                key: 'Requests',
+                colors: { bg: '#fdeede' },
+                link: 'Requests',
+                icon: 'request' as iconType,
+              },
+              { label: 'dummy1', key: 'dummy1' },
+              { label: 'dummy2', key: 'dummy2' },
+            ].map(item => (
+              <EachRequest key={item?.key} item={item} />
             ))}
           </View>
           <HMADivider space={'sm'} />
@@ -116,3 +106,42 @@ export default function Dashboard({ navigation }) {
     </Container>
   );
 }
+
+const EachRequest = ({ item }: { item: any }) => {
+  const { colors, spacing, metrics } = useTheme();
+
+  const navigation = useNavigation();
+  if (item?.key?.includes('dummy')) return <View style={{ flex: 1 }} />;
+  return (
+    <TouchableOpacity
+      onPress={() => navigation?.navigate(item?.link)}
+      style={{ flex: 1, alignItems: 'center' }}
+      key={item?.key}
+    >
+      <View
+        style={[
+          {
+            backgroundColor: item?.colors?.bg,
+            padding: spacing.md,
+            borderRadius: metrics.radius.lg,
+            height: 70,
+            width: 70,
+          },
+          cStyle.rowJustify,
+        ]}
+      >
+        <HMAIcon
+          size="md"
+          variant="transparent"
+          name={item?.icon}
+          // style={{ tintColor: item?.colors?.text }}
+        />
+      </View>
+      <HMADivider space={'xs'} />
+
+      <HMAText variant="small" align="center" size="small">
+        {item?.label}
+      </HMAText>
+    </TouchableOpacity>
+  );
+};
