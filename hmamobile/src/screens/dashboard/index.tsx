@@ -1,25 +1,16 @@
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  StatusBar,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import HMAAvatar from 'src/components/styled/atoms/avatar';
-import HMACard from 'src/components/styled/atoms/card';
+import { useNavigation } from '@react-navigation/native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAIcon from 'src/components/styled/atoms/icon';
+import { iconType } from 'src/components/styled/atoms/icon/icon';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 import Header from './header';
-import { iconType } from 'src/components/styled/atoms/icon/icon';
 import LeaveInfo from './leave';
 import PaySlip from './payslip';
 import TodayAttendanceStatus from './todayAttendanceStatus';
-import { useNavigation } from '@react-navigation/native';
 
 export default function Dashboard({ navigation }) {
   const { colors, spacing, metrics } = useTheme();

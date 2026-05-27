@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import FaceNet from 'src/native/FaceNet';
 import { useAppDispatch, useAuth } from 'src/redux/hooks';
 import { fetchDashboard, fetchUserInfo } from 'src/redux/slices/auth/thunk';
+import { fetchNotificationThunk } from 'src/redux/slices/notications/thunk';
 import { IS_ANDROID } from 'src/utils/variables';
 
 export default function useLanding() {
@@ -9,9 +10,9 @@ export default function useLanding() {
 
   useEffect(() => {
     dispatch(fetchUserInfo()).then(async data => {
-      dispatch(
-        fetchDashboard({ id: data?.payload?.result?.data?.basic_info?.id }),
-      );
+      const employee_id = data?.payload?.result?.data?.basic_info?.id;
+      dispatch(fetchDashboard({ id: employee_id }));
+      dispatch(fetchNotificationThunk({ employee_id }));
       // try {
       //   // if (IS_ANDROID) {
       //   //   const user = data?.payload;

@@ -18,7 +18,7 @@ export default function DocumentsList({ navigation }) {
         refreshControl={
           <RefreshControl onRefresh={refetch} refreshing={isPending} />
         }
-        data={data}
+        data={data?.documents}
         ListEmptyComponent={isPending ? <></> : <NoData />}
         renderItem={({ item }) => (
           <HMACard style={{ padding: spacing?.md }}>

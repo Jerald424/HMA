@@ -8,6 +8,7 @@ import Landing from 'src/screens/landing';
 import LeaveCreate from 'src/screens/leave/create';
 import LeaveList from 'src/screens/leave/list';
 import Map from 'src/screens/map';
+import Notifications from 'src/screens/notifications/list';
 import PayslipList from 'src/screens/payslip';
 import PayslipDetail from 'src/screens/payslip/detail';
 import RequestCreate from 'src/screens/request/create';
@@ -95,6 +96,11 @@ export default function AuthNavigator() {
         name="Request Create"
         component={RequestCreate}
         options={{ title: 'Request Create' }}
+      />
+      <Stack.Screen
+        name="Notifications"
+        component={Notifications}
+        options={{ title: 'Notifications' }}
       />
     </Stack.Navigator>
   );
