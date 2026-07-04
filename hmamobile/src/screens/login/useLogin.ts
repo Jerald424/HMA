@@ -10,13 +10,14 @@ import { useAppDispatch } from 'src/redux/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ACCOUNTS, BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
 import axiosInstance from 'src/services/axiosInstance';
+import useLoginSuccess from './hooks/useLoginSuccess';
 
 export const assignTokenToAxios = (token: string) => {
   // axiosInstance.defaults.headers[TOKEN] = token;
   axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 };
 
-const assignTokenToAsyncStorage = (token: string) => {
+export const assignTokenToAsyncStorage = (token: string) => {
   AsyncStorage.setItem(TOKEN, token);
 };
 
@@ -37,6 +38,8 @@ export const assignBaseURlToAsyncStorage = (url: string) => {
 };
 
 export default function useLogin() {
+  const { onSuccess } = useLoginSuccess();
+  const navigation = useNavigation();
   const [accounts, setAccounts] = useState({ url: [], email: [] });
   const [isRemember, setIsRemember] = useState(true);
   const dispatch = useAppDispatch();
@@ -152,21 +155,24 @@ export default function useLogin() {
           });
         },
         onSuccess(response) {
-          if (response?.result?.status != 'success')
-            return alertRef?.current?.showAlert?.({
-              message: response?.result?.message ?? 'Something went wrong',
-            });
           console.log('#########################', response);
-          if (isRemember) assignAccountsToAS(data);
           dispatch(
             updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
           );
           assignBaseURlToAsyncStorage(data?.url?.value);
           assignBaseURlToAxios(data?.url?.value);
-          AsyncStorage.setItem(LOGIN_DATA, JSON.stringify(response));
-          assignTokenToAsyncStorage(response?.result?.token);
-          assignTokenToAxios(response?.result?.token);
-          dispatch(updateAuthSlice({ key: 'isLogin', value: true }));
+          if (isRemember) assignAccountsToAS(data);
+
+          if (response?.result?.status == 'otp_sent') {
+            navigation.navigate('Login Otp', JSON.stringify(response?.result));
+            return;
+          }
+          //################################################
+          if (response?.result?.status != 'success')
+            return alertRef?.current?.showAlert?.({
+              message: response?.result?.message ?? 'Something went wrong',
+            });
+          onSuccess(response);
         },
       },
     );
