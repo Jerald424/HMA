@@ -9,3 +9,7 @@ export const BASE_URL = 'BASE_URL';
 export const ACCOUNTS = 'ACCOUNTS';
 export const IS_ANDROID = Platform.OS == 'android';
 export const HAIRLINE_WIDTH = StyleSheet.hairlineWidth;
+
+export const amountFormat = (amt: number) => {
+  return `QR ${amt}`;
+};

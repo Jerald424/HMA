@@ -11,6 +11,7 @@ import Header from './header';
 import LeaveInfo from './leave';
 import PaySlip from './payslip';
 import TodayAttendanceStatus from './todayAttendanceStatus';
+import DashboardMenus from './menu';
 
 export default function Dashboard({ navigation }) {
   const { colors, spacing, metrics } = useTheme();
@@ -42,97 +43,11 @@ export default function Dashboard({ navigation }) {
           <PaySlip />
           <HMADivider space={'sm'} />
 
-          <HMAText>Requests</HMAText>
+          <HMAText>Menu</HMAText>
           <HMADivider space={'sm'} />
-
-          <View style={[cStyle.row, { gap: 30 }]}>
-            {[
-              {
-                label: 'Leave',
-                key: 'leave',
-                colors: { bg: '#daedff' },
-                link: 'Leave',
-                icon: 'leave' as iconType,
-              },
-              {
-                label: 'Payslip',
-                key: 'Payslip',
-                colors: { bg: '#d7ffdf' },
-                link: 'Payslip',
-                icon: 'payslip' as iconType,
-              },
-              {
-                label: 'Documents',
-                key: 'Document Center',
-                colors: { bg: '#fdfdde' },
-                link: 'Documents',
-                icon: 'documents' as iconType,
-              },
-
-              // { label: 'dummy1', key: 'dummy1' },
-            ].map(item => (
-              <EachRequest key={item?.key} item={item} />
-            ))}
-          </View>
-          <HMADivider space={'sm'} />
-
-          <View style={[cStyle.row, { gap: 30 }]}>
-            {[
-              {
-                label: 'Requests',
-                key: 'Requests',
-                colors: { bg: '#fdeede' },
-                link: 'Requests',
-                icon: 'request' as iconType,
-              },
-              { label: 'dummy1', key: 'dummy1' },
-              { label: 'dummy2', key: 'dummy2' },
-            ].map(item => (
-              <EachRequest key={item?.key} item={item} />
-            ))}
-          </View>
-          <HMADivider space={'sm'} />
+          <DashboardMenus />
         </ScrollView>
       </View>
     </Container>
   );
 }
-
-const EachRequest = ({ item }: { item: any }) => {
-  const { colors, spacing, metrics } = useTheme();
-
-  const navigation = useNavigation();
-  if (item?.key?.includes('dummy')) return <View style={{ flex: 1 }} />;
-  return (
-    <TouchableOpacity
-      onPress={() => navigation?.navigate(item?.link)}
-      style={{ flex: 1, alignItems: 'center' }}
-      key={item?.key}
-    >
-      <View
-        style={[
-          {
-            backgroundColor: item?.colors?.bg,
-            padding: spacing.md,
-            borderRadius: metrics.radius.lg,
-            height: 70,
-            width: 70,
-          },
-          cStyle.rowJustify,
-        ]}
-      >
-        <HMAIcon
-          size="md"
-          variant="transparent"
-          name={item?.icon}
-          // style={{ tintColor: item?.colors?.text }}
-        />
-      </View>
-      <HMADivider space={'xs'} />
-
-      <HMAText variant="small" align="center" size="small">
-        {item?.label}
-      </HMAText>
-    </TouchableOpacity>
-  );
-};

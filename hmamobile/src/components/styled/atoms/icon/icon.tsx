@@ -27,6 +27,9 @@ export const icons = {
   payslip: require('src/assets/color-icons/payslip.png'),
   documents: require('src/assets/color-icons/documentation.png'),
   request: require('src/assets/color-icons/request.png'),
+  expenses: require('src/assets/color-icons/expenses.png'),
+  edit: require('src/assets/icons/edit.png'),
+  box: require('src/assets/icons/box-return.png'),
 };
 
 export type iconType = keyof typeof icons;

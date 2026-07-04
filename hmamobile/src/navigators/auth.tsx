@@ -4,6 +4,8 @@ import AttendanceList from 'src/screens/attendanceList';
 import Dashboard from 'src/screens/dashboard';
 import DocumentsDetail from 'src/screens/documents/details';
 import DocumentsList from 'src/screens/documents/list';
+import ExpenseDetail from 'src/screens/expenses/detail';
+import ExpensesList from 'src/screens/expenses/list';
 import Landing from 'src/screens/landing';
 import LeaveCreate from 'src/screens/leave/create';
 import LeaveList from 'src/screens/leave/list';
@@ -101,6 +103,16 @@ export default function AuthNavigator() {
         name="Notifications"
         component={Notifications}
         options={{ title: 'Notifications' }}
+      />
+      <Stack.Screen
+        name="Expenses"
+        component={ExpensesList}
+        options={{ title: 'Expenses' }}
+      />
+      <Stack.Screen
+        name="Expense Detail"
+        component={ExpenseDetail}
+        options={{ title: 'Expense Detail' }}
       />
     </Stack.Navigator>
   );
