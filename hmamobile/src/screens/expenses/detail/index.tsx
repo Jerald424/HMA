@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import Container from 'src/components/styled/atoms/container';
 import Toast from 'src/components/styled/atoms/toast';
@@ -6,6 +6,9 @@ import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import HMAForm from 'src/components/styled/organism/form';
 import useExpenseDetail from './useExpenseDetail';
 import { useEffect } from 'react';
+import { YYYYMMDDToJsDate } from 'src/function/dateConversion';
+import UploadEvidence from './upload';
+import HMADivider from 'src/components/styled/atoms/divider';
 
 export default function ExpenseDetail({ route }) {
   const {
@@ -15,12 +18,28 @@ export default function ExpenseDetail({ route }) {
     control,
     handleSubmit,
     toastRef,
+    reset,
   } = useExpenseDetail();
+
+  const getRData = () => {
+    try {
+      return route.params && JSON.parse(route.params);
+    } catch (error) {}
+  };
+
+  const rData = getRData();
+  console.log('rData: ', rData);
+  const isEdit = rData?.expense_id;
 
   useEffect(() => {
     try {
-      const rData = route.params && JSON.parse(route.params);
-      console.log('RDATA: ', rData);
+      if (rData) {
+        reset({
+          ...rData,
+          date: YYYYMMDDToJsDate(rData?.date),
+          total_amount: String(rData?.amount),
+        });
+      }
     } catch (error) {
       console.error('ERROR WHILE PARSE', error);
     }
@@ -31,7 +50,21 @@ export default function ExpenseDetail({ route }) {
       <ScrollView>
         <HMAForm data={formData} control={control} />
       </ScrollView>
-      <HMAButton title="Submit" onPress={handleSubmit} />
+
+      <View style={{ flexDirection: 'row' }}>
+        <HMAButton
+          leftIcon="save"
+          style={{ flex: 1 }}
+          title="Submit"
+          onPress={handleSubmit}
+        />
+        {isEdit && (
+          <>
+            <HMADivider variant="vertical" />
+            <UploadEvidence expense_id={rData?.expense_id} />
+          </>
+        )}
+      </View>
       <HMAModalLoader
         isVisible={isLoadingExpCategory || isLoadingExpUpdating}
       />

@@ -145,6 +145,8 @@ dependencies {
     implementation 'org.tensorflow:tensorflow-lite-support:0.4.3' // optional, not strictly required
     // coroutine support for Tasks.await
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
+    implementation project(':react-native-fs')
+
 
     if (hermesEnabled.toBoolean()) {
         implementation("com.facebook.react:hermes-android")

@@ -96,17 +96,21 @@ const SepExp = ({ expense }: { expense: any }) => {
             color={statusColorMap}
           />
         </View>
-        <HMADivider variant="vertical" space={'sm'} />
+        {expense?.state == 'draft' && (
+          <>
+            <HMADivider variant="vertical" space={'sm'} />
 
-        <TouchableOpacity
-          style={{}}
-          onPress={() =>
-            navigation?.navigate('Expense Detail', JSON.stringify(expense))
-          }
-          hitSlop={20}
-        >
-          <HMAIcon name="edit" />
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={{}}
+              onPress={() =>
+                navigation?.navigate('Expense Detail', JSON.stringify(expense))
+              }
+              hitSlop={20}
+            >
+              <HMAIcon name="edit" />
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </>
   );

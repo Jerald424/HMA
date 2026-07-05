@@ -30,6 +30,8 @@ export const icons = {
   expenses: require('src/assets/color-icons/expenses.png'),
   edit: require('src/assets/icons/edit.png'),
   box: require('src/assets/icons/box-return.png'),
+  clip: require('src/assets/icons/clip.png'),
+  save: require('src/assets/icons/disk.png'),
 };
 
 export type iconType = keyof typeof icons;

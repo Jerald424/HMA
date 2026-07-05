@@ -51,7 +51,7 @@ export default function Landing() {
         component={Profile}
         options={{
           headerShown: false,
-          title: '',
+          title: 'Profile',
           tabBarIcon: ({ focused }) => (
             <TabBarIcon name={focused ? 'user_fill' : 'user_outline'} />
           ),

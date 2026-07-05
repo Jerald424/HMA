@@ -38,7 +38,7 @@ export default function useExpenseDetail() {
   const toastRef = useRef<toastRefFn>(null);
   const navigation = useNavigation();
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
       date: new Date(),
     },
@@ -91,6 +91,19 @@ export default function useExpenseDetail() {
     },
     {
       inputType: 'input-box',
+      name: 'name',
+      textInputProps: {
+        placeholder: 'Enter name',
+      },
+      rules: {
+        required: {
+          value: true,
+          message: 'Name is required',
+        },
+      },
+    },
+    {
+      inputType: 'input-box',
       name: 'total_amount',
       textInputProps: {
         placeholder: 'Enter total amount',
@@ -125,7 +138,8 @@ export default function useExpenseDetail() {
       employee_id,
       quantity: 1,
       payment_mode: 'own_account',
-      name: 'testemployee',
+      // name: 'testemployee',
+      total_amount: +data?.total_amount,
     };
     console.log('payload: ', payload);
     createEditExpenseMute(payload, {
@@ -150,5 +164,6 @@ export default function useExpenseDetail() {
     control,
     handleSubmit: handleSubmit(onSubmit),
     toastRef,
+    reset,
   };
 }
