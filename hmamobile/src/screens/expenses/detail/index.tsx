@@ -29,7 +29,7 @@ export default function ExpenseDetail({ route }) {
 
   const rData = getRData();
   console.log('rData: ', rData);
-  const isEdit = rData?.expense_id;
+  const isEdit = rData?.id;
 
   useEffect(() => {
     try {
@@ -38,6 +38,10 @@ export default function ExpenseDetail({ route }) {
           ...rData,
           date: YYYYMMDDToJsDate(rData?.date),
           total_amount: String(rData?.amount),
+          categorie_id: {
+            id: rData?.category_id,
+            name: rData?.category,
+          },
         });
       }
     } catch (error) {
@@ -61,7 +65,7 @@ export default function ExpenseDetail({ route }) {
         {isEdit && (
           <>
             <HMADivider variant="vertical" />
-            <UploadEvidence expense_id={rData?.expense_id} />
+            <UploadEvidence expense_id={rData?.id} />
           </>
         )}
       </View>

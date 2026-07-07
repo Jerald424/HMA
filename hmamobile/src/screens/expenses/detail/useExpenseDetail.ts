@@ -26,9 +26,9 @@ const fetchExpCategory = async () => {
 
 */
 const createEditExpense = async (payload: any) => {
-  const method = payload?.expense_id ? 'put' : 'post';
-  const url = payload?.expense_id
-    ? `/api/expenses/${payload?.expense_id}`
+  const method = payload?.id ? 'put' : 'post';
+  const url = payload?.id
+    ? `/api/expenses/${payload?.id}`
     : `/api/expenses/request`;
   return await axiosInstance[method](url, payload);
 };
