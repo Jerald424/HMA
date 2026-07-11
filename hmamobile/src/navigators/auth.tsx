@@ -13,6 +13,9 @@ import Map from 'src/screens/map';
 import Notifications from 'src/screens/notifications/list';
 import PayslipList from 'src/screens/payslip';
 import PayslipDetail from 'src/screens/payslip/detail';
+import ProfileEdit from 'src/screens/profileEdit';
+import BankEdit from 'src/screens/profileEdit/bank';
+import PersonalEdit from 'src/screens/profileEdit/personal';
 import RequestCreate from 'src/screens/request/create';
 import RequestList from 'src/screens/request/list';
 import TestScreen from 'src/screens/TestScreen';
@@ -113,6 +116,21 @@ export default function AuthNavigator() {
         name="Expense Detail"
         component={ExpenseDetail}
         options={{ title: 'Expense Detail' }}
+      />
+      <Stack.Screen
+        name="Profile Edit"
+        component={ProfileEdit}
+        options={{ title: 'Profile Edit' }}
+      />
+      <Stack.Screen
+        name="Personal Edit"
+        component={PersonalEdit}
+        options={{ title: 'Personal Edit' }}
+      />
+      <Stack.Screen
+        name="Bank Edit"
+        component={BankEdit}
+        options={{ title: 'Bank Edit' }}
       />
     </Stack.Navigator>
   );

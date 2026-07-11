@@ -10,3 +10,5 @@ export const colors = {
   warning: '#FFD230',
   lightBackground: '#f2f2f2ff',
 };
+
+export type colorTypes = typeof colors;

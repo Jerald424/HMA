@@ -1,21 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import useUserId from 'src/hooks/useUserId';
-import { useUserInfo } from 'src/redux/hooks';
+import { useAppDispatch, useProfileInfo, useUserInfo } from 'src/redux/hooks';
+import { fetchProfileThunk } from 'src/redux/slices/profile/thunk';
 import axiosInstance from 'src/services/axiosInstance';
 
-const getProfile = async ({ id }: { id: number }) => {
-  return await axiosInstance.get(`api/employee/${id}/profile`);
-};
-
 export default function useProfile() {
-  const id = useUserId();
-  const { data: profileData, isPending } = useQuery({
-    queryKey: ['get/profile', id],
-    queryFn: () => id && getProfile({ id }),
-  });
+  const employee_id = useUserId();
+  const dispatch = useAppDispatch();
+  const { data, isLoading } = useProfileInfo();
+
+  const fetchProfile = () => dispatch(fetchProfileThunk({ employee_id }));
 
   return {
-    profileData,
-    isPending,
+    profileData: data,
+    isLoading,
+    fetchProfile,
   };
 }

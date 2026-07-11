@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
@@ -8,10 +8,20 @@ import Header from './header';
 import Login from './login';
 import useProfile from './useProfile';
 import Bank from './bank';
+import HMAText from 'src/components/styled/atoms/text';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
-export default function Profile() {
-  const { isPending, profileData } = useProfile();
+export default function Profile({ navigation }) {
+  const { isLoading, profileData, fetchProfile } = useProfile();
   const { colors, spacing } = useTheme();
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchProfile();
+    }, []),
+  );
+
   return (
     <Container
       safeAreaViewProps={{ edges: ['left', 'top', 'right'] }}
@@ -21,6 +31,21 @@ export default function Profile() {
       <ScrollView style={{ flex: 1, backgroundColor: colors?.lightBackground }}>
         <Header profile={profileData} />
         <HMADivider />
+        <TouchableOpacity
+          onPress={() => navigation?.navigate('Profile Edit')}
+          hitSlop={10}
+          style={{ alignSelf: 'flex-end', marginRight: spacing.md }}
+        >
+          <HMAText
+            style={{ textDecorationLine: 'underline' }}
+            variant="title"
+            color="textSecondary"
+          >
+            Edit Profile
+          </HMAText>
+        </TouchableOpacity>
+        <HMADivider />
+
         <CardWithFields
           title="Personal"
           data={[
@@ -132,7 +157,7 @@ export default function Profile() {
         <HMADivider />
         <Login />
       </ScrollView>
-      <HMAModalLoader isVisible={isPending} />
+      <HMAModalLoader isVisible={isLoading} />
     </Container>
   );
 }

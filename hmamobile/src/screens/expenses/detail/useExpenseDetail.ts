@@ -104,15 +104,15 @@ export default function useExpenseDetail() {
     },
     {
       inputType: 'input-box',
-      name: 'total_amount',
+      name: 'quantity',
       textInputProps: {
-        placeholder: 'Enter total amount',
+        placeholder: 'Enter quantity',
         inputMode: 'decimal',
       },
       rules: {
         required: {
           value: true,
-          message: 'Total amount is required',
+          message: 'Quantity is required',
         },
       },
     },
@@ -136,10 +136,10 @@ export default function useExpenseDetail() {
       categorie_id: data?.categorie_id?.id,
       date: jsDateToYYYYMMDD(data?.date),
       employee_id,
-      quantity: 1,
+      // quantity: 1.0,
       payment_mode: 'own_account',
       // name: 'testemployee',
-      total_amount: +data?.total_amount,
+      // total_amount: +data?.total_amount,
     };
     console.log('payload: ', payload);
     createEditExpenseMute(payload, {

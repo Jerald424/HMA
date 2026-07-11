@@ -82,7 +82,9 @@ const SepExp = ({ expense }: { expense: any }) => {
         <View style={{ flex: 1 }}>
           <HMAText variant="large">{expense?.name}</HMAText>
           <HMADivider />
-          <HMAText size="small">{expense?.category} </HMAText>
+          <HMAText size="small" color="textSecondary">
+            {expense?.category}{' '}
+          </HMAText>
         </View>
         <HMADivider variant="vertical" space={'sm'} />
 
