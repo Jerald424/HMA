@@ -1,3 +1,26 @@
+/api/leaves/request
+attach: <base64></base64>
+  "home_contact_number": "HHH",
+    "airport_name": "DDDD",
+    "next_review": "Unpaid Leaves - Labor/Staff - 1st Approver (Manager)"
+
+
+/api/payslips/{payslip_id}/detail
+salary_computation
+
+
+
+URL: https://aneequlhaq-basic-elements-staging-36690427.dev.odoo.com or http://bse-staging.odoo.com both URLs are the same. Either one you can use.
+
+Employee Credentials
+email: abed@bes-me.com
+pin: 12345
+
+Manager Credentials
+email: emad@bes-me.com
+pin: 12345
+
+
 default
 inside_location | no_geofence_restriction | no_geofence_restriction_default_project_id
 

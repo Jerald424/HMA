@@ -17,6 +17,8 @@ import HMADropdownWithHook, {
 import HMADatePickerWithHook, {
   HMADatePickerHookProps,
 } from '../../molecules/datePicker/datePickerWithHK';
+import HMAAttachMolecule from '../../molecules/attach';
+import HMAAttachWithHook from '../../molecules/attach/inputWithHK';
 
 export type controlInter = Control<FieldValues, any>;
 export type resetInter = UseFormReset<FieldValues>;
@@ -26,9 +28,10 @@ export type setValueInter = UseFormSetValue<FieldValues>;
 export interface formData
   extends Partial<HMATextInputBoxHookProps>,
     Partial<HMADropdownHookProps>,
-    Partial<HMADatePickerHookProps> {
+    Partial<HMADatePickerHookProps>,
+    Partial<HMATextInputBoxHookProps> {
   name: string;
-  inputType: 'input-box' | 'drop-down' | 'date-picker';
+  inputType: 'input-box' | 'drop-down' | 'date-picker' | 'attach';
   conProps?: ViewProps;
 }
 
@@ -43,6 +46,7 @@ const cmp = {
   'input-box': HMATextInputWithHook,
   'drop-down': HMADropdownWithHook,
   'date-picker': HMADatePickerWithHook,
+  attach: HMAAttachWithHook,
 };
 
 export default function HMAForm({ data, control, ...props }: HMAFormProps) {

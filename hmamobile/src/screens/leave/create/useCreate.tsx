@@ -151,6 +151,28 @@ export default function useCreate() {
     //   },
     // },
     {
+      inputType: 'attach',
+      name: 'attach',
+      textInputProps: {
+        placeholder: 'Attach evidence',
+      },
+    },
+    {
+      inputType: 'input-box',
+      name: 'home_contact_number',
+      textInputProps: {
+        placeholder: 'Enter home contact number',
+        keyboardType: 'phone-pad',
+      },
+    },
+    {
+      inputType: 'input-box',
+      name: 'airport_name',
+      textInputProps: {
+        placeholder: 'Enter airport name',
+      },
+    },
+    {
       inputType: 'input-box',
       name: 'reason',
       textInputProps: {

@@ -22,19 +22,19 @@ export default function LeaveInfo() {
         {[
           {
             label: 'Remaining',
-            value: data?.result?.data?.leave_info?.total_remaining,
+            value: data?.result?.data?.leave_info?.total_remaining?.toFixed(1),
           },
           {
             label: 'Pending',
-            value: data?.result?.data?.leave_info?.total_pending,
+            value: data?.result?.data?.leave_info?.total_pending?.toFixed(1),
           },
           {
             label: 'Taken',
-            value: data?.result?.data?.leave_info?.total_taken,
+            value: data?.result?.data?.leave_info?.total_taken?.toFixed(1),
           },
           {
             label: 'Allocated',
-            value: data?.result?.data?.leave_info?.total_allocated,
+            value: data?.result?.data?.leave_info?.total_allocated?.toFixed(1),
           },
         ].map(item => (
           <View

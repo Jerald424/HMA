@@ -29,6 +29,8 @@ export default function LeaveList({ navigation }) {
   const { leaveBalance, leaveHistory, isLoading, isLoadingHistory, refetch } =
     useLeaveList();
 
+  console.log('leaveHistory: ', leaveHistory);
+
   const handleSuccessCancel = () => {
     toastRef?.current?.showToast?.(
       'Leave cancelled successfully!!.',

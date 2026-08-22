@@ -3,7 +3,7 @@ import sessionExpires from 'src/function/sessionExpires';
 import { IS_ANDROID } from 'src/utils/variables';
 
 const axiosInstance = axios.create({
-  timeout: 60000,
+  timeout: 0,
   // baseURL: 'https://bse-testing.odoo.com',
   headers: {
     ['Content-Type']: 'application/json',
@@ -26,8 +26,8 @@ axiosInstance.interceptors.response.use(
       !error?.response?.config?.url?.includes('/login') &&
       error?.response?.status == 401
     )
-      sessionExpires();
-    return Promise.reject(error?.response?.data);
+      // sessionExpires();
+      return Promise.reject(error?.response?.data);
   },
 );
 

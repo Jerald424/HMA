@@ -12,6 +12,7 @@ export default function BalanceCards({ balances }: { balances: any }) {
       showsHorizontalScrollIndicator={false}
       horizontal
       style={{ flexGrow: 0 }}
+      contentContainerStyle={{ gap: spacing.md }}
     >
       {balances?.map((balance: any, index: number) => (
         <HMACard
