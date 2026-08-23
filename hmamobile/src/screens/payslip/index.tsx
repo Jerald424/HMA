@@ -15,8 +15,9 @@ export default function PayslipList({ navigation }) {
   const latest_payslip = data?.result?.data?.payslip_info?.latest_payslip;
 
   return (
-    <Container>
+    <Container padding={0}>
       <FlatList
+        contentContainerStyle={{ padding: spacing.md }}
         ListEmptyComponent={<NoData />}
         data={data?.result?.data?.payslip_info?.all_payslips}
         renderItem={({ item }) => (
@@ -38,7 +39,7 @@ export default function PayslipList({ navigation }) {
                 <HMAText>See Detail</HMAText>
               </View>
             </HMACard>
-            <HMADivider thickness={0} space={'md'} />
+            <HMADivider thickness={0} />
           </>
         )}
       />

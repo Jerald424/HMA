@@ -7,101 +7,82 @@ import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
 
+type MenuItem = {
+  label: string;
+  key: string;
+  link: string;
+  icon: iconType;
+  colors: { bg: string };
+};
+
+const ROW_ONE: MenuItem[] = [
+  { label: 'Leave',     key: 'leave',           link: 'Leave',     icon: 'leave',     colors: { bg: '#daedff' } },
+  { label: 'Payslip',  key: 'Payslip',          link: 'Payslip',   icon: 'payslip',   colors: { bg: '#d7ffdf' } },
+  { label: 'Documents',key: 'Document Center',  link: 'Documents', icon: 'documents', colors: { bg: '#fdfdde' } },
+];
+
+const ROW_TWO: (MenuItem | null)[] = [
+  { label: 'Requests', key: 'Requests', link: 'Requests', icon: 'request',  colors: { bg: '#fdeede'   } },
+  { label: 'Expenses', key: 'Expenses', link: 'Expenses', icon: 'expenses', colors: { bg: '#91541214' } },
+  null, // spacer — keeps grid aligned
+];
+
 export default function DashboardMenus() {
   return (
     <>
       <View style={[cStyle.row, { gap: 30 }]}>
-        {[
-          {
-            label: 'Leave',
-            key: 'leave',
-            colors: { bg: '#daedff' },
-            link: 'Leave',
-            icon: 'leave' as iconType,
-          },
-          {
-            label: 'Payslip',
-            key: 'Payslip',
-            colors: { bg: '#d7ffdf' },
-            link: 'Payslip',
-            icon: 'payslip' as iconType,
-          },
-          {
-            label: 'Documents',
-            key: 'Document Center',
-            colors: { bg: '#fdfdde' },
-            link: 'Documents',
-            icon: 'documents' as iconType,
-          },
-
-          // { label: 'dummy1', key: 'dummy1' },
-        ].map(item => (
-          <EachRequest key={item?.key} item={item} />
+        {ROW_ONE.map(item => (
+          <EachMenuItem key={item.key} item={item} />
         ))}
       </View>
-      <HMADivider space={'sm'} />
+
+      <HMADivider space="sm" />
 
       <View style={[cStyle.row, { gap: 30 }]}>
-        {[
-          {
-            label: 'Requests',
-            key: 'Requests',
-            colors: { bg: '#fdeede' },
-            link: 'Requests',
-            icon: 'request' as iconType,
-          },
-          {
-            label: 'Expenses',
-            key: 'Expenses',
-            colors: { bg: '#91541214' },
-            link: 'Expenses',
-            icon: 'expenses' as iconType,
-          },
-          { label: 'dummy2', key: 'dummy2' },
-        ].map(item => (
-          <EachRequest key={item?.key} item={item} />
-        ))}
+        {ROW_TWO.map((item, index) =>
+          item ? (
+            <EachMenuItem key={item.key} item={item} />
+          ) : (
+            <View key={`spacer-${index}`} style={{ flex: 1 }} />
+          ),
+        )}
       </View>
-      <HMADivider space={'sm'} />
+
+      <HMADivider space="sm" />
     </>
   );
 }
 
-const EachRequest = ({ item }: { item: any }) => {
-  const { colors, spacing, metrics } = useTheme();
-
+function EachMenuItem({ item }: { item: MenuItem }) {
+  const { spacing, metrics } = useTheme();
   const navigation = useNavigation();
-  if (item?.key?.includes('dummy')) return <View style={{ flex: 1 }} />;
+
   return (
     <TouchableOpacity
-      onPress={() => navigation?.navigate(item?.link)}
+      onPress={() => navigation?.navigate(item.link)}
       style={{ flex: 1, alignItems: 'center' }}
-      key={item?.key}
+      activeOpacity={0.75}
     >
       <View
         style={[
+          cStyle.rowJustify,
           {
-            backgroundColor: item?.colors?.bg,
+            backgroundColor: item.colors.bg,
             padding: spacing.md,
             borderRadius: metrics.radius.lg,
             height: 70,
             width: 70,
           },
-          cStyle.rowJustify,
         ]}
       >
-        <HMAIcon
-          size="md"
-          variant="transparent"
-          name={item?.icon}
-          // style={{ tintColor: item?.colors?.text }}
-        />
+        <HMAIcon size="md" variant="transparent" name={item.icon} />
       </View>
-      <HMADivider space={'xs'} />
+
+      <HMADivider space="xs" />
 
       <HMAText variant="small" align="center" size="small">
-        {item?.label}
+        {item.label}
       </HMAText>
     </TouchableOpacity>
   );
-};
+}

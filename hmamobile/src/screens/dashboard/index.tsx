@@ -1,9 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
-import HMAIcon from 'src/components/styled/atoms/icon';
-import { iconType } from 'src/components/styled/atoms/icon/icon';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { cStyle } from 'src/utils/style';
@@ -19,32 +16,48 @@ export default function Dashboard({ navigation }) {
   return (
     <Container
       padding={0}
-      // backgroundColor="primary"
       safeAreaViewProps={{
         edges: ['left', 'right'],
       }}
     >
       <Header />
+
       <View
         style={{
-          flex: 3,
+          flex: 1,
           backgroundColor: colors?.lightBackground,
           borderTopEndRadius: metrics?.radius?.lg,
           borderTopStartRadius: metrics?.radius?.lg,
-          // padding: spacing.lg,
         }}
       >
-        <ScrollView style={{ paddingHorizontal: spacing.md }}>
-          <LeaveInfo />
-          <HMADivider space={'sm'} />
+        <ScrollView
+          style={{ paddingHorizontal: spacing.md }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: spacing.xl }}
+        >
+          <HMADivider space="sm" />
 
+          {/* Attendance first — most time-sensitive */}
           <TodayAttendanceStatus />
-          <HMADivider space={'sm'} />
-          <PaySlip />
-          <HMADivider space={'sm'} />
+          <HMADivider space="sm" />
 
-          <HMAText>Menu</HMAText>
-          <HMADivider space={'sm'} />
+          {/* Leave balance */}
+          <LeaveInfo />
+          <HMADivider space="sm" />
+
+          {/* Latest payslip */}
+          <PaySlip />
+          <HMADivider space="sm" />
+
+          {/* Quick access */}
+          <HMAText
+            color="textSecondary"
+            size="small"
+            style={{ textTransform: 'uppercase', letterSpacing: 0.8 }}
+          >
+            Quick Access
+          </HMAText>
+          <HMADivider space="xs" />
           <DashboardMenus />
         </ScrollView>
       </View>
