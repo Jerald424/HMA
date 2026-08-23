@@ -1,8 +1,11 @@
 import React, { useMemo } from 'react';
-import { View, Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import HMAAccordion from 'src/components/styled/atoms/accordion';
+import HMAText from 'src/components/styled/atoms/text';
 import { colors } from 'src/theme/colors';
 import { withOpacity } from 'src/utils/withOpacity';
+import Download from './Download';
+import HMADivider from 'src/components/styled/atoms/divider';
 
 const COLORS = {
   bg: colors?.lightBackground,
@@ -39,7 +42,7 @@ type PayslipData = {
   period?: { from?: string | null; to?: string | null } | null;
 };
 
-type PayslipDetailProps = { data?: PayslipData | null };
+type PayslipDetailProps = { data?: PayslipData | null; params?: any };
 type PillProps = { label: string; color: string; bg: string };
 type StatCardProps = {
   label: string;
@@ -67,16 +70,16 @@ const fmt = (n?: number | null): string => (n ?? 0).toLocaleString('en-US');
 
 const Pill = ({ label, color, bg }: PillProps) => (
   <View style={[s.pill, { backgroundColor: bg }]}>
-    <Text style={[s.pillText, { color }]}>{label}</Text>
+    <HMAText style={[s.pillText, { color }]}>{label}</HMAText>
   </View>
 );
 
 const StatCard = ({ label, value, valueColor, currency }: StatCardProps) => (
   <View style={s.statCard}>
-    <Text style={s.statLabel}>{label}</Text>
-    <Text style={[s.statValue, valueColor && { color: valueColor }]}>
-      {fmt(value)} <Text style={s.statCurrency}>{currency}</Text>
-    </Text>
+    <HMAText style={s.statLabel}>{label}</HMAText>
+    <HMAText style={[s.statValue, valueColor && { color: valueColor }]}>
+      {fmt(value)} <HMAText style={s.statCurrency}>{currency}</HMAText>
+    </HMAText>
   </View>
 );
 
@@ -87,8 +90,8 @@ const SectionRow = ({
   currency,
 }: SectionRowProps) => (
   <View style={[s.row, isTotal && s.rowTotal]}>
-    <Text style={[s.rowName, isTotal && s.rowNameTotal]}>{name}</Text>
-    <Text
+    <HMAText style={[s.rowName, isTotal && s.rowNameTotal]}>{name}</HMAText>
+    <HMAText
       style={[
         s.rowAmt,
         isTotal && s.rowAmtTotal,
@@ -97,7 +100,7 @@ const SectionRow = ({
       ]}
     >
       {(amount ?? 0) === 0 && !isTotal ? '—' : `${fmt(amount)} ${currency}`}
-    </Text>
+    </HMAText>
   </View>
 );
 
@@ -109,7 +112,7 @@ const Section = ({
   currency,
 }: SectionProps) => (
   <View style={s.section}>
-    {title && <Text style={s.sectionTitle}>{title}</Text>}
+    {title && <HMAText style={s.sectionTitle}>{title}</HMAText>}
     {rows.map((r, i) => (
       <SectionRow key={i} name={r.name} amount={r.amount} currency={currency} />
     ))}
@@ -126,7 +129,10 @@ const Section = ({
 
 // ─── Main Component ────────────────────────────────────────────────────
 
-export default function PayslipDetailUI({ data: rawData }: PayslipDetailProps) {
+export default function PayslipDetailUI({
+  data: rawData,
+  params,
+}: PayslipDetailProps) {
   const data = rawData ?? {};
   const currency = data.currency ?? '';
   const allowances = data.allowances ?? [];
@@ -152,9 +158,9 @@ export default function PayslipDetailUI({ data: rawData }: PayslipDetailProps) {
     >
       {/* Header Card */}
       <View style={s.card}>
-        <Text style={s.company}>{data.company}</Text>
-        <Text style={s.empName}>{data.reference}</Text>
-        <Text style={s.ref}>Salary Slip · {data.month}</Text>
+        <HMAText style={s.company}>{data.company}</HMAText>
+        <HMAText style={s.empName}>{data.reference}</HMAText>
+        <HMAText style={s.ref}>Salary Slip · {data.month}</HMAText>
 
         <View style={s.pillRow}>
           <Pill label="Published" color="#065F46" bg="#D1FAE5" />
@@ -168,25 +174,27 @@ export default function PayslipDetailUI({ data: rawData }: PayslipDetailProps) {
 
         <View style={s.divider} />
 
-        <Text style={s.period}>
+        <HMAText style={s.period}>
           Pay period:{' '}
-          <Text style={s.periodBold}>
+          <HMAText style={s.periodBold}>
             {data.period?.from ?? '—'} – {data.period?.to ?? '—'}
-          </Text>
-        </Text>
+          </HMAText>
+        </HMAText>
       </View>
 
       {/* Net Salary Card */}
       <View style={[s.card, s.netCard]}>
         <View>
-          <Text style={s.netLabel}>Net salary</Text>
+          <HMAText style={s.netLabel}>Net salary</HMAText>
           <View style={s.netAmountRow}>
-            <Text style={s.netAmount}>{fmt(data.net_salary)}</Text>
-            <Text style={s.netCurrency}> {currency}</Text>
+            <HMAText size="title" style={s.netAmount}>
+              {fmt(data.net_salary)}
+            </HMAText>
+            <HMAText style={s.netCurrency}> {currency}</HMAText>
           </View>
         </View>
         <View style={s.checkCircle}>
-          <Text style={s.checkMark}>✓</Text>
+          <HMAText style={s.checkMark}>✓</HMAText>
         </View>
       </View>
 
@@ -243,9 +251,11 @@ export default function PayslipDetailUI({ data: rawData }: PayslipDetailProps) {
       </HMAAccordion>
       {/* Footer */}
       <View style={s.footer}>
-        <Text style={s.footerText}>Payslip ID: #{data.payslip_id}</Text>
-        <Text style={s.footerText}>Employee ID: #{data.employee_id}</Text>
+        <HMAText style={s.footerText}>Payslip ID: #{data.payslip_id}</HMAText>
+        <HMAText style={s.footerText}>Employee ID: #{data.employee_id}</HMAText>
       </View>
+      <HMADivider />
+      <Download payslip={params} />
     </ScrollView>
   );
 }
@@ -273,7 +283,7 @@ const s = StyleSheet.create({
   },
   empName: {
     fontSize: 18,
-    fontWeight: '500',
+
     color: COLORS.primary,
     marginBottom: 2,
   },
@@ -281,11 +291,11 @@ const s = StyleSheet.create({
 
   pillRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 12 },
   pill: { paddingHorizontal: 10, paddingVertical: 3, borderRadius: 99 },
-  pillText: { fontSize: 11, fontWeight: '500' },
+  pillText: { fontSize: 11 },
 
   divider: { height: 0.5, backgroundColor: COLORS.border, marginBottom: 10 },
   period: { fontSize: 12, color: COLORS.secondary },
-  periodBold: { color: COLORS.primary, fontWeight: '500' },
+  periodBold: { color: COLORS.primary },
 
   netCard: {
     flexDirection: 'row',
@@ -295,7 +305,7 @@ const s = StyleSheet.create({
   },
   netLabel: { fontSize: 12, color: COLORS.secondary, marginBottom: 4 },
   netAmountRow: { flexDirection: 'row', alignItems: 'baseline' },
-  netAmount: { fontSize: 28, fontWeight: '500', color: COLORS.accent },
+  netAmount: { fontSize: 28, color: COLORS.accent },
   netCurrency: { fontSize: 14, color: COLORS.secondary },
   checkCircle: {
     width: 44,
@@ -321,8 +331,8 @@ const s = StyleSheet.create({
     padding: 14,
   },
   statLabel: { fontSize: 11, color: COLORS.muted, marginBottom: 4 },
-  statValue: { fontSize: 18, fontWeight: '500', color: COLORS.primary },
-  statCurrency: { fontSize: 12, color: COLORS.muted, fontWeight: '400' },
+  statValue: { fontSize: 18, color: COLORS.primary },
+  statCurrency: { fontSize: 12, color: COLORS.muted },
 
   section: {
     backgroundColor: COLORS.surface,
@@ -334,7 +344,7 @@ const s = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 11,
-    fontWeight: '500',
+
     color: COLORS.secondary,
     letterSpacing: 0.8,
     padding: 12,
@@ -353,10 +363,10 @@ const s = StyleSheet.create({
   },
   rowTotal: { backgroundColor: COLORS.surface1 },
   rowName: { fontSize: 14, color: COLORS.primary },
-  rowNameTotal: { fontSize: 13, fontWeight: '500', color: COLORS.secondary },
-  rowAmt: { fontSize: 14, fontWeight: '500', color: COLORS.primary },
+  rowNameTotal: { fontSize: 13, color: COLORS.secondary },
+  rowAmt: { fontSize: 14, color: COLORS.primary },
   rowAmtTotal: { fontSize: 15 },
-  rowAmtMuted: { color: COLORS.muted, fontWeight: '400' },
+  rowAmtMuted: { color: COLORS.muted },
   rowAmtGreen: { color: COLORS.success },
 
   footer: {

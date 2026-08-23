@@ -14,17 +14,17 @@ import { DocumentPickerResponse, pick } from '@react-native-documents/picker';
 import RNFS from 'react-native-fs';
 import HMAIcon from '../icon';
 
-export interface HMATextInputProps extends TextInputProps {
+export interface HMAAttachProps extends TextInputProps {
   /**
    * @default 'regular'
    */
   fontSize?: keyof typeof typography;
 }
 
-export default function HMATextInput({
+export default function HMAAttach({
   fontSize = 'regular',
   ...props
-}: HMATextInputProps) {
+}: HMAAttachProps) {
   const { colors, typography } = useTheme();
   const fontFamily = fonts[fontSize];
   const fontMapping = typography?.[fontSize];

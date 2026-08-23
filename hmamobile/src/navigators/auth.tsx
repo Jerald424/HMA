@@ -1,7 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { useTheme } from 'src/hooks/useTheme';
 import AttendanceList from 'src/screens/attendanceList';
-import Dashboard from 'src/screens/dashboard';
 import DocumentsDetail from 'src/screens/documents/details';
 import DocumentsList from 'src/screens/documents/list';
 import ExpenseDetail from 'src/screens/expenses/detail';
@@ -19,6 +18,8 @@ import PersonalEdit from 'src/screens/profileEdit/personal';
 import RequestCreate from 'src/screens/request/create';
 import RequestList from 'src/screens/request/list';
 import TestScreen from 'src/screens/TestScreen';
+import ApprovalsList from 'src/screens/approvals/list';
+import ApprovalDetail from 'src/screens/approvals/detail';
 import fonts from 'src/utils/fonts';
 
 const Stack = createStackNavigator();
@@ -56,6 +57,8 @@ export default function AuthNavigator() {
         component={AttendanceList}
         options={{ title: 'Attendance List' }}
       />
+      <Stack.Screen name="Approvals" component={ApprovalsList} options={{ title: 'Approvals' }} />
+      <Stack.Screen name="Approval Detail" component={ApprovalDetail} options={{ title: 'Review request' }} />
 
       <Stack.Screen
         name="TestScreen"

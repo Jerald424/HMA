@@ -11,12 +11,14 @@ interface ContainerProps extends ViewProps {
   padding?: keyof typeof spacing | 0;
   backgroundColor?: keyof typeof colors;
   safeAreaViewProps?: SafeAreaViewProps;
+  isSafeArea?: boolean;
 }
 
 export default function Container({
   padding = 'md',
   backgroundColor = 'lightBackground',
   safeAreaViewProps,
+  isSafeArea,
   ...props
 }: ContainerProps) {
   const { spacing, colors } = useTheme();
@@ -32,12 +34,16 @@ export default function Container({
         props?.style,
       ]}
     >
-      <SafeAreaView
-        {...safeAreaViewProps}
-        style={[{ flex: 1 ,}, safeAreaViewProps?.style]}
-      >
-        {props?.children}
-      </SafeAreaView>
+      {isSafeArea ? (
+        <SafeAreaView
+          {...safeAreaViewProps}
+          style={[{ flex: 1 }, safeAreaViewProps?.style]}
+        >
+          {props?.children}
+        </SafeAreaView>
+      ) : (
+        props?.children
+      )}
     </View>
   );
 }

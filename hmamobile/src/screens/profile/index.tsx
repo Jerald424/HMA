@@ -23,11 +23,7 @@ export default function Profile({ navigation }) {
   );
 
   return (
-    <Container
-      safeAreaViewProps={{ edges: ['left', 'top', 'right'] }}
-      backgroundColor="background"
-      padding={0}
-    >
+    <Container isSafeArea backgroundColor="background" padding={0}>
       <ScrollView style={{ flex: 1, backgroundColor: colors?.lightBackground }}>
         <Header profile={profileData} />
         <HMADivider />

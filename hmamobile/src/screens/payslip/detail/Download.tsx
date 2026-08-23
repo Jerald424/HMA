@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { Alert, Linking } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
+import { useTheme } from 'src/hooks/useTheme';
 import axiosInstance from 'src/services/axiosInstance';
 
 const downloadPayslip = async ({ payslip_id }: { payslip_id: number }) => {
@@ -8,6 +9,7 @@ const downloadPayslip = async ({ payslip_id }: { payslip_id: number }) => {
 };
 
 export default function Download({ payslip }: { payslip: any }) {
+  const { spacing } = useTheme();
   const { mutate, isPending } = useMutation({
     mutationKey: ['download/payslip'],
     mutationFn: downloadPayslip,
@@ -29,6 +31,8 @@ export default function Download({ payslip }: { payslip: any }) {
   };
   return (
     <HMAButton
+      variant="ghost"
+      // style={{ margin: spacing.md }}
       onPress={handleDownload}
       isLoading={isPending}
       title="Download Payslip"

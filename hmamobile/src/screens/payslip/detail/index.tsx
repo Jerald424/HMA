@@ -40,7 +40,9 @@ export default function PayslipDetail({ navigation, route }) {
       {isLoading ? (
         <HMAModalLoader isVisible />
       ) : (
-        <PayslipDetailUI data={data} />
+        <>
+          <PayslipDetailUI data={data} params={params} />
+        </>
       )}
     </Container>
   );

@@ -3,25 +3,24 @@ import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
-import { cStyle } from 'src/utils/style';
 import Header from './header';
 import LeaveInfo from './leave';
 import PaySlip from './payslip';
 import TodayAttendanceStatus from './todayAttendanceStatus';
 import DashboardMenus from './menu';
+import useUserId from 'src/hooks/useUserId';
+import PendingApprovals from './approvals';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function Dashboard({ navigation }) {
+export default function Dashboard() {
   const { colors, spacing, metrics } = useTheme();
+  const userId = useUserId();
+  const { top } = useSafeAreaInsets();
+  // /api/approvals/pending/{manager_id} userId this is manager id
 
   return (
-    <Container
-      padding={0}
-      safeAreaViewProps={{
-        edges: ['left', 'right'],
-      }}
-    >
+    <Container padding={0} isSafeArea={true}>
       <Header />
-
       <View
         style={{
           flex: 1,
@@ -39,6 +38,9 @@ export default function Dashboard({ navigation }) {
 
           {/* Attendance first — most time-sensitive */}
           <TodayAttendanceStatus />
+          <HMADivider space="sm" />
+
+          <PendingApprovals managerId={userId} />
           <HMADivider space="sm" />
 
           {/* Leave balance */}
