@@ -97,7 +97,7 @@ export const useLoginOtp = () => {
         onSuccess(data) {
           console.log('RESEND: DATA: ', data);
           alertRef.current?.showAlert?.({
-            message: error?.result?.message || 'Otp send successfully!!',
+            message: data?.result?.message || 'Otp send successfully!!',
             title: 'OTP resend successfully',
             variant: 'success',
           });

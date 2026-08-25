@@ -54,7 +54,13 @@ export default function ApprovalDetail({ navigation, route }) {
         [{ text: 'Done', onPress: () => navigation.goBack() }],
       );
     },
-    onError: () => Alert.alert('Could not save decision', 'Please try again.'),
+    onError: error => {
+      console.log('approve error: ', error);
+      Alert.alert(
+        'Could not save decision',
+        error?.message ?? 'Please try again.',
+      );
+    },
   });
   const confirmAction = (action: Action) =>
     Alert.alert(
@@ -69,7 +75,7 @@ export default function ApprovalDetail({ navigation, route }) {
           style: action === 'approve' ? 'default' : 'destructive',
           onPress: () =>
             mutation.mutate({
-              requestId: approval.leave_id,
+              requestId: approval.id,
               action,
               comments,
               managerId,

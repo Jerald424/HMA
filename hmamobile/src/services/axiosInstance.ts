@@ -26,8 +26,8 @@ axiosInstance.interceptors.response.use(
       !error?.response?.config?.url?.includes('/login') &&
       error?.response?.status == 401
     )
-      // sessionExpires();
-      return Promise.reject(error?.response?.data);
+      sessionExpires();
+    return Promise.reject(error?.response?.data);
   },
 );
 
