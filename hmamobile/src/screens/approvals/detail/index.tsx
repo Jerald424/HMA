@@ -28,7 +28,7 @@ async function submitAction({
   return axiosInstance.post(`/api/approvals/${requestId}/action`, {
     action,
     comments,
-    actioned_by: managerId,
+    // actioned_by: managerId,
   });
 }
 
@@ -110,6 +110,7 @@ export default function ApprovalDetail({ navigation, route }) {
           <HMADivider thickness={1} space="sm" />
           <DetailRow label="Request ID" value={approval.id} />
           <DetailRow label="Submitted" value={approval.submitted} />
+          <DetailRow label="Reason" value={approval.reason} />
         </HMACard>
 
         <HMAText size="regular" style={{ marginTop: spacing.lg }}>
@@ -162,14 +163,16 @@ function DetailRow({ label, value }: { label: string; value: string }) {
     <View
       style={{
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         marginTop: spacing.sm,
       }}
     >
-      <HMAText color="textSecondary" size="small">
+      <HMAText style={{ flex: 1 }} color="textSecondary" size="small">
         {label}
       </HMAText>
-      <HMAText size="small">{value}</HMAText>
+      <HMAText style={{ flex: 1 }} size="small">
+        {value}
+      </HMAText>
     </View>
   );
 }

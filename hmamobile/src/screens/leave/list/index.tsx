@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { FlatList, Image, RefreshControl, View } from 'react-native';
 import NoData from 'src/components/layout/noData';
 import HMABadge from 'src/components/styled/atoms/badge';
@@ -15,6 +15,7 @@ import useLeaveList from './useLeaveList';
 import LeaveCancel from './LeaveCancel';
 import Toast, { toastRefFn } from 'src/components/styled/atoms/toast';
 import { makeColonDate, YYYYMMDDToJsDate } from 'src/function/dateConversion';
+import { useFocusEffect } from '@react-navigation/native';
 
 const leaveStatusMap = {
   pending_approval: 'Pending Approval',
@@ -45,6 +46,12 @@ export default function LeaveList({ navigation }) {
     );
     refetch();
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, []),
+  );
 
   return (
     <Container padding={0}>

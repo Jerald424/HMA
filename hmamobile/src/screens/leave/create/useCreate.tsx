@@ -25,9 +25,17 @@ const sessions = [
 // 	“Start_date”: “2026-05-05”,
 // 	“End_date”: “2026-05-10”,
 // }
+//  {
+//     headers: {
+//       session_id:
+//         '4e69b1fee8706ec56da8eca74c23e489f4ffe73203fc383d7c005b6930f69e1a',
+//     },
+//   }
 
 const leaveRequest = async data => {
   console.log('data: ', data);
+  delete data['Start_date'];
+  delete data['End_date'];
   return await axiosInstance.post(`/api/leaves/request`, data);
 };
 

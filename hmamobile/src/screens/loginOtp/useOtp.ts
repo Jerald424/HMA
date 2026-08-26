@@ -16,6 +16,18 @@ const verifyOtpApi = async (params: any) => {
   return await axiosInstance.post('api/employee/otp/verify', { params });
 };
 
+export const userLogin = async ({ token }: { token: string }) => {
+  return await axiosInstance.post(
+    '/api/employee/user-login',
+    { params: {} },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+};
+
 /* 
 “Params”: {
 	“employee_id”: 20
@@ -40,6 +52,11 @@ export const useLoginOtp = () => {
       mutationKey: ['verify/otp'],
       mutationFn: verifyOtpApi,
     });
+
+  const { mutate: loginMutate, isPending: isLoginMutate } = useMutation({
+    mutationKey: ['user/login'],
+    mutationFn: userLogin,
+  });
 
   const { mutate: resendOtpMutate, isPending: isLoadingResend } = useMutation({
     mutationKey: ['resend/otp'],
@@ -70,7 +87,34 @@ export const useLoginOtp = () => {
       {
         onSuccess(data) {
           console.log('SUCCESS OTP: ', data);
-          onSuccess(data);
+          loginMutate(
+            {
+              token: data?.result?.token,
+            },
+            {
+              onSuccess(loginData) {
+                onSuccess(data, loginData);
+                console.log('loginData: ', loginData);
+
+                console.log('LOGIN SUCCESS OTP: ', data);
+                //                 {
+                //     "jsonrpc": "2.0",
+                //     "id": null,
+                //     "result": {
+                //         "status": "success",
+                //         "message": "Welcome, Abdalrahman Amer Khaleel Faraj!",
+                //         "token": "4e69b1fee8706ec56da8eca74c23e489f4ffe73203fc383d7c005b6930f69e1a",
+                //         "expires_at": "2026-08-26 18:34:16.278062",
+                //         "employee_id": 6111,
+                //         "employee_name": "Abdalrahman Amer Khaleel Faraj"
+                //     }
+                // }
+              },
+              onError(error) {
+                console.log('LOGIN ERROR OTP: ', error);
+              },
+            },
+          );
         },
         onError(error) {
           console.log('ERROR OTP: ', error);
@@ -117,7 +161,7 @@ export const useLoginOtp = () => {
   };
 
   return {
-    isLoadingVerifyOtp,
+    isLoadingVerifyOtp: isLoadingVerifyOtp || isLoginMutate,
     isLoadingResend,
     resendCount,
     isResendEnabled,

@@ -8,7 +8,13 @@ import { updateAuthSlice } from 'src/redux/slices/auth/slice';
 import loginApi from './api/loginApi';
 import { useAppDispatch } from 'src/redux/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ACCOUNTS, BASE_URL, LOGIN_DATA, TOKEN } from 'src/utils/variables';
+import {
+  ACCOUNTS,
+  BASE_URL,
+  LOGIN_DATA,
+  SESSION,
+  TOKEN,
+} from 'src/utils/variables';
 import axiosInstance from 'src/services/axiosInstance';
 import useLoginSuccess from './hooks/useLoginSuccess';
 
@@ -17,8 +23,16 @@ export const assignTokenToAxios = (token: string) => {
   axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
 };
 
+export const assignSessionToAxios = (session: string) => {
+  axiosInstance.defaults.headers['session_id'] = session;
+};
+
 export const assignTokenToAsyncStorage = (token: string) => {
   AsyncStorage.setItem(TOKEN, token);
+};
+
+export const assignSessionToAsyncStorage = (session: string) => {
+  AsyncStorage.setItem(SESSION, session);
 };
 
 export const removeTokenFromAxios = () => {
