@@ -62,7 +62,17 @@ export default function useCreate() {
       mutationFn: leaveRequest,
     });
 
-  const [Start_date] = watch(['Start_date']);
+  const [Start_date, End_date] = watch(['Start_date', 'End_date']);
+
+  const dayDuration = useMemo(() => {
+    if (!Start_date || !End_date) return 0;
+    const start = new Date(Start_date);
+    const end = new Date(End_date);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+    const timeDiff = end.getTime() - start.getTime();
+    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+  }, [Start_date, End_date]);
 
   const formData: formDataProps = [
     {
@@ -158,11 +168,14 @@ export default function useCreate() {
     //     },
     //   },
     // },
+  ];
+
+  const field2 = [
     {
       inputType: 'attach',
       name: 'attach',
       textInputProps: {
-        placeholder: 'Attach evidence',
+        placeholder: 'Attachment',
       },
     },
     {
@@ -183,6 +196,12 @@ export default function useCreate() {
     {
       inputType: 'input-box',
       name: 'reason',
+      rules: {
+        required: {
+          value: true,
+          message: 'Reason is required',
+        },
+      },
       textInputProps: {
         placeholder: 'Enter reason',
         multiline: true,
@@ -229,5 +248,7 @@ export default function useCreate() {
     handleSubmit: handleSubmit(onSubmit),
     toastRef,
     isLoading: isLoadingLeaveRequest,
+    dayDuration,
+    field2,
   };
 }
