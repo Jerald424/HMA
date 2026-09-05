@@ -4,21 +4,23 @@ import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
 import { amtFormat } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
-import { useUserInfo } from 'src/redux/hooks';
+import { useAuth, useUserInfo } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
 
 export default function PaySlip() {
-  const { data } = useUserInfo();
+  const { dashboard } = useAuth();
   const navigation = useNavigation();
   const { colors, spacing, metrics } = useTheme();
 
-  const latest_payslip = data?.result?.data?.payslip_info?.latest_payslip;
+  const latest_payslip = dashboard?.data?.dashboard?.payslip?.latest_payslip;
+  const currency = latest_payslip?.currency || '';
+  console.log('latest_payslip: ', latest_payslip);
   if (!latest_payslip) return null;
 
-  const basic = latest_payslip?.basic_salary ?? 0;
-  const gross = latest_payslip?.gross_salary ?? 0;
-  const net = latest_payslip?.net_salary ?? gross;
-  const deductions = latest_payslip?.total_deductions ?? 0;
+  const basic = latest_payslip?.basic ?? 0;
+  const gross = latest_payslip?.gross ?? 0;
+  const net = latest_payslip?.net ?? gross;
+  const deductions = latest_payslip?.deductions ?? 0;
   const allowances = gross - basic;
 
   const breakdown = [
@@ -63,11 +65,11 @@ export default function PaySlip() {
               size="small"
               style={{ color: 'rgba(255,255,255,0.4)', marginTop: 2 }}
             >
-              {latest_payslip?.payslip_name}
+              {latest_payslip?.period}
             </HMAText>
           </View>
 
-          {latest_payslip?.state === 'done' && (
+          {latest_payslip?.status === 'paid' && (
             <View
               style={{
                 backgroundColor: 'rgba(255,255,255,0.12)',
@@ -76,10 +78,7 @@ export default function PaySlip() {
                 paddingVertical: 3,
               }}
             >
-              <HMAText
-                size="small"
-                style={{ color: 'rgba(255,255,255,0.75)', fontWeight: '500' }}
-              >
+              <HMAText size="small" style={{ color: 'rgba(255,255,255,0.75)' }}>
                 ✓ Published
               </HMAText>
             </View>
@@ -93,10 +92,11 @@ export default function PaySlip() {
             { alignItems: 'flex-end', marginVertical: spacing.sm },
           ]}
         >
-          <HMAText
-            style={{ color: '#FFFFFF', fontSize: 30, fontWeight: '700' }}
-          >
-            {amtFormat(net)}
+          <HMAText size="large" style={{ color: '#FFFFFF', fontSize: 30 }}>
+            <HMAText size="small" style={{ color: '#FFFFFF' }}>
+              {currency}
+            </HMAText>{' '}
+            {net}
           </HMAText>
         </View>
 
@@ -120,20 +120,20 @@ export default function PaySlip() {
                 >
                   {item.label}
                 </HMAText>
-                <HMAText
-                  size="small"
-                  style={{ color: '#FFFFFF', fontWeight: '600' }}
-                >
-                  {amtFormat(item.value)}
+                <HMAText size="small" style={{ color: '#FFFFFF' }}>
+                  <HMAText
+                    size="small"
+                    style={{ color: '#FFFFFF', fontSize: 8 }}
+                  >
+                    {currency}{' '}
+                  </HMAText>
+                  {item.value}
                 </HMAText>
               </View>
             ))}
           </View>
 
-          <HMAText
-            size="small"
-            style={{ color: colors?.warning ?? '#F5C97A', fontWeight: '600' }}
-          >
+          <HMAText size="small" style={{ color: colors?.warning ?? '#F5C97A' }}>
             View slip →
           </HMAText>
         </View>

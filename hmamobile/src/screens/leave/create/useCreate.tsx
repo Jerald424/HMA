@@ -42,6 +42,7 @@ const leaveRequest = async data => {
 export default function useCreate() {
   const navigation = useNavigation();
   const { isLoading, leaveBalance } = useFetchLeaveBalance();
+  console.log('leaveBalance: ', leaveBalance);
   const leave_types = useMemo(() => {
     try {
       return leaveBalance?.balances?.map(leave => ({
