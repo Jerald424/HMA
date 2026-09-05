@@ -93,6 +93,7 @@ export default function HMABadge({
           {...textPropsMap}
           {...textProps}
           style={[{ fontFamily: fonts.large }, textProps?.style]}
+          numberOfLines={1}
         >
           {label}
         </HMAText>

@@ -136,8 +136,13 @@ const SepLeaveCard = ({
         <HMAText numberOfLines={2}>Reason: {leave?.reason}</HMAText>
         <HMADivider />
 
-        <View style={{ flexDirection: 'row' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}
+        >
           <HMABadge
+            style={{ flex: 1 }}
             color={
               leave?.status?.toUpperCase() == 'APPROVED' ? 'success' : 'error'
             }
@@ -145,7 +150,7 @@ const SepLeaveCard = ({
             textProps={{ style: { textTransform: 'capitalize' } }}
           />
           <HMADivider variant="vertical" />
-          <HMABadge label={leave?.approver} color="info" />
+          <HMABadge style={{ flex: 1 }} label={leave?.approver} color="info" />
         </View>
         {isShowCancel && (
           <>
