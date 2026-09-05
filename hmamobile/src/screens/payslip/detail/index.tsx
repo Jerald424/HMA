@@ -16,7 +16,6 @@ import PayslipDetailUI from './UI';
 
 export default function PayslipDetail({ navigation, route }) {
   const params = route?.params;
-  console.log('params: ', params);
   const { colors, spacing, metrics } = useTheme();
   const { data, isLoading } = useDetailPayslip(params);
   console.log('data: ', data);

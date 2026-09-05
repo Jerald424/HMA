@@ -13,7 +13,7 @@ export default function PayslipList({ navigation }) {
   const { data } = useUserInfo();
   const { colors, spacing, metrics } = useTheme();
   const latest_payslip = data?.result?.data?.payslip_info?.latest_payslip;
-
+  console.log('##############', data?.result?.data);
   return (
     <Container padding={0}>
       <FlatList

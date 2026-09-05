@@ -180,3 +180,13 @@ Study
 No file chosenNo file chosen
 ChatGPT can make mistakes. Check important info. See Cookie Preferences.
 
+
+1. Leave duration: DONE
+2. Evidence to Attachment: DONE
+   show evidence based on leave types:
+      api/employee/${id}/leave-balance - add boolean in the api inside balances list
+3. Reason is required for the all leaves: DONE
+4. Put the description field name as per the attached screenshots: NEED DISCUSSION
+5. Once leave submitted to the manager the manager have not information to see the leave type, start and end date etc: NEED DISCUSSION
+6- In Odoo for the annual leave we have option like when select annual leave it’s show 68 remaing out of 77 Days) Pls show same description in the app screen as well: NEED DISCUSSION
+7. Payslip in the list view showing amount with USD but when open the payslip then showing Riyal currency: SHOULD REMOVE THE DOLLAR SIGN?

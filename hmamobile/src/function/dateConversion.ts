@@ -233,5 +233,5 @@ export function getRangeForPeriod(period: Period, weekStart = 0): Range {
 }
 
 export const amtFormat = (amt: string) => {
-  return `$ ${amt}`;
+  return `${amt}`;
 };

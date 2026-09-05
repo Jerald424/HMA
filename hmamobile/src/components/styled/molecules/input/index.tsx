@@ -3,8 +3,11 @@ import HMATextInput, { HMATextInputProps } from '../../atoms/input';
 import HMAIcon from '../../atoms/icon';
 import { TouchableOpacity, View } from 'react-native';
 import { useState } from 'react';
+import HMAText from '../../atoms/text';
 
-export interface HMATextInputMoleculeProps extends HMATextInputProps {}
+export interface HMATextInputMoleculeProps extends HMATextInputProps {
+  note?: string;
+}
 
 export default function HMATextInputMolecule({
   ...props
@@ -28,6 +31,11 @@ export default function HMATextInputMolecule({
           props?.style,
         ]}
       />
+      {props?.note && (
+        <HMAText size="small" color="textSecondary">
+          {props?.note}
+        </HMAText>
+      )}
       {props?.secureTextEntry && (
         <TouchableOpacity
           hitSlop={20}

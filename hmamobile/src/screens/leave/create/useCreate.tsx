@@ -79,10 +79,10 @@ export default function useCreate() {
       inputType: 'drop-down',
       name: 'Leave_type',
       dropdownProps: {
-        placeholder: 'Select Leave Type',
+        placeholder: 'Leave Type',
         searchTextInputProps: {
           autoCapitalize: 'none',
-          placeholder: 'Select Leave Type',
+          placeholder: 'Leave Type',
         },
         options: leave_types,
       },
@@ -98,6 +98,10 @@ export default function useCreate() {
       name: 'Start_date',
       datePickerProps: {
         mode: 'date',
+        label: 'Leave From',
+      },
+      textInputProps: {
+        placeholder: 'Start date',
       },
       rules: {
         required: {
@@ -129,6 +133,7 @@ export default function useCreate() {
       name: 'End_date',
       datePickerProps: {
         mode: 'date',
+        label: 'Leave To',
       },
       rules: {
         required: {
@@ -170,29 +175,7 @@ export default function useCreate() {
     // },
   ];
 
-  const field2 = [
-    {
-      inputType: 'attach',
-      name: 'attach',
-      textInputProps: {
-        placeholder: 'Attachment',
-      },
-    },
-    {
-      inputType: 'input-box',
-      name: 'home_contact_number',
-      textInputProps: {
-        placeholder: 'Enter home contact number',
-        keyboardType: 'phone-pad',
-      },
-    },
-    {
-      inputType: 'input-box',
-      name: 'airport_name',
-      textInputProps: {
-        placeholder: 'Enter airport name',
-      },
-    },
+  const field2: formDataProps = [
     {
       inputType: 'input-box',
       name: 'reason',
@@ -203,12 +186,35 @@ export default function useCreate() {
         },
       },
       textInputProps: {
-        placeholder: 'Enter reason',
+        placeholder: 'Reason',
         multiline: true,
         style: {
           height: 80,
           textAlignVertical: 'top',
         },
+      },
+    },
+    {
+      inputType: 'input-box',
+      name: 'home_contact_number',
+      textInputProps: {
+        placeholder: 'Home Contact Number',
+        keyboardType: 'phone-pad',
+        note: 'Required for labour employees applying annual leave. Optional for other leave types.',
+      },
+    },
+    {
+      inputType: 'input-box',
+      name: 'airport_name',
+      textInputProps: {
+        placeholder: 'Airport Name',
+      },
+    },
+    {
+      inputType: 'attach',
+      name: 'attach',
+      textInputProps: {
+        placeholder: 'Attachment',
       },
     },
   ];

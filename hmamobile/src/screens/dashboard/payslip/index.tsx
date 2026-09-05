@@ -98,16 +98,6 @@ export default function PaySlip() {
           >
             {amtFormat(net)}
           </HMAText>
-          <HMAText
-            size="small"
-            style={{
-              color: 'rgba(255,255,255,0.45)',
-              marginLeft: spacing.xs,
-              marginBottom: 4,
-            }}
-          >
-            {latest_payslip?.currency ?? 'QAR'}
-          </HMAText>
         </View>
 
         {/* Thin separator */}

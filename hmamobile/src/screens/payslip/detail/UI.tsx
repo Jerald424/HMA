@@ -6,6 +6,7 @@ import { colors } from 'src/theme/colors';
 import { withOpacity } from 'src/utils/withOpacity';
 import Download from './Download';
 import HMADivider from 'src/components/styled/atoms/divider';
+import { amtFormat } from 'src/function/dateConversion';
 
 const COLORS = {
   bg: colors?.lightBackground,
@@ -78,7 +79,7 @@ const StatCard = ({ label, value, valueColor, currency }: StatCardProps) => (
   <View style={s.statCard}>
     <HMAText style={s.statLabel}>{label}</HMAText>
     <HMAText style={[s.statValue, valueColor && { color: valueColor }]}>
-      {fmt(value)} <HMAText style={s.statCurrency}>{currency}</HMAText>
+      {amtFormat(value)} <HMAText style={s.statCurrency}>{currency}</HMAText>
     </HMAText>
   </View>
 );
@@ -99,7 +100,9 @@ const SectionRow = ({
         !isTotal && (amount ?? 0) > 0 && s.rowAmtGreen,
       ]}
     >
-      {(amount ?? 0) === 0 && !isTotal ? '—' : `${fmt(amount)} ${currency}`}
+      {(amount ?? 0) === 0 && !isTotal
+        ? '—'
+        : `${amtFormat(amount)} ${currency}`}
     </HMAText>
   </View>
 );
@@ -188,7 +191,7 @@ export default function PayslipDetailUI({
           <HMAText style={s.netLabel}>Net salary</HMAText>
           <View style={s.netAmountRow}>
             <HMAText size="title" style={s.netAmount}>
-              {fmt(data.net_salary)}
+              {amtFormat(data.net_salary)}
             </HMAText>
             <HMAText style={s.netCurrency}> {currency}</HMAText>
           </View>
