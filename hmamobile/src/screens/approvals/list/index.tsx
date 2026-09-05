@@ -88,7 +88,7 @@ export default function ApprovalsList({ navigation }) {
                     size="small"
                     style={{ marginTop: 2 }}
                   >
-                    Submitted {item.submitted}
+                    {item?.leave_from_date} to {item?.leave_to_date}
                   </HMAText>
                 </View>
                 <UrgencyBadge urgency={item.urgency} />

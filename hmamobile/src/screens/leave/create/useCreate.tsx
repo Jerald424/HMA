@@ -42,12 +42,12 @@ const leaveRequest = async data => {
 export default function useCreate() {
   const navigation = useNavigation();
   const { isLoading, leaveBalance } = useFetchLeaveBalance();
-  console.log('leaveBalance: ', leaveBalance);
   const leave_types = useMemo(() => {
     try {
       return leaveBalance?.balances?.map(leave => ({
         label: leave?.type,
         value: leave?.type,
+        ...leave,
       }));
     } catch (error) {
       console.error(error);
@@ -63,7 +63,11 @@ export default function useCreate() {
       mutationFn: leaveRequest,
     });
 
-  const [Start_date, End_date] = watch(['Start_date', 'End_date']);
+  const [Start_date, End_date, Leave_type] = watch([
+    'Start_date',
+    'End_date',
+    'Leave_type',
+  ]);
 
   const dayDuration = useMemo(() => {
     if (!Start_date || !End_date) return 0;
@@ -175,50 +179,59 @@ export default function useCreate() {
     //   },
     // },
   ];
-
-  const field2: formDataProps = [
-    {
-      inputType: 'input-box',
-      name: 'reason',
-      rules: {
-        required: {
-          value: true,
-          message: 'Reason is required',
+  const field2 = useMemo(() => {
+    const data: formDataProps = [
+      {
+        inputType: 'input-box',
+        name: 'reason',
+        rules: {
+          required: {
+            value: true,
+            message: 'Reason is required',
+          },
+        },
+        textInputProps: {
+          placeholder: 'Reason',
+          multiline: true,
+          style: {
+            height: 80,
+            textAlignVertical: 'top',
+          },
         },
       },
-      textInputProps: {
-        placeholder: 'Reason',
-        multiline: true,
-        style: {
-          height: 80,
-          textAlignVertical: 'top',
+      {
+        inputType: 'input-box',
+        name: 'home_contact_number',
+        textInputProps: {
+          placeholder: 'Home Contact Number',
+          keyboardType: 'phone-pad',
+          note: 'Required for labour employees applying annual leave. Optional for other leave types.',
         },
       },
-    },
-    {
-      inputType: 'input-box',
-      name: 'home_contact_number',
-      textInputProps: {
-        placeholder: 'Home Contact Number',
-        keyboardType: 'phone-pad',
-        note: 'Required for labour employees applying annual leave. Optional for other leave types.',
+      {
+        inputType: 'input-box',
+        name: 'airport_name',
+        textInputProps: {
+          placeholder: 'Airport Name',
+        },
       },
-    },
-    {
-      inputType: 'input-box',
-      name: 'airport_name',
-      textInputProps: {
-        placeholder: 'Airport Name',
-      },
-    },
-    {
-      inputType: 'attach',
-      name: 'attach',
-      textInputProps: {
-        placeholder: 'Attachment',
-      },
-    },
-  ];
+    ];
+    if (Leave_type?.support_document)
+      data.push({
+        inputType: 'attach',
+        name: 'attach',
+        textInputProps: {
+          placeholder: 'Attachment',
+        },
+        rules: {
+          required: {
+            message: 'Attachment is required',
+            value: true,
+          },
+        },
+      });
+    return data;
+  }, [Leave_type]);
 
   const onSubmit = data => {
     leaveRequestMutation(

@@ -110,7 +110,10 @@ export default function ApprovalDetail({ navigation, route }) {
           <HMADivider thickness={1} space="sm" />
           <DetailRow label="Request ID" value={approval.id} />
           <DetailRow label="Submitted" value={approval.submitted} />
-          <DetailRow label="Reason" value={approval.reason} />
+          <DetailRow label="Leave from" value={approval.leave_from_date} />
+          <DetailRow label="Leave to" value={approval.leave_to_date} />
+          <DetailRow label="State" value={approval.state} />
+          <DetailRow label="Reason" value={approval.leave_to_date} />
         </HMACard>
 
         <HMAText size="regular" style={{ marginTop: spacing.lg }}>

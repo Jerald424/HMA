@@ -84,7 +84,8 @@ export default function PendingApprovals({
                   size="small"
                   style={{ marginTop: 2 }}
                 >
-                  {approval.employee} · Submitted {approval.submitted}
+                  {approval.employee} · {approval?.leave_from_date} to{' '}
+                  {approval?.leave_to_date}
                 </HMAText>
               </View>
               <View
