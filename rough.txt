@@ -12,6 +12,7 @@ salary_computation
 
 URL: https://aneequlhaq-basic-elements-staging-36690427.dev.odoo.com or http://bse-staging.odoo.com both URLs are the same. Either one you can use.
 
+https://bse-staging.odoo.com
 Employee Credentials
 email: abed@bes-me.com
 pin: 12345

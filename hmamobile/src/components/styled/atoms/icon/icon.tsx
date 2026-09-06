@@ -33,6 +33,8 @@ export const icons = {
   clip: require('src/assets/icons/clip.png'),
   save: require('src/assets/icons/disk.png'),
   bank: require('src/assets/icons/bank.png'),
+  maps_flag: require('src/assets/icons/maps-and-flags.png'),
+  location_cross: require('src/assets/icons/location-dot-slash.png'),
 };
 
 export type iconType = keyof typeof icons;

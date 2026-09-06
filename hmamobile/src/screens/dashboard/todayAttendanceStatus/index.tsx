@@ -1,17 +1,45 @@
-import { TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import {
+  PermissionsAndroid,
+  Platform,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import HMACard from 'src/components/styled/atoms/card';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import { useAuth } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
+import DashboardAttPermission from './permission';
+import Status from './status';
 
-export default function TodayAttendanceStatus() {
+function TodayAttendanceStatus() {
+  const [hasLocationPermission, setHasLocationPermission] = useState(
+    Platform.OS !== 'android',
+  );
   const { colors, spacing, metrics } = useTheme();
   const { dashboard } = useAuth();
 
+  useEffect(() => {
+    const checkLocationPermission = async () => {
+      if (Platform.OS !== 'android') return;
+
+      const granted = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      setHasLocationPermission(granted);
+    };
+
+    checkLocationPermission();
+  }, []);
+
+  if (!hasLocationPermission) {
+    return <DashboardAttPermission />;
+  }
+
   const todayAttendance = dashboard?.data?.dashboard?.attendance?.today;
-  const hasCheckedIn  = !!todayAttendance?.check_in;
+  const hasCheckedIn = !!todayAttendance?.check_in;
   const hasCheckedOut = !!todayAttendance?.check_out;
 
   const statusLabel = hasCheckedIn
@@ -31,7 +59,6 @@ export default function TodayAttendanceStatus() {
 
   return (
     <HMACard style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}>
-
       {/* Title + date row */}
       <View style={[cStyle.rowAlign, { justifyContent: 'space-between' }]}>
         <HMAText
@@ -49,7 +76,9 @@ export default function TodayAttendanceStatus() {
       <HMADivider thickness={1} />
 
       {/* Status dot + label */}
-      <View style={[cStyle.rowAlign, { gap: spacing.xs, marginBottom: spacing.sm }]}>
+      <View
+        style={[cStyle.rowAlign, { gap: spacing.xs, marginBottom: spacing.sm }]}
+      >
         <View
           style={{
             width: 9,
@@ -62,9 +91,17 @@ export default function TodayAttendanceStatus() {
           {statusLabel}
         </HMAText>
       </View>
+      <Status
+        desc="You are too far to check in"
+        heading="1.2km from office"
+        status="error"
+      />
+      <HMADivider />
 
       {/* Check in / Check out times */}
-      <View style={[cStyle.rowAlign, { gap: spacing.lg, marginBottom: spacing.md }]}>
+      <View
+        style={[cStyle.rowAlign, { gap: spacing.lg, marginBottom: spacing.md }]}
+      >
         <View>
           <HMAText color="textSecondary" size="small">
             Check In
@@ -90,7 +127,9 @@ export default function TodayAttendanceStatus() {
             disabled={hasCheckedIn}
             style={{
               flex: 1,
-              backgroundColor: hasCheckedIn ? colors.lightBackground : colors.title,
+              backgroundColor: hasCheckedIn
+                ? colors.lightBackground
+                : colors.title,
               borderRadius: metrics.radius.md,
               paddingVertical: spacing.sm,
               alignItems: 'center',
@@ -103,7 +142,7 @@ export default function TodayAttendanceStatus() {
                 color: hasCheckedIn ? colors.textSecondary : colors.background,
               }}
             >
-              ⏱  Check In
+              ⏱ Check In
             </HMAText>
           </TouchableOpacity>
 
@@ -111,7 +150,9 @@ export default function TodayAttendanceStatus() {
             disabled={!hasCheckedIn}
             style={{
               flex: 1,
-              backgroundColor: hasCheckedIn ? colors.title : colors.lightBackground,
+              backgroundColor: hasCheckedIn
+                ? colors.title
+                : colors.lightBackground,
               borderRadius: metrics.radius.md,
               paddingVertical: spacing.sm,
               alignItems: 'center',
@@ -133,4 +174,8 @@ export default function TodayAttendanceStatus() {
       )}
     </HMACard>
   );
+}
+
+export default function Index() {
+  return <TodayAttendanceStatus />;
 }
