@@ -1,42 +1,20 @@
-import { useEffect, useState } from 'react';
-import {
-  PermissionsAndroid,
-  Platform,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import HMACard from 'src/components/styled/atoms/card';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
+import withGPS from 'src/hoc/withGps';
 import { useTheme } from 'src/hooks/useTheme';
 import { useAuth } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
-import DashboardAttPermission from './permission';
 import Status from './status';
+import { useEffect } from 'react';
+import { checkLocationEnabled } from 'src/function/locationPermission';
+import useTodayAttendance from './useTodayAttendance';
 
 function TodayAttendanceStatus() {
-  const [hasLocationPermission, setHasLocationPermission] = useState(
-    Platform.OS !== 'android',
-  );
   const { colors, spacing, metrics } = useTheme();
   const { dashboard } = useAuth();
-
-  useEffect(() => {
-    const checkLocationPermission = async () => {
-      if (Platform.OS !== 'android') return;
-
-      const granted = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      setHasLocationPermission(granted);
-    };
-
-    checkLocationPermission();
-  }, []);
-
-  if (!hasLocationPermission) {
-    return <DashboardAttPermission />;
-  }
+  const { setUserLocation } = useTodayAttendance();
 
   const todayAttendance = dashboard?.data?.dashboard?.attendance?.today;
   const hasCheckedIn = !!todayAttendance?.check_in;
@@ -56,6 +34,15 @@ function TodayAttendanceStatus() {
     month: 'short',
     year: 'numeric',
   });
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkLocationEnabled().then(location => {
+        setUserLocation(location);
+      });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <HMACard style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}>
@@ -176,6 +163,8 @@ function TodayAttendanceStatus() {
   );
 }
 
-export default function Index() {
+function Index() {
   return <TodayAttendanceStatus />;
 }
+
+export default withGPS(Index);

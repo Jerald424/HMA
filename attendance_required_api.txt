@@ -1,0 +1,18 @@
+1. user-info
+    offices: for project details and location
+
+    config:
+    no_geofence_restriction
+    no_geofence_restriction_default_project_id
+    no_geofence_restriction_default_project_name
+    isFaceVerify
+    Employee_Image_URL
+
+
+2. /attendance-list?offset=0&limit=1
+        to fetch the last attendance record
+
+3. mark-attendance
+
+4. attendance-list
+        for all data with pagination

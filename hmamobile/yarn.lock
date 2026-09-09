@@ -5918,6 +5918,11 @@ react-is@^19.1.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-19.2.0.tgz"
   integrity sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==
 
+react-native-android-location-enabler@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/react-native-android-location-enabler/-/react-native-android-location-enabler-3.0.1.tgz"
+  integrity sha512-X4gHdEFf/dqSNhVDQ2cQUibnNRd6xIG34UGDMnwoCKIPLC2wYzALs/gPrDnjrAWsuxjaleZXwUIrX3o9nbtsgw==
+
 react-native-animatable@1.4.0:
   version "1.4.0"
   resolved "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.4.0.tgz"
