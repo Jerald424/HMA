@@ -1,3 +1,11 @@
+@Jerald Jerald These are the migrated API list pls check and confirm for the new App we will keep these URLs: /api/employee/attendance/list
+/api/employee/attendance/mark
+/api/employee/attendance/mark-auto
+/api/employees
+/api/employees/<int:employee_id>/image
+
+
+
 /api/leaves/request
 attach: <base64></base64>
   "home_contact_number": "HHH",

@@ -235,3 +235,19 @@ export function getRangeForPeriod(period: Period, weekStart = 0): Range {
 export const amtFormat = (amt: string) => {
   return `${amt}`;
 };
+
+/**
+ *
+ * @param date JSDATE
+ * @returns “03:09:2026 09:02:14”
+ */
+
+export const formatAttendanceDate = (date: Date = new Date()) => {
+  const pad = (value: number) => value.toString().padStart(2, '0');
+
+  return `${pad(date.getDate())}:${pad(
+    date.getMonth() + 1,
+  )}:${date.getFullYear()} ${pad(date.getHours())}:${pad(
+    date.getMinutes(),
+  )}:${pad(date.getSeconds())}`;
+};
