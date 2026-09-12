@@ -1,21 +1,19 @@
-import { TouchableOpacity, View } from 'react-native';
+import { useEffect } from 'react';
+import { View } from 'react-native';
+import HMAButton from 'src/components/styled/atoms/button';
 import HMACard from 'src/components/styled/atoms/card';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
+import { checkLocationEnabled } from 'src/function/locationPermission';
 import withGPS from 'src/hoc/withGps';
 import { useTheme } from 'src/hooks/useTheme';
-import { useAuth } from 'src/redux/hooks';
 import { cStyle } from 'src/utils/style';
-import Status from './status';
-import { useEffect } from 'react';
-import { checkLocationEnabled } from 'src/function/locationPermission';
-import useTodayAttendance from './useTodayAttendance';
-import HMAButton from 'src/components/styled/atoms/button';
 import ProjectSelection from './projectSelection';
+import Status from './status';
+import useTodayAttendance from './useTodayAttendance';
 
 function TodayAttendanceStatus() {
   const { colors, spacing, metrics } = useTheme();
-  const { dashboard } = useAuth();
   const {
     setUserLocation,
     isCheckIn,
@@ -23,19 +21,19 @@ function TodayAttendanceStatus() {
     isInsideGeofence,
     handleCheckInOut,
     projectSelectionRef,
+    refetchLastAttendance,
+    lastAttRecord,
+    checkInOutTime,
+    isCheckOut,
   } = useTodayAttendance();
 
-  const todayAttendance = dashboard?.data?.dashboard?.attendance?.today;
-  const hasCheckedIn = !!todayAttendance?.check_in;
-  const hasCheckedOut = !!todayAttendance?.check_out;
-
-  const statusLabel = hasCheckedIn
-    ? hasCheckedOut
-      ? 'Completed'
-      : 'Checked In'
+  const statusLabel = isCheckOut
+    ? 'Completed'
+    : isCheckIn
+    ? 'Checked In'
     : 'Not Marked Yet';
 
-  const statusColor = hasCheckedIn ? colors.success : colors.error;
+  const statusColor = isCheckIn || isCheckOut ? colors.success : colors.error;
 
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'short',
@@ -92,9 +90,17 @@ function TodayAttendanceStatus() {
           </HMAText>
         </View>
         <Status
-          desc="You are too far to check in"
-          heading="1.2km from office"
-          status="error"
+          heading={
+            isInsideGeofence
+              ? 'Inside office zone'
+              : "You're outside the office zone"
+          }
+          desc={
+            isInsideGeofence
+              ? `You can check ${isCheckIn ? 'out' : 'in'} now`
+              : `You are too far to check ${isCheckIn ? 'out' : 'in'}`
+          }
+          status={isInsideGeofence ? 'success' : 'error'}
         />
         <HMADivider />
 
@@ -110,16 +116,26 @@ function TodayAttendanceStatus() {
               Check In
             </HMAText>
             <HMAText size="regular" style={{ fontWeight: '600' }}>
-              {todayAttendance?.check_in || '—  :  —'}
+              {checkInOutTime?.check_in_time || '—  :  —'}
             </HMAText>
+            {!checkInOutTime?.isSameDay && (
+              <HMAText color="textSecondary" size="small">
+                {checkInOutTime?.check_in_date}
+              </HMAText>
+            )}
           </View>
           <View>
             <HMAText color="textSecondary" size="small">
               Check Out
             </HMAText>
             <HMAText size="regular" style={{ fontWeight: '600' }}>
-              {todayAttendance?.check_out || '—  :  —'}
+              {checkInOutTime?.check_out_time || '—  :  —'}
             </HMAText>
+            {!checkInOutTime?.isSameDay && (
+              <HMAText color="textSecondary" size="small">
+                {checkInOutTime?.check_out_date}
+              </HMAText>
+            )}
           </View>
         </View>
 
@@ -134,6 +150,7 @@ function TodayAttendanceStatus() {
       <ProjectSelection
         matchedOffice={matchedOffice}
         ref={projectSelectionRef}
+        onSettled={refetchLastAttendance}
       />
     </>
   );
@@ -143,4 +160,4 @@ function Index() {
   return <TodayAttendanceStatus />;
 }
 
-export default withGPS(Index);
+export default withGPS(TodayAttendanceStatus);

@@ -6,6 +6,7 @@ import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
 import axiosInstance from 'src/services/axiosInstance';
 import { cStyle } from 'src/utils/style';
+import HMADivider from 'src/components/styled/atoms/divider';
 
 type Approval = {
   id: string;
@@ -113,6 +114,7 @@ export default function PendingApprovals({
           </HMACard>
         </TouchableOpacity>
       ))}
+      <HMADivider space="sm" />
     </View>
   );
 }

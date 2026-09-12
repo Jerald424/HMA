@@ -41,7 +41,6 @@ export default function Dashboard() {
           <HMADivider space="sm" />
 
           <PendingApprovals managerId={userId} />
-          <HMADivider space="sm" />
 
           {/* Leave balance */}
           <LeaveInfo />

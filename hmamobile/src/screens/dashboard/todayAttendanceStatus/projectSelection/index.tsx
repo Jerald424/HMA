@@ -1,8 +1,10 @@
+import { useMutation } from '@tanstack/react-query';
 import { useImperativeHandle, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
+import HMAModalLoader from 'src/components/styled/molecules/loader/modalLoader';
 import HMAModalOrganism from 'src/components/styled/organism/modal';
 import { formatAttendanceDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
@@ -21,21 +23,30 @@ export type ProjectSelectionRefProp = {
 // }
 
 const markAtt = async (payload: any) => {
-  return await axiosInstance.post('/api/employee/attendance/mark', {
+  let params = {
     ...payload,
     date: formatAttendanceDate(),
-  });
+  };
+  console.log('params: ', params);
+  return await axiosInstance.post('/api/employee/attendance/mark', { params });
 };
 export default function ProjectSelection({
   matchedOffice,
   ref,
+  onSettled,
 }: {
   matchedOffice: any;
   ref?: React.RefObject<ProjectSelectionRefProp | null>;
+  onSettled?: () => void;
 }) {
   const [state, setState] = useState<'in' | 'out'>();
   const [selectedOffice, setSelectedOffice] = useState<any>();
+  console.log('selectedOffice: ', selectedOffice);
   const { colors } = useTheme();
+  const { mutate: markAttMutate, isPending: isLoadingMarkAtt } = useMutation({
+    mutationKey: ['markAtt'],
+    mutationFn: markAtt,
+  });
 
   const handleOpenModal = (type: 'in' | 'out') => {
     const office = matchedOffice?.[0];
@@ -53,15 +64,27 @@ export default function ProjectSelection({
     if (!state || !selectedOffice) {
       return;
     }
-
-    await markAtt({
-      type: state,
-      Project_id: selectedOffice?.project?.id ?? selectedOffice?.id,
-      Latitude: selectedOffice?.lat,
-      Longitude: selectedOffice?.long,
-    });
-
     handleCloseModal();
+
+    markAttMutate(
+      {
+        type: state,
+        project_id: selectedOffice?.project?.id ?? selectedOffice?.id,
+        latitude: selectedOffice?.lat,
+        longitude: selectedOffice?.long,
+      },
+      {
+        onSuccess(data) {
+          console.log('data: ', data);
+        },
+        onError(error) {
+          console.log('error: ', error);
+        },
+        onSettled() {
+          onSettled?.();
+        },
+      },
+    );
   };
 
   useImperativeHandle(ref, () => ({
@@ -91,7 +114,7 @@ export default function ProjectSelection({
           <HMADivider />
           <View style={{ gap: 8 }}>
             {matchedOffice?.map((office: any, index: number) => {
-              const isSelected = selectedOffice?.id === office.id;
+              const isSelected = selectedOffice?.id === office?.id;
 
               return (
                 <TouchableOpacity
@@ -129,6 +152,8 @@ export default function ProjectSelection({
         />
         <HMADivider variant="vertical" />
         <HMAButton
+          disabled={isLoadingMarkAtt}
+          isLoading={isLoadingMarkAtt}
           variant="ghost"
           color="success"
           size="sm"

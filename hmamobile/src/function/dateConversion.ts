@@ -251,3 +251,26 @@ export const formatAttendanceDate = (date: Date = new Date()) => {
     date.getMinutes(),
   )}:${pad(date.getSeconds())}`;
 };
+
+// export function formatToShortDate(dateStr) {
+//   const [day, month, year] = dateStr.split('/').map(Number);
+//   const date = new Date(year, month - 1, day); // month is 0-indexed
+//   return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+//   // → "Sep 12"
+// }
+
+/**
+ *
+ * @param dateStr "12/09/2026"
+ * @returns Sep 12
+ */
+export function formatToShortDate(dateStr: string) {
+  try {
+    if (!dateStr) return;
+    const [day, month, year] = dateStr?.split('/').map(Number);
+    const date = new Date(day, month - 1, year);
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  } catch (error) {
+    console.error(error);
+  }
+}
