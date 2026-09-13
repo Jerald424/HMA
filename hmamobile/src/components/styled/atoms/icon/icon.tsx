@@ -35,6 +35,17 @@ export const icons = {
   bank: require('src/assets/icons/bank.png'),
   maps_flag: require('src/assets/icons/maps-and-flags.png'),
   location_cross: require('src/assets/icons/location-dot-slash.png'),
+  menu_outline: require('src/assets/icons/menu_outline.png'),
+  menu_filled: require('src/assets/icons/menu_filled.png'),
+  ['calendar-day']: require('src/assets/icons/calendar-day.png'),
+  ['document']: require('src/assets/icons/document.png'),
+  ['expense-bill']: require('src/assets/icons/expense-bill.png'),
+  ['land-layer-location']: require('src/assets/icons/land-layer-location.png'),
+  ['leave_interface']: require('src/assets/icons/leave.png'),
+  ['payroll-check']: require('src/assets/icons/payroll-check.png'),
+  ['suggestion']: require('src/assets/icons/suggestion.png'),
+
+  ['calendar-color']: require('src/assets/icons/calendar-color.png'),
 };
 
 export type iconType = keyof typeof icons;

@@ -28,41 +28,20 @@ export default function Login() {
 
   return (
     <Container
-      padding={0}
-      backgroundColor="primary"
-      safeAreaViewProps={{ edges: ['left', 'right'] }}
+      padding={'lg'}
+      backgroundColor="background"
+      safeAreaViewProps={{ edges: ['left', 'right', 'top'] }}
     >
       <View
-        style={[
+        style={
           {
-            flex: 1.2,
-            justifyContent: 'center',
-            alignItems: 'center',
-          },
-        ]}
-      >
-        <HMACard
-          style={[
-            {
-              padding: spacing.md,
-              borderRadius: 500,
-            },
-          ]}
-        >
-          <HMAAvatar
-            source={require('src/assets/images/attendo-logo.png')}
-            size="lg"
-          />
-        </HMACard>
-      </View>
-      <View
-        style={{
-          flex: 3,
-          backgroundColor: colors?.background,
-          borderTopEndRadius: metrics?.radius?.lg,
-          borderTopStartRadius: metrics?.radius?.lg,
-          padding: spacing.lg,
-        }}
+            // flex: 3,
+            // backgroundColor: colors?.background,
+            // borderTopEndRadius: metrics?.radius?.lg,
+            // borderTopStartRadius: metrics?.radius?.lg,
+            // padding: spacing.lg,
+          }
+        }
       >
         <View
           style={[
@@ -75,9 +54,16 @@ export default function Login() {
           ]}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <HMAText size="large" align="center">
-            Enter Credential To Login
+          <HMAAvatar
+            size="md"
+            style={{ alignSelf: 'center', borderRadius: metrics.radius.lg }}
+            source={require('src/assets/images/hma-orbit-app-icon-1024.png')}
+          />
+          <HMADivider />
+          <HMAText size="title" color="textSecondary" align="center">
+            Login
           </HMAText>
+
           <HMADivider space={'md'} />
           <HMAForm data={formData} control={control} />
           <View style={[cStyle.rowAlign]}>

@@ -4,7 +4,11 @@ import isInsideGeofenceFn from 'src/function/findUserInsideGeoLocation';
 import { useUserInfo } from 'src/redux/hooks';
 import axiosInstance from 'src/services/axiosInstance';
 import { ProjectSelectionRefProp } from './projectSelection';
-import { formateDate, formatToShortDate } from 'src/function/dateConversion';
+import {
+  formateDate,
+  formatToShortDate,
+  jsDateToDDMMYYYY,
+} from 'src/function/dateConversion';
 
 // “Params”:{
 // 	“Limit”: 20,
@@ -17,6 +21,8 @@ const fetchLastAttendanceRecord = async () => {
   return await axiosInstance.post('/api/employee/attendance/list', {
     params: {
       limit: 1,
+      date_from: jsDateToDDMMYYYY(new Date()),
+      date_to: jsDateToDDMMYYYY(new Date()),
     },
   });
 };
@@ -30,6 +36,8 @@ export default function useTodayAttendance() {
       queryKey: ['today/attendance'],
       queryFn: fetchLastAttendanceRecord,
     });
+
+  console.log('lastAttendanceRecord: ', lastAttendanceRecord);
 
   const lastAttRecord = lastAttendanceRecord?.result?.records?.[0];
   const isCheckIn = !!lastAttRecord?.check_in && !lastAttRecord?.check_out;
@@ -66,6 +74,7 @@ export default function useTodayAttendance() {
 
   const checkInOutTime = useMemo(() => {
     try {
+      if (!lastAttRecord) return;
       const [checkIn, checkOut] = [
         lastAttRecord?.check_in?.split(' '),
         lastAttRecord?.check_out?.split(' '),

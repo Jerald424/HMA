@@ -4,7 +4,7 @@ export const makeColonDate = (date: Date) => {
   )} ${[date.getHours(), date.getMinutes(), date.getSeconds()].join(':')}`;
 };
 
-export const formateDate = (date: string = '16/10/2025 15:03:53') => {
+export const formateDate = (date: string) => {
   try {
     if (!date.includes(' ')) return null;
 
@@ -91,7 +91,11 @@ export function convertUserTimeZone({
 
 export function jsDateToDDMMYYYY(date: Date) {
   try {
-    return [date.getDate(), date.getMonth() + 1, date.getFullYear()].join('/');
+    return [
+      date.getDate().toString().padStart(2, '0'),
+      (date.getMonth() + 1).toString().padStart(2, '0'),
+      date.getFullYear(),
+    ].join('/');
   } catch (error) {
     console.error(error);
   }

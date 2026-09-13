@@ -69,6 +69,9 @@ export default function HMADropdownMolecule({
         onPress={() => setIsOpen(true)}
         style={{ position: 'relative', justifyContent: 'center' }}
       >
+        <HMAText color="textSecondary" variant="large">
+          {props?.placeholder}
+        </HMAText>
         <HMATextInput
           {...props}
           value={value?.[optionalLabel]}
@@ -85,7 +88,7 @@ export default function HMADropdownMolecule({
             },
           ]}
         />
-        <View style={{ position: 'absolute', right: spacing.md }}>
+        <View style={{ position: 'absolute', right: spacing.md, top: 40 }}>
           <HMAIcon name={'arrow_down'} />
         </View>
       </TouchableOpacity>

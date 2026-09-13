@@ -6,6 +6,7 @@ import HMADatePicker, { HMADatePickerProps } from '../../atoms/datePicker';
 import HMAIcon from '../../atoms/icon';
 import HMATextInput from '../../atoms/input';
 import { blendWithWhite } from 'src/function/colorCorrection';
+import HMAText from '../../atoms/text';
 
 export interface HMADatePickerMoleculeProps extends HMADatePickerProps {
   label?: string;
@@ -31,6 +32,9 @@ export default function HMADatePickerMolecule({
         onPress={() => setIsOpen(true)}
         style={{ position: 'relative', justifyContent: 'center' }}
       >
+        <HMAText color="textSecondary" variant="large">
+          {label}
+        </HMAText>
         <HMATextInput
           value={dateStr}
           {...props}

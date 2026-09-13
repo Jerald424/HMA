@@ -51,6 +51,13 @@ const MENU_ITEMS: MenuItem[] = [
     icon: 'expenses',
     colors: { bg: '#91541214' },
   },
+  {
+    label: 'Attendance',
+    key: 'AttendanceHistory',
+    link: 'AttendanceHistory',
+    icon: 'calendar-color',
+    colors: { bg: '#12739114' },
+  },
 ];
 
 // Split items into rows of 2

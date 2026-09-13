@@ -1,6 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { useMemo } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HMAIcon from 'src/components/styled/atoms/icon';
 import HMAText from 'src/components/styled/atoms/text';
 import { useTheme } from 'src/hooks/useTheme';
@@ -19,13 +20,16 @@ export default function Header() {
   const { data } = useUserInfo();
   const navigation = useNavigation();
   const { data: notifications } = useNotifications();
+  const { top } = useSafeAreaInsets();
 
   const name = data?.result?.data?.basic_info?.name ?? '';
   const firstName = name.split(' ')[0] ?? name;
 
   const unReadNotificationsCount = useMemo(() => {
     try {
-      return notifications?.notifications?.filter(item => !item?.read)?.length ?? 0;
+      return (
+        notifications?.notifications?.filter(item => !item?.read)?.length ?? 0
+      );
     } catch (error) {
       console.error(error);
       return 0;
@@ -38,19 +42,21 @@ export default function Header() {
         cStyle.rowAlign,
         {
           paddingHorizontal: spacing.md,
-          paddingTop: spacing.md,
+          paddingTop: spacing.md + top,
           paddingBottom: spacing.sm,
           justifyContent: 'space-between',
+          backgroundColor: colors.background,
+          // paddingTop:top
         },
       ]}
     >
       {/* Greeting + first name */}
       <View style={{ flex: 1 }}>
-        <HMAText color="textSecondary" size="small">
-          {getGreeting()}
-        </HMAText>
         <HMAText variant="title" size="title" numberOfLines={1}>
           {firstName}
+        </HMAText>
+        <HMAText color="textSecondary" size="small">
+          {getGreeting()}
         </HMAText>
       </View>
 

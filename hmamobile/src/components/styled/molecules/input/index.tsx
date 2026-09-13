@@ -17,6 +17,9 @@ export default function HMATextInputMolecule({
 
   return (
     <View style={{ position: 'relative', justifyContent: 'center' }}>
+      <HMAText color="textSecondary" variant="large">
+        {props?.placeholder}
+      </HMAText>
       <HMATextInput
         {...props}
         secureTextEntry={props?.secureTextEntry && !isShowPassword}
@@ -40,9 +43,10 @@ export default function HMATextInputMolecule({
         <TouchableOpacity
           hitSlop={20}
           onPress={() => setIsShowPassword(prev => !prev)}
-          style={{ position: 'absolute', right: spacing.md }}
+          style={{ position: 'absolute', right: spacing.md, top: 40 }}
         >
-          <HMAIcon name={isShowPassword ? 'eye' : 'eye_crossed'} />
+          {/* <HMAIcon name={isShowPassword ? 'eye' : 'eye_crossed'} /> */}
+          <HMAText>{isShowPassword ? 'Hide' : 'Show'}</HMAText>
         </TouchableOpacity>
       )}
     </View>

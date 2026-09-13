@@ -11,6 +11,7 @@ import AddGeofence from '../dummy';
 import { View } from 'react-native';
 import HMAText from 'src/components/styled/atoms/text';
 import LeaveList from '../leave/list';
+import ServicesScreen from '../services';
 
 const Tab = createBottomTabNavigator();
 
@@ -40,6 +41,20 @@ export default function Landing() {
           tabBarIcon: ({ focused }) => (
             <View>
               <TabBarIcon name={focused ? 'home_fill' : 'home_outline'} />
+              {/* <HMAText>Dashboard</HMAText> */}
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Services"
+        component={ServicesScreen}
+        options={{
+          headerShown: false,
+          title: 'Services',
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <TabBarIcon name={focused ? 'menu_filled' : 'menu_outline'} />
               {/* <HMAText>Dashboard</HMAText> */}
             </View>
           ),

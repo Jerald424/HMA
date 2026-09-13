@@ -6,6 +6,7 @@ import { useAuth } from './redux/hooks';
 import useInitial from './hooks/initial/useInitial';
 import HMAModalLoader from './components/styled/molecules/loader/modalLoader';
 import SessionExpires from './components/layout/sessionExpires';
+import { useTheme } from './hooks/useTheme';
 
 const Stack = createStackNavigator();
 export default function App() {
