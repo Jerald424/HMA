@@ -19,7 +19,7 @@ export default function Dashboard() {
   // /api/approvals/pending/{manager_id} userId this is manager id
 
   return (
-    <Container padding={0} isSafeArea={true}>
+    <Container padding={0}>
       <Header />
       <View
         style={{

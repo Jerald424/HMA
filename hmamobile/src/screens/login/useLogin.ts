@@ -54,7 +54,6 @@ export const assignBaseURlToAsyncStorage = (url: string) => {
 export default function useLogin() {
   const { onSuccess } = useLoginSuccess();
   const navigation = useNavigation();
-  const [accounts, setAccounts] = useState({ url: [], email: [] });
   const [isRemember, setIsRemember] = useState(true);
   const dispatch = useAppDispatch();
   const alertRef = useRef<alertRefProp>(null);
@@ -66,41 +65,39 @@ export default function useLogin() {
 
   const formData: formDataProps = [
     {
-      inputType: 'drop-down',
+      inputType: 'input-box',
       name: 'url',
-      dropdownProps: {
-        placeholder: 'Enter url',
-        searchTextInputProps: {
-          autoCapitalize: 'none',
-          placeholder: 'Enter url',
-        },
-        options: accounts?.url,
+      textInputProps: {
+        placeholder: 'Enter URL',
+        autoCapitalize: 'none',
       },
+      // dropdownProps: {Enter URL, Enter Email, Enter Password
+      //   placeholder: 'Enter url',
+      //   searchTextInputProps: {
+      //     autoCapitalize: 'none',
+      //     placeholder: 'Enter url',
+      //   },
+      //   options: accounts?.url,
+      // },
       rules: {
         required: {
           value: true,
-          message: 'Url is required',
+          message: 'URL is required',
         },
 
         validate(val) {
-          console.log('val: ', val);
-          return /^(https?:\/\/)[^\s"]+$/.test(val?.label)
-            ? true
-            : 'Enter valid url';
+          return /^(https?:\/\/)[^\s"]+$/.test(val) ? true : 'Enter valid URL';
         },
       },
     },
     {
-      inputType: 'drop-down',
+      inputType: 'input-box',
       name: 'email',
-      dropdownProps: {
-        placeholder: 'Enter email',
-        searchTextInputProps: {
-          autoCapitalize: 'none',
-          placeholder: 'Enter email',
-        },
-        options: accounts?.login,
+      textInputProps: {
+        placeholder: 'Enter Email',
+        autoCapitalize: 'none',
       },
+
       rules: {
         required: {
           value: true,
@@ -127,12 +124,7 @@ export default function useLogin() {
 
   const assignAccountsToAS = async (data: any) => {
     try {
-      let acVal = accounts;
-      if (!acVal?.url?.some(ac => ac?.value == data?.url?.value))
-        acVal?.url.push(data?.url);
-      if (!acVal?.email?.some(ac => ac?.value == data?.email?.value))
-        acVal?.email.push(data?.email);
-      await AsyncStorage.setItem(ACCOUNTS, JSON.stringify(acVal));
+      await AsyncStorage.setItem(ACCOUNTS, JSON.stringify(data));
     } catch (error) {
       console.error(error);
     }
@@ -145,10 +137,9 @@ export default function useLogin() {
         acVal = JSON.parse(acVal);
         console.log('acVal: ', acVal);
         reset({
-          url: acVal?.url?.pop?.(),
-          email: acVal?.email?.pop?.(),
+          url: acVal?.url,
+          email: acVal?.email,
         });
-        setAccounts(acVal);
       }
     } catch (error) {
       console.error(error);
@@ -158,8 +149,8 @@ export default function useLogin() {
   const onLogin = (data: any) => {
     mutate(
       {
-        data: { email: data?.email?.value, pin: data?.pin },
-        baseURL: data?.url?.value,
+        data: { email: data?.email, pin: data?.pin },
+        baseURL: data?.url,
       },
       {
         onError(error) {
@@ -170,11 +161,9 @@ export default function useLogin() {
         },
         onSuccess(response) {
           console.log('#########################', response);
-          dispatch(
-            updateAuthSlice({ key: 'baseurl', value: data?.url?.value }),
-          );
-          assignBaseURlToAsyncStorage(data?.url?.value);
-          assignBaseURlToAxios(data?.url?.value);
+          dispatch(updateAuthSlice({ key: 'baseurl', value: data?.url }));
+          assignBaseURlToAsyncStorage(data?.url);
+          assignBaseURlToAxios(data?.url);
           if (isRemember) assignAccountsToAS(data);
 
           if (response?.result?.status == 'otp_sent') {

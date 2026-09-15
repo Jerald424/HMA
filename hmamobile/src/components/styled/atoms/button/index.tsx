@@ -126,7 +126,7 @@ export default function HMAButton({
       disabled={isLoading}
       {...props}
       style={({ pressed }) => [
-        pressabeStyleMap({ pressed }),
+        pressabeStyleMap?.({ pressed }),
         {
           borderRadius: metrics.radius.md,
           padding: sizeMap,
