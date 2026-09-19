@@ -94,14 +94,14 @@ export default function useLogin() {
       inputType: 'input-box',
       name: 'email',
       textInputProps: {
-        placeholder: 'Enter Email',
+        placeholder: 'Enter Email/Employee ID ',
         autoCapitalize: 'none',
       },
 
       rules: {
         required: {
           value: true,
-          message: 'Email is required',
+          message: 'Email/Employee ID is required',
         },
       },
     },

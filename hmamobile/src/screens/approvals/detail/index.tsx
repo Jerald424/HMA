@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Alert, TextInput, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import HMACard from 'src/components/styled/atoms/card';
@@ -11,6 +11,8 @@ import { useTheme } from 'src/hooks/useTheme';
 import axiosInstance from 'src/services/axiosInstance';
 import { Approval, UrgencyBadge } from '../list';
 import HMATextInput from 'src/components/styled/atoms/input';
+import { getLeaveDuration } from 'src/screens/leave/create/useCreate';
+import { YYYYMMDDToJsDate } from 'src/function/dateConversion';
 
 type Action = 'approve' | 'reject';
 
@@ -84,6 +86,15 @@ export default function ApprovalDetail({ navigation, route }) {
       ],
     );
 
+  const dayDuration = useMemo(
+    () =>
+      getLeaveDuration(
+        YYYYMMDDToJsDate(approval.leave_from_date),
+        YYYYMMDDToJsDate(approval.leave_to_date),
+      ),
+    [approval],
+  );
+
   return (
     <Container padding={0}>
       <View style={{ flex: 1, padding: spacing.md }}>
@@ -112,8 +123,12 @@ export default function ApprovalDetail({ navigation, route }) {
           <DetailRow label="Submitted" value={approval.submitted} />
           <DetailRow label="Leave from" value={approval.leave_from_date} />
           <DetailRow label="Leave to" value={approval.leave_to_date} />
+          <DetailRow
+            label="Duration"
+            value={`${dayDuration} Day ${+(dayDuration || 0) > 1 ? 's' : ''} `}
+          />
           <DetailRow label="State" value={approval.state} />
-          <DetailRow label="Reason" value={approval.leave_to_date} />
+          <DetailRow label="Reason" value={approval.leave_reason} />
         </HMACard>
 
         <HMAText size="regular" style={{ marginTop: spacing.lg }}>

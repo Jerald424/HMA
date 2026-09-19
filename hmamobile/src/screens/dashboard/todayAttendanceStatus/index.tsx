@@ -25,6 +25,7 @@ function TodayAttendanceStatus() {
     lastAttRecord,
     checkInOutTime,
     isCheckOut,
+    is_no_geofence_restriction,
   } = useTodayAttendance();
 
   const statusLabel = isCheckOut
@@ -91,12 +92,16 @@ function TodayAttendanceStatus() {
         </View>
         <Status
           heading={
-            isInsideGeofence
+            is_no_geofence_restriction
+              ? 'No geofence restriction mode enabled'
+              : isInsideGeofence
               ? 'Inside office zone'
               : "You're outside the office zone"
           }
           desc={
-            isInsideGeofence
+            is_no_geofence_restriction
+              ? 'You can mark attendance outside office zone'
+              : isInsideGeofence
               ? `You can check ${isCheckIn ? 'out' : 'in'} now`
               : `You are too far to check ${isCheckIn ? 'out' : 'in'}`
           }

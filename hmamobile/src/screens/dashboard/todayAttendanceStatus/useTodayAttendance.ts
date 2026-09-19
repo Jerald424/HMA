@@ -17,6 +17,12 @@ import {
 // 	“Project_id”: 1441
 // }
 
+export const useNoGeoFenceRestriction = () => {
+  const { data: userInfo } = useUserInfo();
+
+  return userInfo?.result?.data?.geofence_info?.is_no_geofence_restriction;
+};
+
 const fetchLastAttendanceRecord = async () => {
   return await axiosInstance.post('/api/employee/attendance/list', {
     params: {
@@ -30,14 +36,13 @@ const fetchLastAttendanceRecord = async () => {
 export default function useTodayAttendance() {
   const { data: userInfo } = useUserInfo();
   const projectSelectionRef = useRef<ProjectSelectionRefProp>(null);
+  const is_no_geofence_restriction = useNoGeoFenceRestriction();
 
   const { data: lastAttendanceRecord, refetch: refetchLastAttendance } =
     useQuery({
       queryKey: ['today/attendance'],
       queryFn: fetchLastAttendanceRecord,
     });
-
-  console.log('lastAttendanceRecord: ', lastAttendanceRecord);
 
   const lastAttRecord = lastAttendanceRecord?.result?.records?.[0];
   const isCheckIn = !!lastAttRecord?.check_in && !lastAttRecord?.check_out;
@@ -46,13 +51,14 @@ export default function useTodayAttendance() {
   const [userLocation, setUserLocation] = useState<{
     longitude: number;
     latitude: number;
-  } | null>(null);
+  } | null>(null); //12.901703, 80.221103
 
   const matchedOffice = useMemo(() => {
     try {
       let ofc = userInfo?.result?.data?.geofence_info?.offices;
       // return [ofc?.[0]];
-      return ofc?.find(office =>
+      if (is_no_geofence_restriction) return ofc;
+      return ofc?.filter(office =>
         isInsideGeofenceFn(
           {
             latitude: office?.lat,
@@ -64,7 +70,7 @@ export default function useTodayAttendance() {
         ),
       );
     } catch (error) {}
-  }, [userLocation, userInfo]);
+  }, [userLocation, userInfo, is_no_geofence_restriction]);
 
   const isInsideGeofence = matchedOffice?.length > 0;
 
@@ -110,5 +116,6 @@ export default function useTodayAttendance() {
     lastAttRecord,
     checkInOutTime,
     isCheckOut,
+    is_no_geofence_restriction,
   };
 }

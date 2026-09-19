@@ -32,10 +32,26 @@ const sessions = [
 //     },
 //   }
 
+export const getLeaveDuration = (Start_date: Date, End_date: Date) => {
+  try {
+    if (!Start_date || !End_date) return 0;
+    const start = new Date(Start_date);
+    const end = new Date(End_date);
+    start.setHours(0, 0, 0, 0);
+    end.setHours(0, 0, 0, 0);
+    const timeDiff = end.getTime() - start.getTime();
+    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const leaveRequest = async data => {
   console.log('data: ', data);
   delete data['Start_date'];
   delete data['End_date'];
+  delete data['Leave_type'];
+  console.log('data: ', data);
   return await axiosInstance.post(`/api/leaves/request`, data);
 };
 
@@ -69,15 +85,10 @@ export default function useCreate() {
     'Leave_type',
   ]);
 
-  const dayDuration = useMemo(() => {
-    if (!Start_date || !End_date) return 0;
-    const start = new Date(Start_date);
-    const end = new Date(End_date);
-    start.setHours(0, 0, 0, 0);
-    end.setHours(0, 0, 0, 0);
-    const timeDiff = end.getTime() - start.getTime();
-    return Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) + 1;
-  }, [Start_date, End_date]);
+  const dayDuration = useMemo(
+    () => getLeaveDuration(Start_date, End_date),
+    [Start_date, End_date],
+  );
 
   const formData: formDataProps = [
     {
@@ -219,7 +230,7 @@ export default function useCreate() {
     if (Leave_type?.support_document)
       data.push({
         inputType: 'attach',
-        name: 'attach',
+        name: 'attachment',
         textInputProps: {
           placeholder: 'Attachment',
         },
