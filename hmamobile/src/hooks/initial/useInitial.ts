@@ -39,6 +39,7 @@ export default function useInitial() {
             loginMutate(
               {
                 token,
+                url,
               },
               {
                 onSuccess(loginData) {

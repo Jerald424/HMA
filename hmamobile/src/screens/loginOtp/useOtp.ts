@@ -16,9 +16,17 @@ const verifyOtpApi = async (params: any) => {
   return await axiosInstance.post('api/employee/otp/verify', { params });
 };
 
-export const userLogin = async ({ token }: { token: string }) => {
+export const userLogin = async ({
+  token,
+  url,
+}: {
+  token: string;
+  url?: string;
+}) => {
+  let apiUrl = '/api/employee/user-login';
+  if (url) apiUrl = `${url}${apiUrl}`;
   return await axiosInstance.post(
-    '/api/employee/user-login',
+    apiUrl,
     { params: {} },
     {
       headers: {
