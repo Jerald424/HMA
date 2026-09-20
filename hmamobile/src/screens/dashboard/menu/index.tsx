@@ -58,6 +58,20 @@ const MENU_ITEMS: MenuItem[] = [
     icon: 'calendar-color',
     colors: { bg: '#12739114' },
   },
+  {
+    label: 'Advance Salary',
+    key: 'AdvanceSalaryList',
+    link: 'AdvanceSalaryList',
+    icon: 'payday',
+    colors: { bg: '#918d1214' },
+  },
+  // {
+  //   label: '',
+  //   key: 'dummy',
+  //   link: '',
+  //   icon: 'calendar-color',
+  //   colors: { bg: '#12739114' },
+  // },
 ];
 
 // Split items into rows of 2
@@ -68,6 +82,8 @@ const rows = MENU_ITEMS.reduce<MenuItem[][]>((acc, item, i) => {
 }, []);
 
 export default function DashboardMenus() {
+  const { colors, spacing, metrics } = useTheme();
+
   return (
     <View style={{ gap: 8 }}>
       {rows.map((row, rowIndex) => (
@@ -76,7 +92,14 @@ export default function DashboardMenus() {
             <PillItem key={item.key} item={item} />
           ))}
           {/* If odd number of items, fill the empty slot */}
-          {row.length === 1 && <View style={{ flex: 1 }} />}
+          {row.length === 1 && (
+            <View
+              style={{
+                flex: 1,
+                padding: spacing.sm,
+              }}
+            />
+          )}
         </View>
       ))}
       <HMADivider space="sm" />
@@ -111,7 +134,7 @@ function PillItem({ item }: { item: MenuItem }) {
           width: 38,
           height: 38,
           borderRadius: metrics.radius.md,
-          backgroundColor: item.colors.bg,
+          backgroundColor: item?.colors?.bg,
           alignItems: 'center',
           justifyContent: 'center',
         }}

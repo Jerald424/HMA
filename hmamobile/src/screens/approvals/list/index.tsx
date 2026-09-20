@@ -10,6 +10,7 @@ import axiosInstance from 'src/services/axiosInstance';
 import { cStyle } from 'src/utils/style';
 import { getLeaveDuration } from 'src/screens/leave/create/useCreate';
 import { YYYYMMDDToJsDate } from 'src/function/dateConversion';
+import HMADivider from 'src/components/styled/atoms/divider';
 
 export type Approval = {
   id: string;
@@ -32,7 +33,7 @@ export default function ApprovalsList({ navigation }) {
     enabled: !!managerId,
   });
   const approvals: Approval[] = data?.pending ?? data?.result?.pending ?? [];
-  console.log('data: ', data);
+  console.log('approvals: ', approvals);
   return (
     <Container padding={0}>
       <FlatList
@@ -58,6 +59,7 @@ export default function ApprovalsList({ navigation }) {
         }
         ListEmptyComponent={() => (isFetching ? null : <NoData />)}
         renderItem={({ item }) => {
+          const isAdvance = item?.salary_advance_id;
           const dayDuration = getLeaveDuration(
             YYYYMMDDToJsDate(item?.leave_from_date),
             YYYYMMDDToJsDate(item?.leave_to_date),
@@ -97,17 +99,37 @@ export default function ApprovalsList({ navigation }) {
                     >
                       Type: {item.type}
                     </HMAText>
-                    <HMAText
-                      color="textSecondary"
-                      size="small"
-                      style={{ marginTop: 2 }}
-                    >
-                      {item?.leave_from_date} to {item?.leave_to_date} (
-                      {dayDuration} Day){+(dayDuration || 0) > 1 && 's'}
+                    {isAdvance ? (
+                      <>
+                        <HMAText size="title">
+                          {item?.salary_advance_amount}
+                        </HMAText>
+                      </>
+                    ) : (
+                      <HMAText
+                        color="textSecondary"
+                        size="small"
+                        style={{ marginTop: 2 }}
+                      >
+                        {item?.leave_from_date} to {item?.leave_to_date} (
+                        {dayDuration} Day){+(dayDuration || 0) > 1 && 's'}
+                      </HMAText>
+                    )}
+                  </View>
+                  <View>
+                    {isAdvance && <HMAText>{item?.salary_advance_id}</HMAText>}
+                    <UrgencyBadge urgency={item?.state} />
+                  </View>
+                </View>
+                {isAdvance && (
+                  <View>
+                    <HMADivider space={'xs'} thickness={1} />
+                    <HMAText size="small" style={{ fontStyle: 'italic' }}>
+                      📝{` `}{' '}
+                      {item?.salary_advance_reason || 'No reason provided'}
                     </HMAText>
                   </View>
-                  <UrgencyBadge urgency={item?.state} />
-                </View>
+                )}
               </HMACard>
             </TouchableOpacity>
           );

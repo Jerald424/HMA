@@ -23,6 +23,8 @@ import ApprovalDetail from 'src/screens/approvals/detail';
 import fonts from 'src/utils/fonts';
 import HMAIcon from 'src/components/styled/atoms/icon';
 import AttendanceHistory from 'src/screens/attendanceHistory';
+import AdvanceSalaryList from 'src/screens/advanceSalary/list';
+import AdvanceSalaryDetail from 'src/screens/advanceSalary/detail';
 
 const Stack = createStackNavigator();
 
@@ -155,6 +157,16 @@ export default function AuthNavigator() {
         name="AttendanceHistory"
         component={AttendanceHistory}
         options={{ title: 'Attendance History' }}
+      />
+      <Stack.Screen
+        name="AdvanceSalaryList"
+        component={AdvanceSalaryList}
+        options={{ title: 'Advance Salary' }}
+      />
+      <Stack.Screen
+        name="AdvanceSalaryDetail"
+        component={AdvanceSalaryDetail}
+        options={{ title: 'New Advance Request' }}
       />
     </Stack.Navigator>
   );

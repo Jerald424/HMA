@@ -7,9 +7,16 @@ import HMAText from '../../atoms/text';
 
 export interface HMATextInputMoleculeProps extends HMATextInputProps {
   note?: string;
+  /**
+   * @default true
+   */
+  isPlaceholderAsLabel?: boolean;
+  label?: string;
 }
 
 export default function HMATextInputMolecule({
+  isPlaceholderAsLabel = true,
+  label,
   ...props
 }: HMATextInputMoleculeProps) {
   const { colors, metrics, spacing } = useTheme();
@@ -17,9 +24,11 @@ export default function HMATextInputMolecule({
 
   return (
     <View style={{ position: 'relative', justifyContent: 'center' }}>
-      <HMAText color="textSecondary" variant="large">
-        {props?.placeholder}
-      </HMAText>
+      {((isPlaceholderAsLabel && !!props?.placeholder) || label) && (
+        <HMAText color="textSecondary" variant="large">
+          {label ?? props?.placeholder}
+        </HMAText>
+      )}
       <HMATextInput
         {...props}
         secureTextEntry={props?.secureTextEntry && !isShowPassword}

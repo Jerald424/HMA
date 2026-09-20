@@ -44,8 +44,8 @@ export const icons = {
   ['leave_interface']: require('src/assets/icons/leave.png'),
   ['payroll-check']: require('src/assets/icons/payroll-check.png'),
   ['suggestion']: require('src/assets/icons/suggestion.png'),
-
   ['calendar-color']: require('src/assets/icons/calendar-color.png'),
+  ['payday']: require('src/assets/color-icons/payday.png'),
 };
 
 export type iconType = keyof typeof icons;

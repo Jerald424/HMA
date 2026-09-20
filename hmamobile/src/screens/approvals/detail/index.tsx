@@ -1,18 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { Alert, TextInput, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import HMACard from 'src/components/styled/atoms/card';
 import Container from 'src/components/styled/atoms/container';
 import HMADivider from 'src/components/styled/atoms/divider';
+import HMATextInput from 'src/components/styled/atoms/input';
 import HMAText from 'src/components/styled/atoms/text';
-import useUserId from 'src/hooks/useUserId';
+import { YYYYMMDDToJsDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
+import useUserId from 'src/hooks/useUserId';
+import { getLeaveDuration } from 'src/screens/leave/create/useCreate';
 import axiosInstance from 'src/services/axiosInstance';
 import { Approval, UrgencyBadge } from '../list';
-import HMATextInput from 'src/components/styled/atoms/input';
-import { getLeaveDuration } from 'src/screens/leave/create/useCreate';
-import { YYYYMMDDToJsDate } from 'src/function/dateConversion';
 
 type Action = 'approve' | 'reject';
 
@@ -95,6 +95,8 @@ export default function ApprovalDetail({ navigation, route }) {
     [approval],
   );
 
+  const isAdvance = approval?.salary_advance_id;
+
   return (
     <Container padding={0}>
       <View style={{ flex: 1, padding: spacing.md }}>
@@ -121,14 +123,46 @@ export default function ApprovalDetail({ navigation, route }) {
           <HMADivider thickness={1} space="sm" />
           <DetailRow label="Request ID" value={approval.id} />
           <DetailRow label="Submitted" value={approval.submitted} />
-          <DetailRow label="Leave from" value={approval.leave_from_date} />
-          <DetailRow label="Leave to" value={approval.leave_to_date} />
-          <DetailRow
-            label="Duration"
-            value={`${dayDuration} Day ${+(dayDuration || 0) > 1 ? 's' : ''} `}
-          />
+          {isAdvance ? (
+            <>
+              <DetailRow
+                label="Advance Amount"
+                value={approval?.salary_advance_amount}
+              />
+              <DetailRow
+                label="Advance Date"
+                value={approval?.salary_advance_date}
+              />
+              <DetailRow
+                label="Advance ID"
+                value={approval?.salary_advance_id}
+              />
+              <DetailRow
+                label="Advance ID"
+                value={approval?.salary_advance_id}
+              />
+            </>
+          ) : (
+            <>
+              <DetailRow label="Leave from" value={approval.leave_from_date} />
+              <DetailRow label="Leave to" value={approval.leave_to_date} />
+              <DetailRow
+                label="Duration"
+                value={`${dayDuration} Day ${
+                  +(dayDuration || 0) > 1 ? 's' : ''
+                } `}
+              />
+            </>
+          )}
           <DetailRow label="State" value={approval.state} />
-          <DetailRow label="Reason" value={approval.leave_reason} />
+          <DetailRow
+            label="Reason"
+            value={
+              isAdvance
+                ? approval?.salary_advance_reason
+                : approval.leave_reason
+            }
+          />
         </HMACard>
 
         <HMAText size="regular" style={{ marginTop: spacing.lg }}>

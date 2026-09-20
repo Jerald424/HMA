@@ -64,10 +64,10 @@ export default function ServicesScreen() {
       link: 'Documents',
     },
     {
-      title: '',
-      description: '',
-      icon: 'suggestion',
-      link: 'Requests',
+      title: 'Advance',
+      description: 'Salary request',
+      icon: 'payroll-check',
+      link: 'AdvanceSalaryList',
     },
   ];
 
