@@ -10,6 +10,7 @@ import HMAModalTemplate from 'src/components/styled/template/modal';
 import { jsDateToDDMMYYYY } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
 import useDetail from './useDetail';
+import HMADatePickerMolecule from 'src/components/styled/molecules/datePicker';
 
 export default function AdvanceSalaryDetail() {
   const { spacing, metrics, colors } = useTheme();
@@ -22,6 +23,8 @@ export default function AdvanceSalaryDetail() {
     setIsOpenConfirmation,
     toastRef,
   } = useDetail();
+
+  const btnEnabled = state?.advance > 0;
   return (
     <Container>
       <ScrollView>
@@ -59,17 +62,23 @@ export default function AdvanceSalaryDetail() {
           <View style={{ width: 40 }}></View>
         </HMACard>
         <HMADivider />
-        <HMATextInputMolecule
+        <HMADatePickerMolecule
+          mode="date"
+          date={state.date}
+          style={{ backgroundColor: colors.background }}
+          onDateChange={date => setState(prev => ({ ...prev, date }))}
+        />
+        {/* <HMATextInputMolecule
           label="Date"
           placeholder={jsDateToDDMMYYYY(new Date())}
           style={{ backgroundColor: colors.background }}
           editable={false}
-        />
+        /> */}
         <HMADivider />
         <HMATextInputMolecule
           onChangeText={reason => setState(prev => ({ ...prev, reason }))}
           value={state?.reason}
-          label="Reason (Optional)"
+          label="Reason"
           placeholder="e.g. Medical expense, house rent…"
           multiline
           style={{
@@ -78,10 +87,13 @@ export default function AdvanceSalaryDetail() {
             textAlignVertical: 'top',
           }}
         />
+        {/* <HMAText size="small" color="textSecondary">
+          * Required
+        </HMAText> */}
       </ScrollView>
       <HMAButton
         title="Submit Request"
-        disabled={!(state?.advance > 0)}
+        disabled={!btnEnabled}
         onPress={() => setIsOpenConfirmation(true)}
         isLoading={isPending}
       />

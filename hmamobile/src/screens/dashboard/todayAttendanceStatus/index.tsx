@@ -44,12 +44,12 @@ function TodayAttendanceStatus() {
   });
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       checkLocationEnabled().then(location => {
-        setUserLocation(location);
+        setUserLocation(location?.coords);
       });
-    }, 300);
-    return () => clearTimeout(timer);
+    }, 3000);
+    return () => clearInterval(timer);
   }, []);
 
   return (

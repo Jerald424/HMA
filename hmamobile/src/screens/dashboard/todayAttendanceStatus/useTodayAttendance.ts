@@ -20,7 +20,7 @@ import {
 export const useNoGeoFenceRestriction = () => {
   const { data: userInfo } = useUserInfo();
 
-  return userInfo?.result?.data?.geofence_info?.is_no_geofence_restriction;
+  return userInfo?.result?.data?.geofence_info?.no_geofence_restriction;
 };
 
 const fetchLastAttendanceRecord = async () => {

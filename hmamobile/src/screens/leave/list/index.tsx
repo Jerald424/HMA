@@ -101,41 +101,41 @@ const SepLeaveCard = ({
       <View
         style={{
           flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          // alignItems: 'center',
+          // justifyContent: 'space-between',
           marginBottom: spacing.sm,
         }}
       >
-        <View style={{ flex: 1 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: colors.lightBackground,
-              borderRadius: metrics?.radius?.md,
-              paddingHorizontal: spacing.sm,
-              paddingVertical: spacing.xs,
-              gap: spacing.xs,
-              alignSelf: 'flex-start',
-              marginRight: spacing.sm,
-            }}
-          >
-            <HMAText size="small" style={{}}>
-              {leave?.start_date ?? '—'}
-            </HMAText>
-            <HMAText color="textSecondary" size="small">
-              →
-            </HMAText>
-            <HMAText size="small" style={{}}>
-              {leave?.end_date ?? '—'}
-            </HMAText>
-            {leave?.half_day && (
-              <HMABadge label="Half Day" style={{ marginLeft: spacing.xs }} />
-            )}
-            <HMAText size="small" style={{}}>
-              ({dayDuration} Day){+(dayDuration || 0) > 1 && 's'}
-            </HMAText>
-          </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: colors.lightBackground,
+            borderRadius: metrics?.radius?.md,
+            paddingHorizontal: spacing.sm,
+            paddingVertical: spacing.xs,
+            gap: spacing.xs,
+            alignSelf: 'flex-start',
+            marginRight: spacing.sm,
+            flex: 1,
+            flexWrap: 'wrap',
+          }}
+        >
+          <HMAText size="small" style={{}}>
+            {leave?.start_date ?? '—'}
+          </HMAText>
+          <HMAText color="textSecondary" size="small">
+            →
+          </HMAText>
+          <HMAText size="small" style={{}}>
+            {leave?.end_date ?? '—'}
+          </HMAText>
+          {leave?.half_day && (
+            <HMABadge label="Half Day" style={{ marginLeft: spacing.xs }} />
+          )}
+          <HMAText size="small" style={{}}>
+            ({dayDuration} Day){+(dayDuration || 0) > 1 && 's'}
+          </HMAText>
         </View>
         {/* Status pill — top right */}
         <HMABadge
@@ -189,6 +189,8 @@ const SepLeaveCard = ({
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: 10,
         }}
       >
         {!!leave?.approver ? (

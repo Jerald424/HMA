@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
 import { toastRefFn } from 'src/components/styled/atoms/toast';
+import { jsDateToYYYYMMDD } from 'src/function/dateConversion';
 import useUserId from 'src/hooks/useUserId';
 import axiosInstance from 'src/services/axiosInstance';
 
@@ -33,7 +34,11 @@ const createAdvanceSalaryRequest = async ({
 export default function useDetail() {
   const navigation = useNavigation();
   const userId = useUserId();
-  const [state, setState] = useState({ advance: '', reason: '' });
+  const [state, setState] = useState({
+    advance: 0,
+    reason: '',
+    date: new Date(),
+  });
   const toastRef = useRef<toastRefFn>(null);
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
   const queryClient = useQueryClient();
@@ -45,7 +50,10 @@ export default function useDetail() {
 
   const handleRequest = () => {
     mutate(
-      { employee_id: userId, payload: state },
+      {
+        employee_id: userId,
+        payload: { ...state, date: jsDateToYYYYMMDD(state.date) },
+      },
       {
         onSuccess(data) {
           toastRef.current?.showToast?.(data?.message || 'Ok', 'success');

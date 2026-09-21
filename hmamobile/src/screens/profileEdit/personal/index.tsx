@@ -36,6 +36,7 @@ export default function PersonalEdit({ navigation }) {
     defaultValues: {
       phone: data?.profile?.personal?.fields?.phone,
       mobile_phone: data?.profile?.contact?.fields?.mobile_phone,
+      work_phone: data?.profile?.contact?.fields?.work_phone,
     },
   });
 
@@ -72,32 +73,46 @@ export default function PersonalEdit({ navigation }) {
   };
 
   const formData: formDataProps = [
+    // {
+    //   inputType: 'input-box',
+    //   name: 'phone',
+    //   textInputProps: {
+    //     placeholder: 'Enter phone',
+    //     inputMode: 'tel',
+    //   },
+    //   rules: {
+    //     required: {
+    //       value: true,
+    //       message: 'Phone is required',
+    //     },
+    //   },
+    // },
     {
       inputType: 'input-box',
-      name: 'phone',
+      name: 'mobile_phone',
       textInputProps: {
-        placeholder: 'Enter phone',
+        placeholder: 'Enter Work Mobile',
         inputMode: 'tel',
       },
       rules: {
         required: {
           value: true,
-          message: 'Phone is required',
+          message: 'Work mobile phone is required',
         },
       },
     },
     {
       inputType: 'input-box',
-      name: 'mobile_phone',
+      name: 'work_phone',
       textInputProps: {
-        placeholder: 'Enter mobile phone',
+        placeholder: 'Enter Work Phone',
         inputMode: 'tel',
       },
       rules: {
-        required: {
-          value: true,
-          message: 'Mobile phone is required',
-        },
+        // required: {
+        //   value: true,
+        //   message: 'Mobile phone is required',
+        // },
       },
     },
   ];

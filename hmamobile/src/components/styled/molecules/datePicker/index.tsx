@@ -51,6 +51,7 @@ export default function HMADatePickerMolecule({
                 : blendWithWhite(colors.textSecondary, 0.5),
               // pointerEvents: 'none',
             },
+            props?.style,
           ]}
         />
         <View style={{ position: 'absolute', right: spacing.md }}>
