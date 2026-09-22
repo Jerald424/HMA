@@ -115,7 +115,15 @@ export default function ApprovalDetail({ navigation, route }) {
             <View style={{ flex: 1 }}>
               <HMAText size="title">{approval.type}</HMAText>
               <HMAText color="textSecondary" style={{ marginTop: spacing.xs }}>
-                {approval.employee}
+                {approval.employee} ({approval?.employee_code})
+              </HMAText>
+              <HMAText
+                size="small"
+                color="textSecondary"
+                style={{ marginTop: spacing.xs, letterSpacing: 1.2 }}
+              >
+                {approval.employee_job_position} -{' '}
+                {approval.employee_department}
               </HMAText>
             </View>
             <UrgencyBadge urgency={approval.urgency} />
@@ -144,6 +152,7 @@ export default function ApprovalDetail({ navigation, route }) {
             </>
           ) : (
             <>
+              <DetailRow label="Leave Type" value={approval.leave_type} />
               <DetailRow label="Leave from" value={approval.leave_from_date} />
               <DetailRow label="Leave to" value={approval.leave_to_date} />
               <DetailRow
