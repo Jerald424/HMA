@@ -15,7 +15,7 @@ export default function Offices() {
 
   const sortedOffices = useMemo(() => {
     try {
-      return [...data?.offices]?.sort?.(
+      return [...data?.result?.data?.geofence_info?.offices]?.sort?.(
         (a, b) => Number(b.active) - Number(a.active),
       );
     } catch (error) {
