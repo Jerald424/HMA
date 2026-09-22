@@ -110,6 +110,11 @@ export default function AttendanceHistory() {
         })} - Month`,
         date: getDateRange('month'),
       },
+      {
+        key: 'all',
+        value: `All`,
+        // date: getDateRange('month'),
+      },
     ];
   }, []);
 
@@ -117,9 +122,14 @@ export default function AttendanceHistory() {
     queryKey: ['get/list-attendance', filter],
     queryFn: () => {
       let params = {
-        limit: 20,
-        date_from: jsDateToDDMMYYYY(filter?.date?.from),
-        date_to: jsDateToDDMMYYYY(filter?.date?.to),
+        limit: 20000,
+        ...(filter?.key !== 'all'
+          ? {
+              date_from: jsDateToDDMMYYYY(filter?.date?.from),
+              date_to: jsDateToDDMMYYYY(filter?.date?.to),
+            }
+          : {}),
+
         // “Project_id”: 1441
       };
       console.log('params: ', params);
