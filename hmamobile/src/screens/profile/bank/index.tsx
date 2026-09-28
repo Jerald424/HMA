@@ -33,14 +33,12 @@ const SepBank = ({ bank, isLast }: { bank: any; isLast: boolean }) => {
   return (
     <View>
       <HMAText>{bank?.bank_name}</HMAText>
-      <View style={[cStyle.row, { alignItems: 'baseline' }]}>
-        <HMAText style={{ flex: 1 }} size="small" color="textSecondary">
-          Ac.No: {bank?.account_number}
-        </HMAText>
-        <HMAText style={{ flex: 1 }} size="small" color="textSecondary">
-          Bic: {bank?.bank_bic}
-        </HMAText>
-      </View>
+      <HMAText size="small" color="textSecondary">
+        Iban: {bank?.iban}
+      </HMAText>
+      <HMAText size="small" color="textSecondary">
+        Branch: {bank?.branch_name || '-'}
+      </HMAText>
       {isLast ? (
         <View style={{ paddingTop: spacing.md }} />
       ) : (

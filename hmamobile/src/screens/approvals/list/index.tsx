@@ -97,8 +97,9 @@ export default function ApprovalsList({ navigation }) {
                       size="small"
                       style={{ marginTop: spacing.xs }}
                     >
-                      Type: {item.type}
+                      Type: {item.type} {!isAdvance && `(${item?.leave_type})`}
                     </HMAText>
+
                     {isAdvance ? (
                       <>
                         <HMAText size="title">
