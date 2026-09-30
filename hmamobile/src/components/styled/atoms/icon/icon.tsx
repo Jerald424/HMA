@@ -46,6 +46,9 @@ export const icons = {
   ['suggestion']: require('src/assets/icons/suggestion.png'),
   ['calendar-color']: require('src/assets/icons/calendar-color.png'),
   ['payday']: require('src/assets/color-icons/payday.png'),
+  ['attendance-correction-bw']: require('src/assets/icons/attendance-correction-bw.png'),
+  ['attendance-correction-color']: require('src/assets/color-icons/attendance-correction-color.png'),
+  ['clock-three']: require('src/assets/icons/clock-three.png'),
 };
 
 export type iconType = keyof typeof icons;

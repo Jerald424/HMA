@@ -37,10 +37,10 @@ export default function ServicesScreen() {
       link: 'Requests',
     },
     {
-      title: '',
-      description: 'Record your attendance',
-      icon: 'land-layer-location',
-      link: '',
+      title: 'Attendance Correction',
+      description: '',
+      icon: 'attendance-correction-bw',
+      link: 'AttendanceCorrectionList',
     },
   ];
 
@@ -138,7 +138,9 @@ const Menus = ({ data }: { data: menuDataProps }) => {
             </View>
             <HMADivider />
             <HMAText variant="title">{item.title}</HMAText>
-            <HMAText size="small">{item.description}</HMAText>
+            {item.description && (
+              <HMAText size="small">{item.description}</HMAText>
+            )}
           </HMACard>
         ) : (
           <View style={{ flex: 1 }} />

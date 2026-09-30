@@ -65,6 +65,13 @@ const MENU_ITEMS: MenuItem[] = [
     icon: 'payday',
     colors: { bg: '#918d1214' },
   },
+  {
+    label: 'Attendance Correction',
+    key: 'AttendanceCorrectionList',
+    link: 'AttendanceCorrectionList',
+    icon: 'attendance-correction-color',
+    colors: { bg: '#91124914' },
+  },
   // {
   //   label: '',
   //   key: 'dummy',
@@ -143,7 +150,7 @@ function PillItem({ item }: { item: MenuItem }) {
       </View>
 
       {/* Label */}
-      <HMAText size="small" style={{ fontWeight: '500' }}>
+      <HMAText size="small" style={{ flex: 1 }}>
         {item.label}
       </HMAText>
     </TouchableOpacity>

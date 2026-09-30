@@ -25,6 +25,8 @@ import HMAIcon from 'src/components/styled/atoms/icon';
 import AttendanceHistory from 'src/screens/attendanceHistory';
 import AdvanceSalaryList from 'src/screens/advanceSalary/list';
 import AdvanceSalaryDetail from 'src/screens/advanceSalary/detail';
+import AttendanceCorrectionList from 'src/screens/attendanceCorrection/list';
+import AttendanceCorrectionDetail from 'src/screens/attendanceCorrection/detail';
 
 const Stack = createStackNavigator();
 
@@ -167,6 +169,17 @@ export default function AuthNavigator() {
         name="AdvanceSalaryDetail"
         component={AdvanceSalaryDetail}
         options={{ title: 'New Advance Request' }}
+      />
+
+      <Stack.Screen
+        name="AttendanceCorrectionList"
+        component={AttendanceCorrectionList}
+        options={{ title: 'Attendance Corrections' }}
+      />
+      <Stack.Screen
+        name="AttendanceCorrectionDetail"
+        component={AttendanceCorrectionDetail}
+        options={{ title: 'New Attendance Correction' }}
       />
     </Stack.Navigator>
   );
