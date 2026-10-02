@@ -50,6 +50,7 @@ export default function AttendanceCorrectionList({ navigation }) {
     queryKey: ['fetch/attendance-corrections'],
     queryFn: fetchAttendanceCorrections,
   });
+  console.log('data:==> ', data);
   return (
     <Container>
       <FlatList
