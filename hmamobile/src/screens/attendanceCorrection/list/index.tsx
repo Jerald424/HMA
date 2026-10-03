@@ -40,6 +40,8 @@ async function fetchAttendanceCorrections() {
   return axiosInstance.post(`/api/employee/attendance/list`, {
     params: {
       limit: 200,
+      // date_from: '02/09/20206',
+      // date_to: '03/09/20206',
     },
   });
 }
@@ -137,13 +139,13 @@ const SeparateItem = ({ item }: { item: any }) => {
           color={isCompleted ? 'success' : 'warning'}
         />
         <HMADivider variant="vertical" />
-        <View style={{ justifyContent: 'center' }}>
+        {/* <View style={{ justifyContent: 'center' }}>
           <HMAIcon
             name="arrow_down"
             size="xs"
             style={{ transform: [{ rotate: '-90deg' }] }}
           />
-        </View>
+        </View> */}
       </HMACard>
       <HMADivider />
     </>

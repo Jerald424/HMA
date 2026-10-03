@@ -34,6 +34,7 @@ export default function PendingApprovals({
   });
 
   const approvals: Approval[] = data?.pending ?? data?.result?.pending ?? [];
+  console.log('approvals: ===>', approvals);
   const total = data?.total ?? data?.result?.total ?? approvals.length;
 
   if (isPending || approvals.length === 0) return null;
@@ -90,7 +91,8 @@ export default function PendingApprovals({
                     {approval.employee} ·{' '}
                     {isAdvanceSalary
                       ? `Advance Salary Amount: ${approval?.salary_advance_amount}`
-                      : `${approval?.leave_from_date} to ${approval?.leave_to_date}`}
+                      : approval?.correction_date ??
+                        `${approval?.leave_from_date} to ${approval?.leave_to_date}`}
                   </HMAText>
                 </View>
                 <View

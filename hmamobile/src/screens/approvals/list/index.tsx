@@ -60,6 +60,7 @@ export default function ApprovalsList({ navigation }) {
         ListEmptyComponent={() => (isFetching ? null : <NoData />)}
         renderItem={({ item }) => {
           const isAdvance = item?.salary_advance_id;
+          const isAttCorrection = item?.correction_date;
           const dayDuration = getLeaveDuration(
             YYYYMMDDToJsDate(item?.leave_from_date),
             YYYYMMDDToJsDate(item?.leave_to_date),
@@ -97,10 +98,20 @@ export default function ApprovalsList({ navigation }) {
                       size="small"
                       style={{ marginTop: spacing.xs }}
                     >
-                      Type: {item.type} {!isAdvance && `(${item?.leave_type})`}
+                      Type: {item.type}{' '}
+                      {!(isAdvance || isAttCorrection) &&
+                        `(${item?.leave_type})`}
                     </HMAText>
 
-                    {isAdvance ? (
+                    {isAttCorrection ? (
+                      <HMAText
+                        color="textSecondary"
+                        size="small"
+                        style={{ marginTop: 2 }}
+                      >
+                        {item?.correction_type_label}
+                      </HMAText>
+                    ) : isAdvance ? (
                       <>
                         <HMAText size="title">
                           {item?.salary_advance_amount}

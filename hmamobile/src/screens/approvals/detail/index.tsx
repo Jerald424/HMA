@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
-import { Alert, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import HMACard from 'src/components/styled/atoms/card';
 import Container from 'src/components/styled/atoms/container';
@@ -86,8 +86,13 @@ export default function ApprovalDetail({ navigation, route }) {
       ],
     );
 
+  const isAdvance = approval?.salary_advance_id;
+  const isAttCorrection = approval?.correction_date;
+
   const dayDuration = useMemo(
     () =>
+      approval.leave_from_date &&
+      approval.leave_to_date &&
       getLeaveDuration(
         YYYYMMDDToJsDate(approval.leave_from_date),
         YYYYMMDDToJsDate(approval.leave_to_date),
@@ -95,11 +100,9 @@ export default function ApprovalDetail({ navigation, route }) {
     [approval],
   );
 
-  const isAdvance = approval?.salary_advance_id;
-
   return (
-    <Container padding={0}>
-      <View style={{ flex: 1, padding: spacing.md }}>
+    <Container>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <HMACard
           cmpType="View"
           style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}
@@ -131,7 +134,26 @@ export default function ApprovalDetail({ navigation, route }) {
           <HMADivider thickness={1} space="sm" />
           <DetailRow label="Request ID" value={approval.id} />
           <DetailRow label="Submitted" value={approval.submitted} />
-          {isAdvance ? (
+          {isAttCorrection ? (
+            <>
+              <DetailRow
+                label="Correction Ref"
+                value={approval?.correction_reference}
+              />
+              <DetailRow
+                label="Correction Date"
+                value={approval?.correction_date}
+              />
+              <DetailRow
+                label="Check In"
+                value={approval?.correction_check_in}
+              />
+              <DetailRow
+                label="Check Out"
+                value={approval?.correction_check_out}
+              />
+            </>
+          ) : isAdvance ? (
             <>
               <DetailRow
                 label="Advance Amount"
@@ -167,7 +189,9 @@ export default function ApprovalDetail({ navigation, route }) {
           <DetailRow
             label="Reason"
             value={
-              isAdvance
+              isAttCorrection
+                ? approval?.correction_reason
+                : isAdvance
                 ? approval?.salary_advance_reason
                 : approval.leave_reason
             }
@@ -194,25 +218,24 @@ export default function ApprovalDetail({ navigation, route }) {
             textAlignVertical: 'top',
           }}
         />
-
-        <View style={{ flex: 1 }} />
-        <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-          <HMAButton
-            title="Reject"
-            color="error"
-            variant="outline"
-            isLoading={mutation.isPending}
-            onPress={() => confirmAction('reject')}
-            style={{ flex: 1 }}
-          />
-          <HMAButton
-            title="Approve"
-            color="success"
-            isLoading={mutation.isPending}
-            onPress={() => confirmAction('approve')}
-            style={{ flex: 1 }}
-          />
-        </View>
+      </ScrollView>
+      <HMADivider />
+      <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+        <HMAButton
+          title="Reject"
+          color="error"
+          variant="outline"
+          isLoading={mutation.isPending}
+          onPress={() => confirmAction('reject')}
+          style={{ flex: 1 }}
+        />
+        <HMAButton
+          title="Approve"
+          color="success"
+          isLoading={mutation.isPending}
+          onPress={() => confirmAction('approve')}
+          style={{ flex: 1 }}
+        />
       </View>
     </Container>
   );
