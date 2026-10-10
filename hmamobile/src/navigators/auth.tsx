@@ -21,6 +21,12 @@ import TestScreen from 'src/screens/TestScreen';
 import ApprovalsList from 'src/screens/approvals/list';
 import ApprovalDetail from 'src/screens/approvals/detail';
 import fonts from 'src/utils/fonts';
+import HMAIcon from 'src/components/styled/atoms/icon';
+import AttendanceHistory from 'src/screens/attendanceHistory';
+import AdvanceSalaryList from 'src/screens/advanceSalary/list';
+import AdvanceSalaryDetail from 'src/screens/advanceSalary/detail';
+import AttendanceCorrectionList from 'src/screens/attendanceCorrection/list';
+import AttendanceCorrectionDetail from 'src/screens/attendanceCorrection/detail';
 
 const Stack = createStackNavigator();
 
@@ -30,13 +36,19 @@ export default function AuthNavigator() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.primary,
+          backgroundColor: colors?.background,
         },
         headerTitleStyle: {
-          color: colors.background,
+          color: colors.textSecondary,
           fontFamily: fonts.title,
         },
         headerTintColor: colors.background,
+        headerBackImage: () => (
+          <HMAIcon
+            name="arrow_down"
+            style={{ transform: [{ rotate: '90deg' }] }}
+          />
+        ),
       }}
     >
       <Stack.Screen
@@ -57,8 +69,16 @@ export default function AuthNavigator() {
         component={AttendanceList}
         options={{ title: 'Attendance List' }}
       />
-      <Stack.Screen name="Approvals" component={ApprovalsList} options={{ title: 'Approvals' }} />
-      <Stack.Screen name="Approval Detail" component={ApprovalDetail} options={{ title: 'Review request' }} />
+      <Stack.Screen
+        name="Approvals"
+        component={ApprovalsList}
+        options={{ title: 'Approvals' }}
+      />
+      <Stack.Screen
+        name="Approval Detail"
+        component={ApprovalDetail}
+        options={{ title: 'Review request' }}
+      />
 
       <Stack.Screen
         name="TestScreen"
@@ -134,6 +154,32 @@ export default function AuthNavigator() {
         name="Bank Edit"
         component={BankEdit}
         options={{ title: 'Bank Edit' }}
+      />
+      <Stack.Screen
+        name="AttendanceHistory"
+        component={AttendanceHistory}
+        options={{ title: 'Attendance History' }}
+      />
+      <Stack.Screen
+        name="AdvanceSalaryList"
+        component={AdvanceSalaryList}
+        options={{ title: 'Advance Salary' }}
+      />
+      <Stack.Screen
+        name="AdvanceSalaryDetail"
+        component={AdvanceSalaryDetail}
+        options={{ title: 'New Advance Request' }}
+      />
+
+      <Stack.Screen
+        name="AttendanceCorrectionList"
+        component={AttendanceCorrectionList}
+        options={{ title: 'Attendance Corrections' }}
+      />
+      <Stack.Screen
+        name="AttendanceCorrectionDetail"
+        component={AttendanceCorrectionDetail}
+        options={{ title: 'New Attendance Correction' }}
       />
     </Stack.Navigator>
   );

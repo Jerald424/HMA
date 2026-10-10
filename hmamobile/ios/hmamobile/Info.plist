@@ -5,7 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Attendo</string>
+	<string>HMA Orbit</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>HMA Orbit uses your location to provide location-based features.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -22,42 +24,25 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app uses the camera to verify your identity for secure attendance and access validation.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-  	<key>NSAllowsArbitraryLoads</key>
-  	<true/>
-	</dict>
-
-	<key>UIBackgroundModes</key>
-<array>
-  <string>location</string>
-</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Attendo uses your camera to capture photos for attendance verification.</string>
-
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to photos to upload images for attendance records.</string>
-
 	<key>NSFaceIDUsageDescription</key>
 	<string>Attendo uses your Face ID is used to securely verify user identity during attendance.</string>
-
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Attendo uses your location to detect entry and exit from geofenced zones, even when the app is not actively open, to provide seamless location-based services. Continued use of GPS in the background may reduce battery life.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Attendo uses your location to monitor geofenced areas even when the app is in the background, ensuring timely alerts and automation based on your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Attendo uses your location to detect when you enter or exit specific areas, helping trigger location-based actions while the app is in use.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photos to upload images for attendance records.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -68,6 +53,10 @@
 		<string>SpotifyMix-Regular.ttf</string>
 		<string>SpotifyMix-Thin.ttf</string>
 		<string>SpotifyMix-Ultra.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

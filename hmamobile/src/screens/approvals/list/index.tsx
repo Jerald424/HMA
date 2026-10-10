@@ -8,6 +8,9 @@ import useUserId from 'src/hooks/useUserId';
 import { useTheme } from 'src/hooks/useTheme';
 import axiosInstance from 'src/services/axiosInstance';
 import { cStyle } from 'src/utils/style';
+import { getLeaveDuration } from 'src/screens/leave/create/useCreate';
+import { YYYYMMDDToJsDate } from 'src/function/dateConversion';
+import HMADivider from 'src/components/styled/atoms/divider';
 
 export type Approval = {
   id: string;
@@ -30,7 +33,7 @@ export default function ApprovalsList({ navigation }) {
     enabled: !!managerId,
   });
   const approvals: Approval[] = data?.pending ?? data?.result?.pending ?? [];
-  console.log('data: ', data);
+  console.log('approvals: ', approvals);
   return (
     <Container padding={0}>
       <FlatList
@@ -55,47 +58,94 @@ export default function ApprovalsList({ navigation }) {
           </View>
         }
         ListEmptyComponent={() => (isFetching ? null : <NoData />)}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            // activeOpacity={0.8}
-            onPress={() =>
-              navigation.navigate('Approval Detail', { approval: item })
-            }
-          >
-            <HMACard
-              cmpType="View"
-              style={{
-                borderRadius: metrics.radius.lg,
-                padding: spacing.md,
-                marginBottom: spacing.sm,
-                // ...metrics.shadow,
-              }}
+        renderItem={({ item }) => {
+          const isAdvance = item?.salary_advance_id;
+          const isAttCorrection = item?.correction_date;
+          const dayDuration = getLeaveDuration(
+            YYYYMMDDToJsDate(item?.leave_from_date),
+            YYYYMMDDToJsDate(item?.leave_to_date),
+          );
+          return (
+            <TouchableOpacity
+              // activeOpacity={0.8}
+              onPress={() =>
+                navigation.navigate('Approval Detail', { approval: item })
+              }
             >
-              <View
-                style={[cStyle.rowAlign, { justifyContent: 'space-between' }]}
+              <HMACard
+                cmpType="View"
+                style={{
+                  borderRadius: metrics.radius.lg,
+                  padding: spacing.md,
+                  marginBottom: spacing.sm,
+                  // ...metrics.shadow,
+                }}
               >
-                <View style={{ flex: 1, paddingRight: spacing.sm }}>
-                  <HMAText size="regular">{item.type}</HMAText>
-                  <HMAText
-                    color="textSecondary"
-                    size="small"
-                    style={{ marginTop: spacing.xs }}
-                  >
-                    {item.employee}
-                  </HMAText>
-                  <HMAText
-                    color="textSecondary"
-                    size="small"
-                    style={{ marginTop: 2 }}
-                  >
-                    {item?.leave_from_date} to {item?.leave_to_date}
-                  </HMAText>
+                <View
+                  style={[cStyle.rowAlign, { justifyContent: 'space-between' }]}
+                >
+                  <View style={{ flex: 1, paddingRight: spacing.sm }}>
+                    <HMAText size="regular">{item.type}</HMAText>
+                    <HMAText
+                      color="textSecondary"
+                      size="small"
+                      style={{ marginTop: spacing.xs }}
+                    >
+                      {item.employee}
+                    </HMAText>
+                    <HMAText
+                      color="textSecondary"
+                      size="small"
+                      style={{ marginTop: spacing.xs }}
+                    >
+                      Type: {item.type}{' '}
+                      {!(isAdvance || isAttCorrection) &&
+                        `(${item?.leave_type})`}
+                    </HMAText>
+
+                    {isAttCorrection ? (
+                      <HMAText
+                        color="textSecondary"
+                        size="small"
+                        style={{ marginTop: 2 }}
+                      >
+                        {item?.correction_type_label}
+                      </HMAText>
+                    ) : isAdvance ? (
+                      <>
+                        <HMAText size="title">
+                          {item?.salary_advance_amount}
+                        </HMAText>
+                      </>
+                    ) : (
+                      <HMAText
+                        color="textSecondary"
+                        size="small"
+                        style={{ marginTop: 2 }}
+                      >
+                        {item?.leave_from_date} to {item?.leave_to_date} (
+                        {dayDuration} Day){+(dayDuration || 0) > 1 && 's'}
+                      </HMAText>
+                    )}
+                  </View>
+                  <View>
+                    {isAdvance && <HMAText>{item?.salary_advance_id}</HMAText>}
+                    <UrgencyBadge urgency={item?.state} />
+                  </View>
                 </View>
-                <UrgencyBadge urgency={item.urgency} />
-              </View>
-            </HMACard>
-          </TouchableOpacity>
-        )}
+                {isAdvance && (
+                  <View>
+                    <HMADivider space={'xs'} thickness={1} />
+                    <HMAText size="small" style={{ fontStyle: 'italic' }}>
+                      📝{` `}{' '}
+                      {item?.salary_advance_reason || 'No reason provided'}
+                    </HMAText>
+                  </View>
+                )}
+              </HMACard>
+            </TouchableOpacity>
+          );
+        }}
       />
     </Container>
   );

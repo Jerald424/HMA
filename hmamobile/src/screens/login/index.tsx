@@ -28,77 +28,38 @@ export default function Login() {
 
   return (
     <Container
-      padding={0}
-      backgroundColor="primary"
-      safeAreaViewProps={{ edges: ['left', 'right'] }}
+      padding={'lg'}
+      backgroundColor="background"
+      safeAreaViewProps={{ edges: ['left', 'right', 'top'] }}
     >
-      <View
-        style={[
-          {
-            flex: 1.2,
-            justifyContent: 'center',
-            alignItems: 'center',
-          },
-        ]}
-      >
-        <HMACard
-          style={[
-            {
-              padding: spacing.md,
-              borderRadius: 500,
-            },
-          ]}
-        >
-          <HMAAvatar
-            source={require('src/assets/images/attendo-logo.png')}
-            size="lg"
-          />
-        </HMACard>
-      </View>
-      <View
-        style={{
-          flex: 3,
-          backgroundColor: colors?.background,
-          borderTopEndRadius: metrics?.radius?.lg,
-          borderTopStartRadius: metrics?.radius?.lg,
-          padding: spacing.lg,
-        }}
-      >
-        <View
-          style={[
-            loginStyle.absView,
-            {
-              backgroundColor: colors.background,
-              width: SCREEN_WIDTH - spacing.md * 2,
-              borderRadius: metrics?.radius?.lg,
-            },
-          ]}
+      <HMADivider />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <HMAAvatar
+          size="md"
+          style={{ alignSelf: 'center', borderRadius: metrics.radius.lg }}
+          source={require('src/assets/images/hma-orbit-app-icon-1024.png')}
         />
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <HMAText size="large" align="center">
-            Enter Credential To Login
-          </HMAText>
-          <HMADivider space={'md'} />
-          <HMAForm data={formData} control={control} />
-          <View style={[cStyle.rowAlign]}>
-            <HMACheckBox
-              hitSlop={20}
-              value={isRemember}
-              onChange={() => setIsRemember(!isRemember)}
-            />
-            <HMAText style={{ flex: 1, marginLeft: spacing.md }}>
-              Remember me
-            </HMAText>
-          </View>
-          <HMADivider space={'md'} />
+        <HMADivider />
+        <HMAText size="title" color="textSecondary" align="center">
+          Login
+        </HMAText>
 
-          <HMAButton
-            isLoading={isPending}
-            title="Login"
-            onPress={handleSubmit}
+        <HMADivider space={'md'} />
+        <HMAForm data={formData} control={control} />
+        <View style={[cStyle.rowAlign]}>
+          <HMACheckBox
+            hitSlop={20}
+            value={isRemember}
+            onChange={() => setIsRemember(!isRemember)}
           />
-        </ScrollView>
-      </View>
+          <HMAText style={{ flex: 1, marginLeft: spacing.md }}>
+            Remember me
+          </HMAText>
+        </View>
+        <HMADivider space={'md'} />
+
+        <HMAButton isLoading={isPending} title="Login" onPress={handleSubmit} />
+      </ScrollView>
       <HMAAlert ref={alertRef} />
     </Container>
   );

@@ -3,6 +3,7 @@ import { ensureLocationPermission } from 'src/function/locationPermission';
 import { promptForEnableLocationIfNeeded } from 'react-native-android-location-enabler';
 import { Alert } from 'react-native';
 import LocationPermissionModal from 'src/components/layout/locationPermissionModal';
+import { IS_ANDROID } from 'src/utils/variables';
 
 const INTERVAL = 60000;
 export default function withGPS(Cmp: any) {
@@ -13,7 +14,7 @@ export default function withGPS(Cmp: any) {
       try {
         console.log('PERMISSION FETCH: ');
         const isEnabled = await ensureLocationPermission();
-        if (isEnabled) {
+        if (isEnabled && IS_ANDROID) {
           await promptForEnableLocationIfNeeded();
         }
         setIsPermissionEnabled(isEnabled);

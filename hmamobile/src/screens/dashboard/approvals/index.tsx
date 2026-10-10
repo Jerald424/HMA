@@ -34,6 +34,7 @@ export default function PendingApprovals({
   });
 
   const approvals: Approval[] = data?.pending ?? data?.result?.pending ?? [];
+  console.log('approvals: ===>', approvals);
   const total = data?.total ?? data?.result?.total ?? approvals.length;
 
   if (isPending || approvals.length === 0) return null;
@@ -54,66 +55,72 @@ export default function PendingApprovals({
         </TouchableOpacity>
       </View>
 
-      {approvals.slice(0, 2).map(approval => (
-        <TouchableOpacity
-          key={approval.id}
-          // activeOpacity={0.8}
-          onPress={() => navigation.navigate('Approval Detail', { approval })}
-        >
-          <HMACard
-            cmpType="View"
-            style={{
-              borderRadius: metrics.radius.lg,
-              padding: spacing.md,
-              marginBottom: spacing.sm,
-              // ...metrics.shadow,
-            }}
+      {approvals.slice(0, 2).map(approval => {
+        const isAdvanceSalary = approval?.salary_advance_id;
+        return (
+          <TouchableOpacity
+            key={approval.id}
+            // activeOpacity={0.8}
+            onPress={() => navigation.navigate('Approval Detail', { approval })}
           >
-            <View
-              style={[cStyle.rowAlign, { justifyContent: 'space-between' }]}
+            <HMACard
+              cmpType="View"
+              style={{
+                borderRadius: metrics.radius.lg,
+                padding: spacing.md,
+                marginBottom: spacing.sm,
+                // ...metrics.shadow,
+              }}
             >
-              <View style={{ flex: 1, paddingRight: spacing.sm }}>
-                <HMAText
-                  size="regular"
-                  numberOfLines={1}
-                  // style={{ fontWeight: '700' }}
-                >
-                  {approval.type}
-                </HMAText>
-                <HMAText
-                  color="textSecondary"
-                  size="small"
-                  style={{ marginTop: 2 }}
-                >
-                  {approval.employee} · {approval?.leave_from_date} to{' '}
-                  {approval?.leave_to_date}
-                </HMAText>
-              </View>
               <View
-                style={{
-                  backgroundColor:
-                    approval.urgency === 'high' ? '#FDE8E8' : '#FFF4D9',
-                  borderRadius: metrics.radius.md,
-                  paddingHorizontal: spacing.sm,
-                  paddingVertical: spacing.xs,
-                }}
+                style={[cStyle.rowAlign, { justifyContent: 'space-between' }]}
               >
-                <HMAText
-                  size="small"
+                <View style={{ flex: 1, paddingRight: spacing.sm }}>
+                  <HMAText
+                    size="regular"
+                    numberOfLines={1}
+                    // style={{ fontWeight: '700' }}
+                  >
+                    {approval.type}
+                  </HMAText>
+                  <HMAText
+                    color="textSecondary"
+                    size="small"
+                    style={{ marginTop: 2 }}
+                  >
+                    {approval.employee} ·{' '}
+                    {isAdvanceSalary
+                      ? `Advance Salary Amount: ${approval?.salary_advance_amount}`
+                      : approval?.correction_date ??
+                        `${approval?.leave_from_date} to ${approval?.leave_to_date}`}
+                  </HMAText>
+                </View>
+                <View
                   style={{
-                    color:
-                      approval.urgency === 'high' ? colors.error : '#A56412',
-                    // fontWeight: '600',
-                    textTransform: 'capitalize',
+                    backgroundColor:
+                      approval.urgency === 'high' ? '#FDE8E8' : '#FFF4D9',
+                    borderRadius: metrics.radius.md,
+                    paddingHorizontal: spacing.sm,
+                    paddingVertical: spacing.xs,
                   }}
                 >
-                  {approval.urgency ?? 'normal'}
-                </HMAText>
+                  <HMAText
+                    size="small"
+                    style={{
+                      color:
+                        approval.urgency === 'high' ? colors.error : '#A56412',
+                      // fontWeight: '600',
+                      textTransform: 'capitalize',
+                    }}
+                  >
+                    {approval.urgency ?? 'normal'}
+                  </HMAText>
+                </View>
               </View>
-            </View>
-          </HMACard>
-        </TouchableOpacity>
-      ))}
+            </HMACard>
+          </TouchableOpacity>
+        );
+      })}
       <HMADivider space="sm" />
     </View>
   );

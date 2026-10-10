@@ -28,7 +28,7 @@ export default function LeaveCancel({
     mutationKey: ['cancel/leave'],
     mutationFn: cancelLeave,
   });
-  const { colors, spacing } = useTheme();
+  const { colors, spacing, metrics } = useTheme();
   const [reason, setReason] = useState('');
 
   const handleCancel = () => {
@@ -38,6 +38,7 @@ export default function LeaveCancel({
         onSettled() {
           bsRef?.current?.close?.();
           selectedLeaveRef.current = null;
+          setReason('');
         },
         onError(error) {
           handleFailureCancel?.(error);
@@ -52,27 +53,56 @@ export default function LeaveCancel({
   return (
     <HMABottomSheet ref={bsRef}>
       <View style={{ padding: spacing.md }}>
+        {/* Icon */}
+        <Image
+          style={{ height: 80, width: 80, alignSelf: 'center' }}
+          source={require('src/assets/color-icons/revert.png')}
+        />
+        <HMADivider space="sm" />
+
+        {/* Title */}
+        <HMAText
+          size="large"
+          align="center"
+          variant="title"
+          style={{ fontWeight: '700' }}
+        >
+          Cancel Leave Request
+        </HMAText>
+        <HMADivider space="xs" />
+        <HMAText color="textSecondary" align="center" size="small">
+          This action cannot be undone. Please enter a reason.
+        </HMAText>
+
+        <HMADivider />
+
+        {/* Reason input */}
         <HMATextInputMolecule
           value={reason}
           onChangeText={setReason}
-          placeholder="Enter reason"
+          placeholder="Enter reason for cancellation"
+          multiline
         />
-        <HMADivider />
-        <Image
-          style={{ height: 100, width: 100, alignSelf: 'center' }}
-          source={require('src/assets/color-icons/revert.png')}
-        />
-        <HMADivider />
-        <HMAText align="center">
-          Are you sure do you want to cancel leave request?
-        </HMAText>
+
         <HMADivider />
 
-        <HMAButton
-          onPress={handleCancel}
-          isLoading={isPending}
-          title="Submit"
-        />
+        {/* Buttons */}
+        <View style={{ flexDirection: 'row', gap: spacing.sm }}>
+          <HMAButton
+            style={{ flex: 1 }}
+            variant="outline"
+            color="error"
+            title="Go Back"
+            onPress={() => bsRef?.current?.close?.()}
+          />
+          <HMAButton
+            style={{ flex: 1 }}
+            onPress={handleCancel}
+            isLoading={isPending}
+            color="error"
+            title="Confirm Cancel"
+          />
+        </View>
       </View>
     </HMABottomSheet>
   );

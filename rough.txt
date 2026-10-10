@@ -199,3 +199,14 @@ ChatGPT can make mistakes. Check important info. See Cookie Preferences.
 5. Once leave submitted to the manager the manager have not information to see the leave type, start and end date etc: NEED DISCUSSION
 6- In Odoo for the annual leave we have option like when select annual leave it’s show 68 remaing out of 77 Days) Pls show same description in the app screen as well: NEED DISCUSSION
 7. Payslip in the list view showing amount with USD but when open the payslip then showing Riyal currency: SHOULD REMOVE THE DOLLAR SIGN?
+
+
+
+1. api/employee/verify-token api was failing
+2. Done
+     out side attendance enabled: geofence_info?.is_no_geofence_restriction
+4. Done
+7. Done
+8. Done
+9. Done
+10. Done

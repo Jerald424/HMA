@@ -4,7 +4,11 @@ import isInsideGeofenceFn from 'src/function/findUserInsideGeoLocation';
 import { useUserInfo } from 'src/redux/hooks';
 import axiosInstance from 'src/services/axiosInstance';
 import { ProjectSelectionRefProp } from './projectSelection';
-import { formateDate, formatToShortDate } from 'src/function/dateConversion';
+import {
+  formateDate,
+  formatToShortDate,
+  jsDateToDDMMYYYY,
+} from 'src/function/dateConversion';
 
 // “Params”:{
 // 	“Limit”: 20,
@@ -13,10 +17,18 @@ import { formateDate, formatToShortDate } from 'src/function/dateConversion';
 // 	“Project_id”: 1441
 // }
 
+export const useNoGeoFenceRestriction = () => {
+  const { data: userInfo } = useUserInfo();
+
+  return userInfo?.result?.data?.geofence_info?.no_geofence_restriction;
+};
+
 const fetchLastAttendanceRecord = async () => {
   return await axiosInstance.post('/api/employee/attendance/list', {
     params: {
       limit: 1,
+      date_from: jsDateToDDMMYYYY(new Date()),
+      date_to: jsDateToDDMMYYYY(new Date()),
     },
   });
 };
@@ -24,6 +36,7 @@ const fetchLastAttendanceRecord = async () => {
 export default function useTodayAttendance() {
   const { data: userInfo } = useUserInfo();
   const projectSelectionRef = useRef<ProjectSelectionRefProp>(null);
+  const is_no_geofence_restriction = useNoGeoFenceRestriction();
 
   const { data: lastAttendanceRecord, refetch: refetchLastAttendance } =
     useQuery({
@@ -38,13 +51,14 @@ export default function useTodayAttendance() {
   const [userLocation, setUserLocation] = useState<{
     longitude: number;
     latitude: number;
-  } | null>(null);
+  } | null>(null); //12.901703, 80.221103
 
   const matchedOffice = useMemo(() => {
     try {
       let ofc = userInfo?.result?.data?.geofence_info?.offices;
       // return [ofc?.[0]];
-      return ofc?.find(office =>
+      if (is_no_geofence_restriction) return ofc;
+      return ofc?.filter(office =>
         isInsideGeofenceFn(
           {
             latitude: office?.lat,
@@ -56,7 +70,7 @@ export default function useTodayAttendance() {
         ),
       );
     } catch (error) {}
-  }, [userLocation, userInfo]);
+  }, [userLocation, userInfo, is_no_geofence_restriction]);
 
   const isInsideGeofence = matchedOffice?.length > 0;
 
@@ -66,6 +80,7 @@ export default function useTodayAttendance() {
 
   const checkInOutTime = useMemo(() => {
     try {
+      if (!lastAttRecord) return;
       const [checkIn, checkOut] = [
         lastAttRecord?.check_in?.split(' '),
         lastAttRecord?.check_out?.split(' '),
@@ -101,5 +116,6 @@ export default function useTodayAttendance() {
     lastAttRecord,
     checkInOutTime,
     isCheckOut,
+    is_no_geofence_restriction,
   };
 }

@@ -65,30 +65,70 @@ export default function BankEdit({ navigation }) {
   const formData: formDataProps = [
     {
       inputType: 'input-box',
-      name: 'account_number',
+      name: 'iban',
       textInputProps: {
-        placeholder: 'Enter Account number',
+        placeholder: 'Enter iban',
       },
       rules: {
         required: {
           value: true,
-          message: 'Account number is required',
+          message: 'Iban is required',
         },
       },
     },
     {
       inputType: 'input-box',
-      name: 'account_holder',
+      name: 'bank_name',
       textInputProps: {
-        placeholder: 'Enter account holder phone',
+        placeholder: 'Enter bank name',
       },
       rules: {
         required: {
           value: true,
-          message: 'Account holder is required',
+          message: 'Bank name is required',
         },
       },
     },
+    {
+      inputType: 'input-box',
+      name: 'Branch_name',
+      textInputProps: {
+        placeholder: 'Enter branch name',
+      },
+      rules: {
+        required: {
+          value: true,
+          message: 'Branch name is required',
+        },
+      },
+    },
+
+    // {
+    //   inputType: 'input-box',
+    //   name: 'account_number',
+    //   textInputProps: {
+    //     placeholder: 'Enter Account number',
+    //   },
+    //   rules: {
+    //     required: {
+    //       value: true,
+    //       message: 'Account number is required',
+    //     },
+    //   },
+    // },
+    // {
+    //   inputType: 'input-box',
+    //   name: 'account_holder',
+    //   textInputProps: {
+    //     placeholder: 'Enter account holder phone',
+    //   },
+    //   rules: {
+    //     required: {
+    //       value: true,
+    //       message: 'Account holder is required',
+    //     },
+    //   },
+    // },
   ];
 
   return (

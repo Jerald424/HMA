@@ -1569,11 +1569,6 @@
   resolved "https://registry.npmjs.org/@react-native-documents/picker/-/picker-12.0.1.tgz"
   integrity sha512-vpJKb4t/5bnxe9+gQl+plJfKrrIsmYwANGhNH2B9E1dS1+6FDBzg4Dwmcq4ueaGfkRKEPJ606mJttVEH1ZKZaA==
 
-"@react-native-ml-kit/text-recognition@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@react-native-ml-kit/text-recognition/-/text-recognition-2.0.0.tgz"
-  integrity sha512-RHefLYKndSyoDtgqHQptYQe+mftFk6/H30IQDenKX7PgMlJqoDejX+HdZ8gnP1kVNAt3iH+wyl/P6vCOkLMW9Q==
-
 "@react-native/assets-registry@0.80.2":
   version "0.80.2"
   resolved "https://registry.npmjs.org/@react-native/assets-registry/-/assets-registry-0.80.2.tgz"
@@ -3760,6 +3755,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
+
+fsevents@^2.3.2:
+  version "2.3.3"
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
+  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
   version "1.1.2"
@@ -6038,7 +6038,7 @@ react-native-webview@^13.16.1:
     escape-string-regexp "^4.0.0"
     invariant "2.2.4"
 
-react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", "react-native@>= 0.64.3", react-native@>=0.57.0, react-native@>=0.59, react-native@>=0.59.0, "react-native@>=0.60.0-rc.0 <1.0.x", react-native@>=0.70.0, react-native@>=0.79.0, react-native@0.80.2:
+react-native@*, "react-native@^0.0.0-0 || >=0.60 <1.0", "react-native@>= 0.64.3", react-native@>=0.57.0, react-native@>=0.59, react-native@>=0.59.0, react-native@>=0.70.0, react-native@>=0.79.0, react-native@0.80.2:
   version "0.80.2"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.80.2.tgz"
   integrity sha512-6ySV4qTJo/To3lgpG/9Mcg/ZtvExqOVZuT7JVGcO5rS2Bjvl/yUAkQF0hTnbRb2Ch6T5MlKghrM4OeHX+KA9Pg==
@@ -6100,7 +6100,7 @@ react-test-renderer@19.1.0:
     react-is "^19.1.0"
     scheduler "^0.26.0"
 
-react@*, "react@^16.8.0 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.9.0 || ^17.0.0 || ^18 || ^19", "react@^18 || ^19", "react@^18.0 || ^19", react@^19.1.0, "react@>= 17.0.1", "react@>= 18.2.0", react@>=16.8, react@>=16.8.1, react@>=16.8.3, react@>=17.0.0, react@>=18.1.0, react@19.1.0:
+react@*, "react@^16.8.0 || ^17 || ^18 || ^19", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0", "react@^16.9.0 || ^17.0.0 || ^18 || ^19", "react@^18 || ^19", "react@^18.0 || ^19", react@^19.1.0, "react@>= 17.0.1", "react@>= 18.2.0", react@>=16.8, react@>=16.8.3, react@>=17.0.0, react@>=18.1.0, react@19.1.0:
   version "19.1.0"
   resolved "https://registry.npmjs.org/react/-/react-19.1.0.tgz"
   integrity sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==

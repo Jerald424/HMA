@@ -3,6 +3,7 @@ import { useTheme } from 'src/hooks/useTheme';
 import HMAText from '../text';
 import { Ref, useEffect, useImperativeHandle, useState } from 'react';
 import { colors } from 'src/theme/colors';
+import { SCREEN_WIDTH } from 'src/utils/variables';
 
 type colorKey = keyof typeof colors;
 export type toastRefFn = {
@@ -51,7 +52,7 @@ export default function Toast({ showMs = 4000, ...props }: ToastProps) {
           backgroundColor: colors[color],
           position: 'absolute',
           zIndex: 99,
-          width: '100%',
+          width: SCREEN_WIDTH,
         }}
       >
         <HMAText color="background" align="center" size="small">

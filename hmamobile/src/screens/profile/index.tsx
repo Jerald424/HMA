@@ -11,6 +11,7 @@ import Bank from './bank';
 import HMAText from 'src/components/styled/atoms/text';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
+import Offices from './offices';
 
 export default function Profile({ navigation }) {
   const { isLoading, profileData, fetchProfile } = useProfile();
@@ -26,6 +27,9 @@ export default function Profile({ navigation }) {
     <Container isSafeArea backgroundColor="background" padding={0}>
       <ScrollView style={{ flex: 1, backgroundColor: colors?.lightBackground }}>
         <Header profile={profileData} />
+        <HMADivider />
+
+        <Offices />
         <HMADivider />
         <TouchableOpacity
           onPress={() => navigation?.navigate('Profile Edit')}

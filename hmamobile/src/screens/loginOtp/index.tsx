@@ -29,12 +29,12 @@ export default function LoginOtp({ navigation }) {
 
   return (
     <Container>
-      <HeaderWithBackIcon
+      {/* <HeaderWithBackIcon
         title="Back to login"
         onPressBack={navigation.goBack}
-      />
+      /> */}
       <HMADivider space={'lg'} />
-      <HMAText align="center" size="title">
+      <HMAText align="center" size="large">
         We are just sent an SMS
       </HMAText>
       <HMADivider />

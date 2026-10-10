@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useImperativeHandle, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import HMAButton from 'src/components/styled/atoms/button';
 import HMADivider from 'src/components/styled/atoms/divider';
 import HMAText from 'src/components/styled/atoms/text';
@@ -9,6 +9,7 @@ import HMAModalOrganism from 'src/components/styled/organism/modal';
 import { formatAttendanceDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
 import axiosInstance from 'src/services/axiosInstance';
+import { SCREEN_HEIGHT } from 'src/utils/variables';
 
 export type ProjectSelectionRefProp = {
   onCheckInOut: (arg: 'in' | 'out') => void;
@@ -109,36 +110,38 @@ export default function ProjectSelection({
             }
       }
     >
-      {hasMultipleOffices ? (
-        <>
-          <HMADivider />
-          <View style={{ gap: 8 }}>
-            {matchedOffice?.map((office: any, index: number) => {
-              const isSelected = selectedOffice?.id === office?.id;
+      <ScrollView style={{ maxHeight: SCREEN_HEIGHT / 2 }}>
+        {hasMultipleOffices ? (
+          <>
+            <HMADivider />
+            <View style={{ gap: 8 }}>
+              {matchedOffice?.map((office: any, index: number) => {
+                const isSelected = selectedOffice?.id === office?.id;
 
-              return (
-                <TouchableOpacity
-                  key={office?.id ?? `${office?.name}-${index}`}
-                  onPress={() => setSelectedOffice(office)}
-                  style={{
-                    borderWidth: 1,
-                    borderRadius: 8,
-                    borderColor: isSelected ? colors.primary : colors.border,
-                    backgroundColor: isSelected
-                      ? colors.primary + '20'
-                      : colors.background,
-                    paddingVertical: 10,
-                    paddingHorizontal: 12,
-                    marginBottom: 8,
-                  }}
-                >
-                  <HMAText size="small">{office?.name}</HMAText>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        </>
-      ) : null}
+                return (
+                  <TouchableOpacity
+                    key={office?.id ?? `${office?.name}-${index}`}
+                    onPress={() => setSelectedOffice(office)}
+                    style={{
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      borderColor: isSelected ? colors.primary : colors.border,
+                      backgroundColor: isSelected
+                        ? colors.primary + '20'
+                        : colors.background,
+                      paddingVertical: 10,
+                      paddingHorizontal: 12,
+                      marginBottom: 8,
+                    }}
+                  >
+                    <HMAText size="small">{office?.name}</HMAText>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </>
+        ) : null}
+      </ScrollView>
       <HMADivider />
 
       <View style={{ flexDirection: 'row' }}>
