@@ -1,4 +1,4 @@
-package com.hmamobile
+package com.hmaorbit
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

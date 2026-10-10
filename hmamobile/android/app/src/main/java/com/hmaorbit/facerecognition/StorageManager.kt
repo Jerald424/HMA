@@ -1,4 +1,4 @@
-package com.hmamobile.facerecognition
+package com.hmaorbit.facerecognition
 
 import android.content.Context
 import org.json.JSONObject

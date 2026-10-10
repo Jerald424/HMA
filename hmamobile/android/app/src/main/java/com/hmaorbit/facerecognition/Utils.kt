@@ -1,4 +1,4 @@
-package com.hmamobile.facerecognition
+package com.hmaorbit.facerecognition
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

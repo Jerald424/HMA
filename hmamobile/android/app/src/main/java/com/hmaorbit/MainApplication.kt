@@ -1,4 +1,4 @@
-package com.hmamobile
+package com.hmaorbit
 
 import android.app.Application
 import com.facebook.react.PackageList
@@ -10,7 +10,7 @@ import com.facebook.react.ReactPackage
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 
-import com.hmamobile.facerecognition.FaceNetPackage;
+import com.hmaorbit.facerecognition.FaceNetPackage;
 
 
 class MainApplication : Application(), ReactApplication {
