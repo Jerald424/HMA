@@ -89,13 +89,13 @@ if (keystorePropertiesFile.exists()) {
         }
 
 
-        namespace "com.hmamobile"
+        namespace "com.hmaorbit"
         defaultConfig {
-            applicationId "com.hmamobile"
+            applicationId "com.hmaorbit"
             minSdkVersion rootProject.ext.minSdkVersion
             targetSdkVersion rootProject.ext.targetSdkVersion
-            versionCode 7
-            versionName "1.7"
+            versionCode 8
+            versionName "1.0"
         }
         signingConfigs {
             debug {

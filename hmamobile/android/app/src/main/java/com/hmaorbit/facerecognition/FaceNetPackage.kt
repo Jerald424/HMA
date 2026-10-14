@@ -1,4 +1,4 @@
-package com.hmamobile.facerecognition
+package com.hmaorbit.facerecognition
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
