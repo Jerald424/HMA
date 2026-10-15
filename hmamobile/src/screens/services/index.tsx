@@ -70,6 +70,20 @@ export default function ServicesScreen() {
       link: 'AdvanceSalaryList',
     },
   ];
+  const organization: menuDataProps = [
+    {
+      title: 'Equipments',
+      description: 'View your equipments',
+      icon: 'equipment',
+      link: 'EquipmentListScreen',
+    },
+    {
+      title: '',
+      description: 'Log & claim expenses',
+      icon: 'expense-bill',
+      link: 'Expenses',
+    },
+  ];
 
   return (
     <Container padding={0}>
@@ -87,6 +101,12 @@ export default function ServicesScreen() {
           </HMAText>
           <HMADivider />
           <Menus data={payAndDocuments} />
+          <HMADivider space={'md'} />
+          <HMAText style={{ letterSpacing: 1 }} color="textSecondary">
+            ORGANIZATION
+          </HMAText>
+          <HMADivider />
+          <Menus data={organization} />
           <HMADivider space={'md'} />
         </ScrollView>
       </View>

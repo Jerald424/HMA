@@ -2,6 +2,9 @@ export const typography = {
   small: {
     fontSize: 12,
   },
+  xs: {
+    fontSize: 10,
+  },
   regular: {
     fontSize: 14,
   },

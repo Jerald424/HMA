@@ -7,10 +7,30 @@ import useInitial from './hooks/initial/useInitial';
 import HMAModalLoader from './components/styled/molecules/loader/modalLoader';
 import SessionExpires from './components/layout/sessionExpires';
 import { useTheme } from './hooks/useTheme';
+import {
+  CaptureProtection,
+  useCaptureProtection,
+} from 'react-native-capture-protection';
+import React, { useEffect } from 'react';
 
 const Stack = createStackNavigator();
 export default function App() {
   const { isLogin } = useAuth();
+  const { protectionStatus, status } = useCaptureProtection();
+
+  useEffect(() => {
+    const enableProtection = async () => {
+      try {
+        await CaptureProtection.prevent();
+        console.log('Capture protection enabled');
+      } catch (error) {
+        console.error('Capture protection failed:', error);
+      }
+    };
+
+    enableProtection();
+  }, []);
+
   const { isLoadingInitial } = useInitial();
   if (isLoadingInitial) return <HMAModalLoader isVisible />;
   return (

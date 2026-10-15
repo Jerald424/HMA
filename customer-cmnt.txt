@@ -1,0 +1,27 @@
+DONE
+Please make sure that screenshot is not available and restricted for any document/Manual 
+Let's not put at first the amount in first page, first they need to click open and then have access to the amount better for confidenfiality
+
+Need clarification
+Here i should when i click to each time off i need to be able to see the flow of the approval and history in case needed = Need clarification
+For Document module we should make sure it's working correctly as i told you before i don't think it's working correctly in terms of confidentiality and when you choose only me or for certain people it's actually reflecting correctly
+In the request also there is a lot to work on for each category
+Here for the payslip i don't want employee to be able to download the pdf. He should request the pdf via approval process. Once it's approved he can be able to access it.
+It should be adjusted to every phone parameter // also in Annual Leave in approver there are a lot of approval it will be shown each time where the approval is?
+When sick leave is applied there is no need for home number and airport it's only for Annual Leave = need a key
+
+Profile
+-	Add Empoyee Code/ Badge ID Number
+-	Add QID details: Number, Expiry & Sponsor (Cannot be edit)
+-	Add Passport details: Number, Expiry (Can be edit, must have attachment during the edit process, validation/ approval required) (validation/ approval required)
+-	Edit of Bank details must require for attachment (validation/ approval required)
+
+Dashboard
+-	Approvals waiting you (Will it reflect in notification bell?)
+-	Leave Balance - Name should be changed to “Annual Leave Balance” so not to be confuse
+
+Services
+-	Request Tab- In the create options, the following should be removed from the drop down as it already have a separate service transactions: 
+o	Loan/ Advance
+o	Time Off
+o	Salary Advance

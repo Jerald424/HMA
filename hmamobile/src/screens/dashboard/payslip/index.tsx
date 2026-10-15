@@ -17,11 +17,17 @@ export default function PaySlip() {
   console.log('latest_payslip: ', latest_payslip);
   if (!latest_payslip) return null;
 
-  const basic = latest_payslip?.basic ?? 0;
-  const gross = latest_payslip?.gross ?? 0;
-  const net = latest_payslip?.net ?? gross;
-  const deductions = latest_payslip?.deductions ?? 0;
-  const allowances = gross - basic;
+  // const basic = latest_payslip?.basic ?? 0;
+  // const gross = latest_payslip?.gross ?? 0;
+  // const net = latest_payslip?.net ?? gross;
+  // const deductions = latest_payslip?.deductions ?? 0;
+  // const allowances = gross - basic;
+
+  const basic = '***';
+  const gross = '***';
+  const net = '***';
+  const deductions = '***';
+  const allowances = '***';
 
   const breakdown = [
     { label: 'Basic', value: basic },

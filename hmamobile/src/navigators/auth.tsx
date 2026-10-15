@@ -27,6 +27,8 @@ import AdvanceSalaryList from 'src/screens/advanceSalary/list';
 import AdvanceSalaryDetail from 'src/screens/advanceSalary/detail';
 import AttendanceCorrectionList from 'src/screens/attendanceCorrection/list';
 import AttendanceCorrectionDetail from 'src/screens/attendanceCorrection/detail';
+import EquipmentListScreen from 'src/screens/equipments/list';
+import EquipmentDetailScreen from 'src/screens/equipments/detail';
 
 const Stack = createStackNavigator();
 
@@ -180,6 +182,16 @@ export default function AuthNavigator() {
         name="AttendanceCorrectionDetail"
         component={AttendanceCorrectionDetail}
         options={{ title: 'New Attendance Correction' }}
+      />
+      <Stack.Screen
+        name="EquipmentListScreen"
+        component={EquipmentListScreen}
+        options={{ title: 'Equipments' }}
+      />
+      <Stack.Screen
+        name="EquipmentDetailScreen"
+        component={EquipmentDetailScreen}
+        options={{ title: 'Equipment Detail' }}
       />
     </Stack.Navigator>
   );

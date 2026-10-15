@@ -70,6 +70,8 @@ export default function useCreate() {
     }
   }, [leaveBalance]);
 
+  console.log('leave_types: ', leave_types);
+
   const id = useUserId();
   const { control, handleSubmit, reset, watch } = useForm();
   const toastRef = useRef<toastRefFn>(null);
@@ -84,6 +86,8 @@ export default function useCreate() {
     'End_date',
     'Leave_type',
   ]);
+
+  const isAnnualLeave = Leave_type?.value?.toUpperCase()?.includes('ANNUAL');
 
   const dayDuration = useMemo(
     () => getLeaveDuration(Start_date, End_date),
@@ -210,23 +214,26 @@ export default function useCreate() {
           },
         },
       },
-      {
-        inputType: 'input-box',
-        name: 'home_contact_number',
-        textInputProps: {
-          placeholder: 'Home Contact Number',
-          keyboardType: 'phone-pad',
-          note: 'Required for labour employees applying annual leave. Optional for other leave types.',
-        },
-      },
-      {
-        inputType: 'input-box',
-        name: 'airport_name',
-        textInputProps: {
-          placeholder: 'Airport Name',
-        },
-      },
     ];
+    if (isAnnualLeave)
+      data.push(
+        {
+          inputType: 'input-box',
+          name: 'home_contact_number',
+          textInputProps: {
+            placeholder: 'Home Contact Number',
+            keyboardType: 'phone-pad',
+            note: 'Required for labour employees applying annual leave. Optional for other leave types.',
+          },
+        },
+        {
+          inputType: 'input-box',
+          name: 'airport_name',
+          textInputProps: {
+            placeholder: 'Airport Name',
+          },
+        },
+      );
     if (Leave_type?.support_document)
       data.push({
         inputType: 'attach',
