@@ -6,8 +6,6 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>HMA Orbit</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>HMA Orbit uses your location to provide location-based features.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
