@@ -202,7 +202,7 @@ export default function PayslipDetailUI({
       </View>
 
       {/* Stats Grid */}
-      <View style={s.statsGrid}>
+      {/* <View style={s.statsGrid}>
         <StatCard
           label="Basic salary"
           value={data.basic_salary}
@@ -224,26 +224,33 @@ export default function PayslipDetailUI({
           valueColor={COLORS.danger}
           currency={currency}
         />
-      </View>
+      </View> */}
 
       {/* Earnings Section */}
-      <Section
+      {/* <Section
         title="EARNINGS"
         rows={earnings}
         total={data.gross_salary}
         totalLabel="Total earnings"
         currency={currency}
-      />
+      /> */}
 
       {/* Deductions Section */}
-      <Section
+      {/* <Section
         title="DEDUCTIONS"
         rows={deductions}
         total={data.total_deductions}
         totalLabel="Total deductions"
         currency={currency}
+      /> */}
+      <Section
+        // title="EARNINGS"
+        rows={salaryComputations}
+        // total={data.gross_salary}
+        // totalLabel="Total earnings"
+        currency={currency}
       />
-      <HMAAccordion title="Additional Information">
+      {/* <HMAAccordion title="Additional Information">
         <Section
           // title="EARNINGS"
           rows={salaryComputations}
@@ -251,7 +258,7 @@ export default function PayslipDetailUI({
           // totalLabel="Total earnings"
           currency={currency}
         />
-      </HMAAccordion>
+      </HMAAccordion> */}
       {/* Footer */}
       <View style={s.footer}>
         <HMAText style={s.footerText}>Payslip ID: #{data.payslip_id}</HMAText>

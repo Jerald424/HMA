@@ -33,7 +33,8 @@ export default function Header({ profile }: { profile?: any }) {
           }}
         >
           <HMAText size="large">
-            {data?.result?.data?.basic_info?.name || '-'}
+            {data?.result?.data?.basic_info?.name || '-'} (
+            {profile?.profile?.job?.fields?.employee_code || '-'})
           </HMAText>
           <HMADivider />
           <HMAText size="regular" color="textSecondary">

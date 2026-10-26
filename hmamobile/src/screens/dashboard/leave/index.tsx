@@ -12,25 +12,23 @@ export default function LeaveInfo() {
   const { data } = useUserInfo();
   const navigation = useNavigation();
 
-  const leaveInfo  = data?.result?.data?.leave_info;
-  const remaining  = leaveInfo?.total_remaining  ?? 0;
-  const taken      = leaveInfo?.total_taken      ?? 0;
-  const allocated  = leaveInfo?.total_allocated  ?? 0;
-  const pending    = leaveInfo?.total_pending    ?? 0;
+  const leaveInfo = data?.result?.data?.leave_info;
+  const remaining = leaveInfo?.total_remaining ?? 0;
+  const taken = leaveInfo?.total_taken ?? 0;
+  const allocated = leaveInfo?.total_allocated ?? 0;
+  const pending = leaveInfo?.total_pending ?? 0;
 
-  const usedPct = allocated > 0
-    ? Math.min(Math.round((taken / allocated) * 100), 100)
-    : 0;
+  const usedPct =
+    allocated > 0 ? Math.min(Math.round((taken / allocated) * 100), 100) : 0;
 
   const stats = [
     { label: 'Remaining', value: remaining },
-    { label: 'Taken',     value: taken     },
+    { label: 'Taken', value: taken },
     { label: 'Allocated', value: allocated },
   ];
 
   return (
     <HMACard style={{ padding: spacing.md, borderRadius: metrics.radius.lg }}>
-
       {/* Header row */}
       <View style={[cStyle.rowAlign, { justifyContent: 'space-between' }]}>
         <HMAText
@@ -38,7 +36,7 @@ export default function LeaveInfo() {
           size="small"
           style={{ textTransform: 'uppercase', letterSpacing: 0.6 }}
         >
-          Leave Balance
+          Annual Leave Balance
         </HMAText>
         <TouchableOpacity onPress={() => navigation?.navigate('Leave')}>
           <HMAText color="primary" size="small" style={{ fontWeight: '600' }}>
@@ -75,7 +73,12 @@ export default function LeaveInfo() {
       <HMADivider space="xs" />
 
       {/* Progress bar label */}
-      <View style={[cStyle.rowAlign, { justifyContent: 'space-between', marginBottom: spacing.xs }]}>
+      <View
+        style={[
+          cStyle.rowAlign,
+          { justifyContent: 'space-between', marginBottom: spacing.xs },
+        ]}
+      >
         <HMAText color="textSecondary" size="small">
           Used: {taken.toFixed(1)} days
         </HMAText>

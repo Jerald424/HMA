@@ -15,6 +15,7 @@ import Offices from './offices';
 
 export default function Profile({ navigation }) {
   const { isLoading, profileData, fetchProfile } = useProfile();
+  console.log('profileData', profileData);
   const { colors, spacing } = useTheme();
 
   useFocusEffect(
