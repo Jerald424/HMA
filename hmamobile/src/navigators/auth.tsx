@@ -29,6 +29,7 @@ import AttendanceCorrectionList from 'src/screens/attendanceCorrection/list';
 import AttendanceCorrectionDetail from 'src/screens/attendanceCorrection/detail';
 import EquipmentListScreen from 'src/screens/equipments/list';
 import EquipmentDetailScreen from 'src/screens/equipments/detail';
+import LeaveDisplayScreen from 'src/screens/leave/display';
 
 const Stack = createStackNavigator();
 
@@ -192,6 +193,11 @@ export default function AuthNavigator() {
         name="EquipmentDetailScreen"
         component={EquipmentDetailScreen}
         options={{ title: 'Equipment Detail' }}
+      />
+      <Stack.Screen
+        name="LeaveDisplayScreen"
+        component={LeaveDisplayScreen}
+        options={{ title: 'Leave Display' }}
       />
     </Stack.Navigator>
   );

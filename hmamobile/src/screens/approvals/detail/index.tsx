@@ -13,6 +13,7 @@ import useUserId from 'src/hooks/useUserId';
 import { getLeaveDuration } from 'src/screens/leave/create/useCreate';
 import axiosInstance from 'src/services/axiosInstance';
 import { Approval, UrgencyBadge } from '../list';
+import { ApprovalSteps } from 'src/screens/leave/display';
 
 type Action = 'approve' | 'reject';
 
@@ -197,7 +198,9 @@ export default function ApprovalDetail({ navigation, route }) {
             }
           />
         </HMACard>
-
+        {approval?.approval_process?.steps?.length > 0 && (
+          <ApprovalSteps approval={approval?.approval_process} />
+        )}
         <HMAText size="regular" style={{ marginTop: spacing.lg }}>
           Decision note (optional)
         </HMAText>

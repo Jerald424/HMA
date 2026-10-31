@@ -112,6 +112,26 @@ export default function Profile({ navigation }) {
         <HMADivider />
 
         <CardWithFields
+          title="QID & Sponsor"
+          data={[
+            {
+              label: 'National ID',
+              value: profileData?.profile?.qid?.fields?.qid_national_id,
+            },
+            {
+              label: 'Expiry Date',
+              value: profileData?.profile?.qid?.fields?.qid_expiry_date,
+            },
+            {
+              label: 'Sponsor Name',
+              value:
+                profileData?.profile?.sponsor?.fields?.sponsor_company?.name,
+            },
+          ]}
+        />
+        <HMADivider />
+
+        <CardWithFields
           title="Contract"
           data={[
             {

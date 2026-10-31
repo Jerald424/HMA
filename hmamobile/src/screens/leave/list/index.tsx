@@ -10,11 +10,12 @@ import HMAText from 'src/components/styled/atoms/text';
 import Toast, { toastRefFn } from 'src/components/styled/atoms/toast';
 import { makeColonDate, YYYYMMDDToJsDate } from 'src/function/dateConversion';
 import { useTheme } from 'src/hooks/useTheme';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import BalanceCards from './BalanceCards';
 import LeaveCancel from './LeaveCancel';
 import useLeaveList from './useLeaveList';
 import { getLeaveDuration } from '../create/useCreate';
+import HMAIcon from 'src/components/styled/atoms/icon';
 
 // ─── Status helpers ────────────────────────────────────────
 
@@ -63,6 +64,7 @@ const SepLeaveCard = ({
   selectedLeaveRef: any;
 }) => {
   const { colors, spacing, metrics } = useTheme();
+  const navigation = useNavigation();
 
   const status = leave?.status ?? '';
   const statusLabel = STATUS_LABEL[status] ?? status;
@@ -90,7 +92,8 @@ const SepLeaveCard = ({
 
   return (
     <HMACard
-      cmpType="View"
+      // cmpType="View"
+      onPress={() => navigation.navigate('LeaveDisplayScreen', { leave })}
       style={{
         padding: spacing.md,
         borderRadius: metrics?.radius?.lg,
@@ -142,6 +145,10 @@ const SepLeaveCard = ({
           color={statusColor}
           label={statusLabel}
           textProps={{ style: { textTransform: 'capitalize' } }}
+        />
+        <HMAIcon
+          name="arrow_down"
+          style={{ transform: [{ rotate: '-90deg' }] }}
         />
       </View>
 
@@ -245,6 +252,8 @@ export default function LeaveList({ navigation }) {
 
   const { leaveBalance, leaveHistory, isLoading, isLoadingHistory, refetch } =
     useLeaveList();
+
+  console.log('leaveHistory', leaveHistory);
 
   const history = Array.isArray(leaveHistory?.data) ? leaveHistory.data : [];
   const leaveTypes = useMemo(
