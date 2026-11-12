@@ -47,7 +47,7 @@ export default function Dashboard() {
           <HMADivider space="sm" />
 
           {/* Latest payslip */}
-          <PaySlip />
+          {/* <PaySlip /> */}
           <HMADivider space="sm" />
 
           {/* Quick access */}
